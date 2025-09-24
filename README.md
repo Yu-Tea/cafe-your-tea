@@ -83,8 +83,8 @@
 
 ### 全てのユーザー
 
-- ユーザー登録
 - ログイン
+  - Google認証で手軽に開始
 - About
   - アプリの世界観の説明や遊び方の紹介
   - プライバシーポリシー、利用規約、お問い合わせページへの案内
@@ -107,7 +107,9 @@
 - ログアウト
 
 ### 拡張予定の機能
-- ログイン時のGoogle認証
+- Google認証以外のメールアドレス・パスワードで新規登録する機能
+- 管理者ページ
+  - 不適切な投稿やユーザーの管理用 
 - お気に入り機能
   - ログイン済みユーザーは気に入ったメニューをお気に入りとして登録できる機能
 - おまかせ注文
@@ -121,4 +123,5 @@
 - バックエンド：Ruby on Rails API
 - データベース：PostgreSQL
 - デプロイ先：フロントは Vercel、バックは Render、DBはNeon
-- 使用予定の Gem やライブラリやサービス：Devise、MiniMagick、Canvas API、Motion、Cloudinary
+- 使用予定の Gem：Devise、omniauth-google-oauth2、MiniMagick
+- 使用予定の ライブラリやサービス：Canvas API、Motion、Cloudinary
