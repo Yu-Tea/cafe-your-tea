@@ -84,7 +84,7 @@
 ### 全てのユーザー
 
 - ログイン
-  - Google認証で手軽に開始
+  - Google 認証で手軽に開始
 - About
   - アプリの世界観の説明や遊び方の紹介
   - プライバシーポリシー、利用規約、お問い合わせページへの案内
@@ -107,9 +107,10 @@
 - ログアウト
 
 ### 拡張予定の機能
-- Google認証以外のメールアドレス・パスワードで新規登録する機能
+
+- Google 認証以外のメールアドレス・パスワードで新規登録する機能
 - 管理者ページ
-  - 不適切な投稿やユーザーの管理用 
+  - 不適切な投稿やユーザーの管理用
 - お気に入り機能
   - ログイン済みユーザーは気に入ったメニューをお気に入りとして登録できる機能
 - おまかせ注文
@@ -122,6 +123,10 @@
 - フロントエンド：React、Tailwind CSS、daisyUI
 - バックエンド：Ruby on Rails API
 - データベース：PostgreSQL
-- デプロイ先：フロントは Vercel、バックは Render、DBはNeon
+- デプロイ先：フロントは Vercel、バックは Render、DB は Neon
 - 使用予定の Gem：Devise、omniauth-google-oauth2、MiniMagick
 - 使用予定の ライブラリやサービス：Canvas API、Motion、Cloudinary
+
+## 画面遷移図
+
+[→Figma で画面遷移図を表示](https://www.figma.com/design/V7rBgr4WfG9d6M01zOaWk0/%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?node-id=0-1&t=md05UsXyjIjx4hgN-1)
