@@ -10,8 +10,8 @@
   default: true;
   prefersdark: true;
   color-scheme: "light";
-  --color-base-100: #f6f1ea;
-  --color-base-200: #fdfcfb;
+  --color-base-100: #fdfcfb;
+  --color-base-200: #f6f1ea;
   --color-base-300: #f1eae0;
   --color-base-content: #5c5650;
   --color-primary: #6f9169;
@@ -40,7 +40,32 @@
   --noise: 0;
 }
 
-:root:has(input.theme-controller[value=cafe]:checked),[data-theme="cafe"] { /* mytheme is the name of the custom theme */
+:root:has(input.theme-controller[value="cafe"]:checked),
+[data-theme="cafe"] {
   color-scheme: light;
 }
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
 
+.josefin-sans-<uniquifier > {
+  font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+
+body {
+  background-color: #f6f1ea;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+}
+
+h1 {
+  font-family: Josefin Sans;
+  font-size: 3.6rem;
+  font-weight: 500;
+  font-style: italic;
+  color: #6f9169;
+}
