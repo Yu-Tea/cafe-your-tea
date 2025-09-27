@@ -1,3 +1,46 @@
+@import "tailwindcss";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "cafe";
+  default: true;
+  prefersdark: true;
+  color-scheme: "light";
+  --color-base-100: #f6f1ea;
+  --color-base-200: #fdfcfb;
+  --color-base-300: #f1eae0;
+  --color-base-content: #5c5650;
+  --color-primary: #6f9169;
+  --color-primary-content: #fdfcfb;
+  --color-secondary: #887367;
+  --color-secondary-content: #fdfcfb;
+  --color-accent: #c0848c;
+  --color-accent-content: #fdfcfb;
+  --color-neutral: #b3a69e;
+  --color-neutral-content: oklch(98% 0 0);
+  --color-info: #6eabb6;
+  --color-info-content: #fdfcfb;
+  --color-success: #91ad6a;
+  --color-success-content: #fdfcfb;
+  --color-warning: #c4863a;
+  --color-warning-content: #fdfcfb;
+  --color-error: #bb5049;
+  --color-error-content: #fdfcfb;
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+:root:has(input.theme-controller[value=cafe]:checked),[data-theme="cafe"] { /* mytheme is the name of the custom theme */
+  color-scheme: light;
+}
+
