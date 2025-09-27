@@ -12,7 +12,7 @@
   color-scheme: "light";
   --color-base-100: #fdfcfb;
   --color-base-200: #f6f1ea;
-  --color-base-300: #f1eae0;
+  --color-base-300: #eee5d9;
   --color-base-content: #5c5650;
   --color-primary: #6f9169;
   --color-primary-content: #fdfcfb;
@@ -48,10 +48,9 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
-.josefin-sans-<uniquifier > {
+.josefin-sans {
   font-family: "Josefin Sans", sans-serif;
   font-optical-sizing: auto;
-  font-weight: <weight>;
   font-style: normal;
 }
 
@@ -60,6 +59,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--font-family);
+  line-height: 1.6rem;
 }
 
 h1 {
@@ -68,4 +68,12 @@ h1 {
   font-weight: 500;
   font-style: italic;
   color: #6f9169;
+  line-height: 3.8rem;
+}
+
+@media (max-width: 640px) {
+  h1 {
+  font-size: 3.2rem;
+  line-height: 3.4rem;
+}
 }

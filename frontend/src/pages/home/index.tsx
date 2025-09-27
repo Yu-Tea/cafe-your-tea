@@ -15,7 +15,7 @@ export default function HomePage() {
 
         {/* 前面の画像 */}
         <div className="flex flex-col sm:flex-row">
-          <div className="relative z-10 hidden p-4  sm:block sm:w-3/4">
+          <div className="relative z-10 hidden p-4 sm:block sm:w-3/4">
             <div className="bg-base-100 mb-4 rounded-lg p-6">
               最新のコメントを入れる
             </div>
@@ -35,11 +35,11 @@ export default function HomePage() {
       </section>
 
       <section className="container mx-auto">
-        <div className="flex flex-col gap-x-20 gap-y-10 p-10 sm:flex-row">
+        <div className="flex flex-col gap-x-20 gap-y-10 p-10 sm:flex-row items-center">
           <img src="images/top_img_02.png" alt="Welcome" />
 
           <div>
-            <h1>Welcome to Our Cafe</h1>
+            <h1 className="mb-6">Welcome to Our Cafe</h1>
             <div>
               ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
               <br />
