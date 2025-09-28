@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   def health
     render json: {
       status: 'ok',
-      message: 'Tea Shop API is running!',
+      message: 'Cafe Your Tea API is running!',
       timestamp: Time.current.iso8601,
       version: '1.0.0',
       environment: Rails.env,

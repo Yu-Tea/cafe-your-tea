@@ -1,3 +1,5 @@
+import { HealthCheck } from "../../shared/components/HealthCheck";
+
 export default function HomePage() {
   return (
     <>
@@ -35,7 +37,7 @@ export default function HomePage() {
       </section>
 
       <section className="container mx-auto">
-        <div className="flex flex-col gap-x-20 gap-y-10 p-10 sm:flex-row items-center">
+        <div className="flex flex-col items-center gap-x-20 gap-y-10 p-10 sm:flex-row">
           <img src="images/top_img_02.png" alt="Welcome" />
 
           <div>
@@ -49,6 +51,10 @@ export default function HomePage() {
               <br />
             </div>
           </div>
+        </div>
+        {/* ヘルスチェック表示 */}
+        <div className="mx-10">
+          <HealthCheck />
         </div>
       </section>
     </>
