@@ -1,0 +1,21 @@
+ja:
+  devise:
+    registrations:
+      signed_up: "ユーザー登録が完了しました"
+      signed_up_but_unconfirmed: "確認メールを送信しました"
+      updated: "アカウント情報を変更しました"
+      destroyed: "アカウントを削除しました"
+    sessions:
+      signed_in: "ログインしました"
+      signed_out: "ログアウトしました"
+      already_signed_out: "既にログアウト済みです"
+    failure:
+      invalid: "メールアドレスまたはパスワードが正しくありません"
+      not_found_in_database: "メールアドレスまたはパスワードが正しくありません"
+      unauthenticated: "ログインまたはアカウント登録してください"
+    errors:
+      messages:
+        already_confirmed: "は既に登録済みです"
+        not_saved:
+          one: "エラーが発生したため保存されませんでした:"
+          other: "%{count}件のエラーが発生したため保存されませんでした:"

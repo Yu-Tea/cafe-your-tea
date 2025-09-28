@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::API
+  include ActionController::MimeResponds
+  
+  # before_action :configure_permitted_parameters, if: :devise_controller?
+
   def health
     render json: {
       status: 'ok',
@@ -9,6 +13,32 @@ class ApplicationController < ActionController::API
       database: database_status
     }
   end
+
+  # protected
+
+  # def configure_permitted_parameters
+  #   # ユーザー登録時のパラメーター
+  #   devise_parameter_sanitizer.permit(:sign_up, keys: [
+  #     :email, 
+  #     :password, 
+  #     :password_confirmation,
+  #     :name,
+  #     :bio,
+  #     :avatar_preset, 
+  #     :provider, 
+  #     :uid
+  #   ])
+    
+  #   # ログイン時のパラメーター
+  #   devise_parameter_sanitizer.permit(:sign_in, keys: [
+  #     :email, 
+  #     :password
+  #   ])
+  # end
+
+
+
+  
 
   private
 
