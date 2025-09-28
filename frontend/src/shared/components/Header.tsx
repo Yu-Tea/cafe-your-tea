@@ -1,6 +1,5 @@
 import { FaCoffee } from "react-icons/fa";
 import { FaFrog } from "react-icons/fa";
-import { AiFillGoogleCircle } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { Button } from "./Button";
 
@@ -55,15 +54,18 @@ const Header = () => {
               </li>
             </ul>
             <Button variant="header-btn" className="text-primary flex">
-              <span className="text-accent mt-0.5 mr-1">
-                <AiFillGoogleCircle />
-              </span>
-              Google Log in
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                alt="google logo"
+                className="mt-1 mr-1 h-5 w-5"
+                loading="lazy"
+              />
+              Login with Google
             </Button>
           </div>
         </div>
       </div>
-      {/* サイドバー */}
+      {/* サイドバー（MVP後に正式に調整） */}
       <div className="drawer-side">
         <label
           htmlFor="my-drawer-3"

@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
     # データベース接続確認
     ActiveRecord::Base.connection.execute('SELECT 1')
     'connected'
-  rescue => e
+  rescue StandardError
     'disconnected'
   end
 end
