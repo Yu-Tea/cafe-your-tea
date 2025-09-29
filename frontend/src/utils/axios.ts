@@ -7,28 +7,19 @@ export const setCsrfToken = (token: string | undefined) => {
 };
 
 export const api: AxiosInstance = axios.create({
-  baseURL: "http://localhost:3000", // 環境変数があれば使用
-  withCredentials: true,
+  baseURL: import.meta.env.VITE_RAILS_API,
+  withCredentials: true, // Cookieを自動送信
   timeout: 30000,
 });
 
-// リクエストインターセプター（認証トークンを自動付与）
+// CSRFトークンを自動管理
 api.interceptors.request.use((config) => {
-  // JWTトークンがあれば Authorization ヘッダーに追加
-  const token = localStorage.getItem('authToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  // CSRFトークンがあれば追加
   if (csrfToken) {
     config.headers["X-CSRF-Token"] = csrfToken;
   }
-  
   return config;
 });
 
-// レスポンスインターセプター（CSRFトークンの更新）
 api.interceptors.response.use(
   (response) => {
     const newToken = response.headers["x-csrf-token"];
@@ -43,5 +34,5 @@ api.interceptors.response.use(
       setCsrfToken(newToken);
     }
     return Promise.reject(error);
-  },
+  }
 );

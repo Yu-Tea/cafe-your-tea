@@ -2,6 +2,7 @@ import { useState, FormEvent } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../../shared/components/Button";
 import { useUser } from "../../shared/contexts/UserContext";
+import { api } from "../../utils/axios";
 
 // フォームデータの型定義
 interface LoginFormData {
@@ -9,16 +10,17 @@ interface LoginFormData {
   password: string;
 }
 
-// APIレスポンスの型定義
+// APIレスポンスの型定義（修正版）
 interface LoginResponse {
   message?: string;
+  error?: string; // 
   errors?: string[];
   user?: {
     id: number;
     name: string;
     email: string;
   };
-  token?: string;
+  // token?: string; ← Cookie方式では不要
 }
 
 export default function Login() {
@@ -48,49 +50,49 @@ export default function Login() {
     }));
   };
 
-  // フォーム送信ハンドラー
+  // フォーム送信ハンドラー（修正版）
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setErrors([]);
 
     try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ user: formData }),
+      // 修正：新しいaxiosインスタンスを使用
+      const response = await api.post("/login", {
+        user: formData
       });
 
-      const data: LoginResponse = await response.json();
+      const data: LoginResponse = response.data;
 
-      if (response.ok) {
-        console.log("ログイン成功:", data);
+      console.log("ログイン成功:", data);
 
-        // トークンをローカルストレージに保存（認証情報の管理）
-        if (data.token) {
-          localStorage.setItem("authToken", data.token);
-        }
+      // ここでUserContextを更新
+      await fetchUser();
 
-        // ここでUserContextを更新
-        await fetchUser();
+      // ホームページへリダイレクト
+      navigate("/", {
+        state: { message: `${data.user?.name}さん、おかえりなさい！` },
+      });
 
-        // ホームページへリダイレクト
-        navigate("/", {
-          state: { message: `${data.user?.name}さん、おかえりなさい！` },
-        });
-      } else {
-        // エラーハンドリング
-        if (data.errors) {
-          setErrors(data.errors);
+    } catch (error: any) {
+      console.error("ログインエラー:", error);
+      
+      // エラーハンドリング（修正版）
+      if (error.response?.data) {
+        const errorData = error.response.data;
+        
+        if (errorData.errors) {
+          setErrors(errorData.errors);
+        } else if (errorData.error) {
+          setErrors([errorData.error]);
+        } else if (errorData.message) {
+          setErrors([errorData.message]);
         } else {
-          setErrors([data.message || "ログインに失敗しました"]);
+          setErrors(["ログインに失敗しました"]);
         }
+      } else {
+        setErrors(["ネットワークエラーが発生しました。もう一度お試しください。"]);
       }
-    } catch (error) {
-      console.error("ネットワークエラー:", error);
-      setErrors(["ネットワークエラーが発生しました。もう一度お試しください。"]);
     } finally {
       setIsLoading(false);
     }
