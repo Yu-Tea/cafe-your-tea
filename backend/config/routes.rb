@@ -13,10 +13,10 @@ Rails.application.routes.draw do
   # ヘルスチェック用ルート
   get '/health', to: 'application#health'
 
-  # 将来的なAPI用のnamespace
+  # API用のnamespace
   namespace :api do
     namespace :v1 do
-      # 今後APIエンドポイントを追加予定
+      get '/me', to: 'users#me'               # ユーザー情報取得
     end
   end
 end

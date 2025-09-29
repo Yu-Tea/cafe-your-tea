@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { UserProvider } from "./shared/contexts/UserContext";
 import Header from "./shared/components/Header";
 import Footer from "./shared/components/Footer";
 import HomePage from "./pages/home";
@@ -7,7 +8,7 @@ import Signup from "./pages/signup/signup";
 
 function App() {
   return (
-    <>
+    <UserProvider>
       <div className="flex flex-col min-h-screen">
       <Header />
       <div className="flex-grow">
@@ -19,7 +20,7 @@ function App() {
       </div>
       <Footer />
     </div>
-    </>
+    </UserProvider>
   );
 }
 

@@ -1,7 +1,7 @@
 import { useState, FormEvent } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../../shared/components/Button";
-// import FormField from "../../shared/components/FormField";
+import { useUser } from "../../shared/contexts/UserContext";
 
 // フォームデータの型定義
 interface LoginFormData {
@@ -24,6 +24,7 @@ interface LoginResponse {
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { fetchUser } = useUser();
 
   // サインアップからのメッセージを取得
   const successMessage = location.state?.message;
@@ -71,6 +72,9 @@ export default function Login() {
         if (data.token) {
           localStorage.setItem("authToken", data.token);
         }
+
+        // ここでUserContextを更新
+        await fetchUser();
 
         // ホームページへリダイレクト
         navigate("/", {

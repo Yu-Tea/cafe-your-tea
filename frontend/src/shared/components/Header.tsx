@@ -1,9 +1,46 @@
-import { FaCoffee } from "react-icons/fa";
-import { FaFrog } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaCoffee, FaFrog } from "react-icons/fa";
+import { FaUserPlus, FaRightToBracket } from "react-icons/fa6";
+import { useUser } from "../contexts/UserContext";
+import { FaUser } from "react-icons/fa6";
+import { FaRightFromBracket } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const { user, loading, logout } = useUser();
+
+  // デバッグ用（後で削除）
+  console.log("Header - user:", user);
+  console.log("Header - loading:", loading);
+
+  // ログアウト処理
+  const handleLogout = async () => {
+    await logout();
+    navigate("/", {
+      state: { message: "ログアウトしました" },
+    });
+  };
+
+  // ローディング中の表示
+  if (loading) {
+    return (
+      <div className="drawer text-base-200 z-20">
+        <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content flex flex-col">
+          <div className="navbar bg-primary w-full px-3 pt-4">
+            <div className="josefin-sans mx-2 block flex-1 px-2 text-4xl font-semibold sm:text-5xl">
+              <Link to="/">Cafe Your Tea</Link>
+            </div>
+            <div className="mr-4 hidden flex-none items-center justify-center lg:flex">
+              <span className="loading loading-spinner loading-sm"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="drawer text-base-200 z-20">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
@@ -53,17 +90,60 @@ const Header = () => {
                 </Link>
               </li>
             </ul>
-            <Link to="/login">
-              <Button variant="header-btn" className="text-primary flex">
-                <img
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
-                  alt="google logo"
-                  className="mt-1 mr-1 h-5 w-5"
-                  loading="lazy"
-                />
-                Login with Google
-              </Button>
-            </Link>
+            {/* ログイン前後で切り替えるボタンここから */}
+            {user ? (
+              // ログイン後の表示
+              <div className="flex items-center gap-4">
+                <span className="text-base-200 text-lg">
+                  こんにちは、{user.name}さん
+                </span>
+                <Link to="/mypage">
+                  <Button
+                    variant="header-btn"
+                    className="text-accent mr-2 flex"
+                  >
+                    <span className="mt-0.5 mr-2">
+                      <FaUser />
+                    </span>
+                    マイページ
+                  </Button>
+                </Link>
+                <Button
+                  variant="header-btn"
+                  className="text-primary flex"
+                  onClick={handleLogout}
+                >
+                  <span className="mt-0.5 mr-2">
+                    <FaRightFromBracket />
+                  </span>
+                  ログアウト
+                </Button>
+              </div>
+            ) : (
+              // ログイン前の表示
+              <>
+                <Link to="/signup">
+                  <Button
+                    variant="header-btn"
+                    className="text-accent mr-4 flex"
+                  >
+                    <span className="mt-0.5 mr-2">
+                      <FaUserPlus />
+                    </span>
+                    Sign Up
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button variant="header-btn" className="text-primary flex">
+                    <span className="mt-0.5 mr-2">
+                      <FaRightToBracket />
+                    </span>
+                    Login
+                  </Button>
+                </Link>
+              </>
+            )}
+            {/* ログイン前後で切り替えるボタンここまで */}
           </div>
         </div>
       </div>
