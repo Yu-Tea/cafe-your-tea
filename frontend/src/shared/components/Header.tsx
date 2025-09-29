@@ -53,15 +53,17 @@ const Header = () => {
                 </Link>
               </li>
             </ul>
-            <Button variant="header-btn" className="text-primary flex">
-              <img
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                alt="google logo"
-                className="mt-1 mr-1 h-5 w-5"
-                loading="lazy"
-              />
-              Login with Google
-            </Button>
+            <Link to="/login">
+              <Button variant="header-btn" className="text-primary flex">
+                <img
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  alt="google logo"
+                  className="mt-1 mr-1 h-5 w-5"
+                  loading="lazy"
+                />
+                Login with Google
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
