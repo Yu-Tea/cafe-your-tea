@@ -16,12 +16,9 @@ interface SignupFormData {
 
 // APIレスポンスの型定義
 interface SignupResponse {
-  status: string;
-  data?: {
-    id: number;
-    name: string;
-    email: string;
-  };
+  id: number;
+  name: string;
+  email: string;
 }
 
 export default function Signup() {
@@ -64,19 +61,13 @@ export default function Signup() {
         user: formData,
       });
 
-      if (
-        response.status === 200 &&
-        response.data.name &&
-        response.data.email
-      ) {
+      if (response.status === 200 && response.data) {
         await updateAuthState();
-        // 成功時はボタンを無効化したまま遷移
         navigate("/", {
           state: { message: "ユーザー登録が完了しました！" },
         });
       }
     } catch (error: any) {
-
       if (error.response?.data?.errors) {
         // バックエンドからのバリデーションエラー
         const errorMessages = Object.values(

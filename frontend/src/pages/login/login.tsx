@@ -9,7 +9,6 @@ interface LoginFormData {
   password: string;
 }
 
-
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
