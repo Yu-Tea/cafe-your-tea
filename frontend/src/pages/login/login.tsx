@@ -4,23 +4,19 @@ import { Button } from "../../shared/components/Button";
 import { useUser } from "../../shared/contexts/UserContext";
 import { api } from "../../utils/axios";
 
-// フォームデータの型定義
 interface LoginFormData {
   email: string;
   password: string;
 }
 
-// APIレスポンスの型定義（修正版）
 interface LoginResponse {
-  message?: string;
-  error?: string; // 
-  errors?: string[];
   user?: {
     id: number;
     name: string;
     email: string;
   };
-  // token?: string; ← Cookie方式では不要
+  error?: string;
+  errors?: string[];
 }
 
 export default function Login() {
@@ -28,20 +24,16 @@ export default function Login() {
   const location = useLocation();
   const { fetchUser } = useUser();
 
-  // サインアップからのメッセージを取得
   const successMessage = location.state?.message;
 
-  // フォームデータの状態管理
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   });
 
-  // エラーメッセージとローディング状態
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // 入力値の変更ハンドラー
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -50,48 +42,32 @@ export default function Login() {
     }));
   };
 
-  // フォーム送信ハンドラー（修正版）
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setErrors([]);
 
     try {
-      // 修正：新しいaxiosインスタンスを使用
-      const response = await api.post("/login", {
-        user: formData
+      const response = await api.post<LoginResponse>("/api/v1/login", {
+        email: formData.email,
+        password: formData.password,
       });
 
-      const data: LoginResponse = response.data;
-
-      console.log("ログイン成功:", data);
-
-      // ここでUserContextを更新
-      await fetchUser();
-
-      // ホームページへリダイレクト
-      navigate("/", {
-        state: { message: `${data.user?.name}さん、おかえりなさい！` },
-      });
-
+      if (response.status === 200) {
+        await fetchUser();
+        navigate("/", {
+          state: {
+            message: `${response.data.user?.name}さん、おかえりなさい！`,
+          },
+        });
+      }
     } catch (error: any) {
-      console.error("ログインエラー:", error);
-      
-      // エラーハンドリング（修正版）
-      if (error.response?.data) {
-        const errorData = error.response.data;
-        
-        if (errorData.errors) {
-          setErrors(errorData.errors);
-        } else if (errorData.error) {
-          setErrors([errorData.error]);
-        } else if (errorData.message) {
-          setErrors([errorData.message]);
-        } else {
-          setErrors(["ログインに失敗しました"]);
-        }
+      if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
+      } else if (error.response?.data?.error) {
+        setErrors([error.response.data.error]);
       } else {
-        setErrors(["ネットワークエラーが発生しました。もう一度お試しください。"]);
+        setErrors(["ログインに失敗しました"]);
       }
     } finally {
       setIsLoading(false);
@@ -108,8 +84,7 @@ export default function Login() {
               ログイン
             </p>
           </div>
-
-          {/* Google認証 */}
+          {/* Google認証は後で追加 */}
           <div>
             <Link to="#">
               <Button variant="google-btn" className="text-primary flex">
@@ -127,13 +102,9 @@ export default function Login() {
             </p>
           </div>
           <div className="divider josefin-sans text-secondary">OR</div>
-
-          {/* 成功メッセージ表示 */}
           {successMessage && (
             <div className="alert alert-success">{successMessage}</div>
           )}
-
-          {/* エラーメッセージ表示 */}
           {errors.length > 0 && (
             <div className="alert alert-error">
               <ul>
@@ -143,10 +114,7 @@ export default function Login() {
               </ul>
             </div>
           )}
-
-          {/* メールアドレス認証 */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
-            {/* メールアドレス入力 */}
             <div className="flex flex-col">
               <label
                 htmlFor="email"
@@ -166,8 +134,6 @@ export default function Login() {
                 disabled={isLoading}
               />
             </div>
-
-            {/* パスワード入力 */}
             <div className="flex flex-col">
               <label
                 htmlFor="password"
@@ -187,7 +153,6 @@ export default function Login() {
                 disabled={isLoading}
               />
             </div>
-
             <div className="text-center">
               <button
                 type="submit"

@@ -1,35 +1,24 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-
-  # Devise設定
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: self
+  # bcryptを使用
+  has_secure_password
 
   # バリデーション
   validates :name, presence: true, length: { maximum: 50 }
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :password, presence: true, length: { minimum: 6 }, on: :create
   validates :bio, length: { maximum: 200 }
   validates :avatar_preset, inclusion: { in: 1..5 }
   validates :provider, inclusion: { in: %w[email google] }
+  validates :uid, uniqueness: true, allow_blank: true
 
-  # コールバック
-  before_create :generate_jti
-
-  # OAuth用メソッド
-  def self.from_omniauth(auth)
-    where(email: auth.info.email).first_or_create do |user|
-      user.name = auth.info.name
-      user.email = auth.info.email
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.encrypted_password = Devise.friendly_token[0, 20]
-    end
-  end
+  # デフォルト値の設定（DBレベルで設定済みだが念のため）
+  before_validation :set_defaults, on: :create
 
   private
 
-  def generate_jti
-    self.jti ||= SecureRandom.uuid
+  def set_defaults
+    self.provider ||= 'email'
+    self.bio ||= 'よろしくお願いします。'
+    self.avatar_preset ||= 1
   end
 end

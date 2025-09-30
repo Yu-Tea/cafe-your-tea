@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../shared/components/Button";
+import { api } from "../../utils/axios";
 
 // フォームデータの型定義
 interface SignupFormData {
@@ -8,23 +9,23 @@ interface SignupFormData {
   email: string;
   password: string;
   password_confirmation: string;
+  bio?: string;
+  avatar_preset?: number;
 }
 
 // APIレスポンスの型定義
 interface SignupResponse {
-  message?: string;
-  errors?: string[];
   user?: {
     id: number;
     name: string;
     email: string;
   };
+  errors?: string[];
 }
 
 export default function Signup() {
   const navigate = useNavigate();
 
-  // フォームデータの状態管理
   const [formData, setFormData] = useState<SignupFormData>({
     name: "",
     email: "",
@@ -32,11 +33,9 @@ export default function Signup() {
     password_confirmation: "",
   });
 
-  // エラーメッセージとローディング状態
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // 入力値の変更ハンドラー
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -45,40 +44,28 @@ export default function Signup() {
     }));
   };
 
-  // フォーム送信ハンドラー
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setErrors([]);
 
     try {
-      const response = await fetch("http://localhost:3000/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ user: formData }),
+      const response = await api.post<SignupResponse>("/api/v1/signup", {
+        user: formData,
       });
 
-      const data: SignupResponse = await response.json();
-
-      if (response.ok) {
-        console.log("登録成功:", data);
-        // 成功時はログインページへリダイレクト
+      if (response.status === 201) {
+        // サインアップ成功時はログインページへ
         navigate("/login", {
           state: { message: "登録が完了しました。ログインしてください。" },
         });
-      } else {
-        // エラーハンドリング
-        if (data.errors) {
-          setErrors(data.errors);
-        } else {
-          setErrors([data.message || "登録に失敗しました"]);
-        }
       }
-    } catch (error) {
-      console.error("ネットワークエラー:", error);
-      setErrors(["ネットワークエラーが発生しました。もう一度お試しください。"]);
+    } catch (error: any) {
+      if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
+      } else {
+        setErrors(["登録に失敗しました"]);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -95,7 +82,7 @@ export default function Signup() {
             </p>
           </div>
 
-          {/* Google認証 */}
+          {/* Google認証は後で追加 */}
           <div>
             <Link to="#">
               <Button variant="google-btn" className="text-primary flex">
@@ -158,7 +145,7 @@ export default function Signup() {
                 disabled={isLoading}
               />
             </div>
-            
+
             <div className="flex flex-col">
               <label className="label josefin-sans text-secondary text-2xl font-light">
                 Password

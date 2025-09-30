@@ -1,53 +1,65 @@
 import type React from "react";
-import { createContext, useCallback, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+  useContext,
+} from "react";
 import { api } from "../../utils/axios";
 
 interface UserProps {
-	logged_in?: boolean;
-	name: string;
-	email: string;
+  id: number;
+  name: string;
+  email: string;
   provider: string;
   bio: string;
   avatar_preset: number;
 }
 
 interface UserContextType {
-	user: UserProps | null;
-	setUser: React.Dispatch<React.SetStateAction<UserProps | null>>;
-	loading: boolean;
-	fetchUser: () => Promise<void>;
+  user: UserProps | null;
+  setUser: React.Dispatch<React.SetStateAction<UserProps | null>>;
+  loading: boolean;
+  fetchUser: () => Promise<void>;
 }
 
 export const UserContext = createContext<UserContextType | undefined>(
-	undefined,
+  undefined
 );
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-	const [user, setUser] = useState<UserProps | null>(null);
-	const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<UserProps | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
-	const fetchUser = useCallback(async (): Promise<void> => {
-		try {
-			const response = await api.get<UserProps>("/check_login_status");
-			if (response.data.logged_in) {
-				setUser(response.data);
-			} else {
-				setUser(null);
-			}
-		} catch (error) {
-			setUser(null);
-		} finally {
-			setLoading(false);
-		}
-	}, []);
+  const fetchUser = useCallback(async (): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await api.get<{ user: UserProps }>(
+        "/api/v1/current_user"
+      );
+      setUser(response.data.user);
+    } catch (error) {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-	useEffect(() => {
-		fetchUser();
-	}, [fetchUser]);
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
-	return (
-		<UserContext value={{ user, setUser, loading, fetchUser }}>
-			{children}
-		</UserContext>
-	);
+  return (
+    <UserContext.Provider value={{ user, setUser, loading, fetchUser }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+// カスタムフック
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) throw new Error("useUser must be used within a UserProvider");
+  return context;
 };

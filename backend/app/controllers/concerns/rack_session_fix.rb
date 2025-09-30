@@ -5,7 +5,7 @@ module RackSessionFix
     def enabled?
       false
     end
-    
+
     def destroy
       clear
     end
@@ -13,7 +13,7 @@ module RackSessionFix
 
   included do
     before_action :set_fake_rack_session_for_devise
-  
+
     private
 
     def set_fake_rack_session_for_devise
