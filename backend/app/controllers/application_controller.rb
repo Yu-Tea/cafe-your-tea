@@ -52,7 +52,7 @@ class ApplicationController < ActionController::API
         httponly: true,
         same_site: :none,
         path: '/',
-        domain: extract_domain_from_url(ENV['FRONTEND_URL']) # 本番環境のドメインを環境変数に
+        # domain: extract_domain_from_url(ENV['FRONTEND_URL']) # 本番環境動かないからこれは不要？
       }
     else
       {
