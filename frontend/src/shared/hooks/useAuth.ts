@@ -31,10 +31,8 @@ export const useAuth = () => {
   // 新規登録・ログイン後の状態更新用
   const login = async () => {
     try {
-      console.log("🔄 /me API呼び出し開始...");
       setLoading(true);
       const { data } = await apiClient.get<AuthResponse>("/me");
-      console.log("✅ /me APIレスポンス:", data);
 
       if (data.logged_in) {
         const newUser = {
@@ -46,13 +44,10 @@ export const useAuth = () => {
         };
 
         setUser(newUser);
-        console.log("✅ ユーザー状態更新完了:", newUser);
       } else {
         setUser(null);
-        console.log('❌ ログイン状態ではありません');
       }
     } catch (error) {
-      console.error("❌ 認証状態更新エラー:", error);
       setUser(null);
     } finally {
       setLoading(false);
@@ -64,7 +59,6 @@ export const useAuth = () => {
       await apiClient.post("/logout");
       setUser(null);
     } catch (error) {
-      console.error("ログアウトエラー:", error);
       setUser(null); // エラーが発生してもローカル状態はクリア
     }
   };

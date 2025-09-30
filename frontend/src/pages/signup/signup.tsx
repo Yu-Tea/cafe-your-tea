@@ -21,7 +21,7 @@ interface SignupResponse {
   email: string;
 }
 
-export default function Signup() {
+export default function SignUp() {
   const { login: updateAuthState } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<SignupFormData>({
@@ -29,8 +29,6 @@ export default function Signup() {
     email: "",
     password: "",
     password_confirmation: "",
-    bio: "",
-    avatar_preset: 1,
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);

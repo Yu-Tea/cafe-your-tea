@@ -11,25 +11,15 @@ import { Button } from "./Button";
 import { performLogout } from "../../utils/api";
 
 export default function Header() {
-  const { user, isLoggedIn, logout: authLogout } = useAuth();
+  const { isLoggedIn, logout: authLogout } = useAuth();
   const navigate = useNavigate();
-  // 🎯 デバッグログを追加
-  console.log("🔍 Header rendering:", {
-    user: user?.name || "null",
-    isLoggedIn,
-    timestamp: new Date().toISOString(),
-  });
   // 🎯 ログアウト処理のハンドラー
   const handleLogout = async () => {
     try {
-      console.log("🚀 ログアウト処理開始...");
-
       // バックエンドにログアウトリクエスト + フロントエンド状態クリア
       const success = await performLogout();
 
       if (success) {
-        console.log("✅ ログアウト成功");
-
         // useAuthのlogout関数を呼び出して認証状態をクリア
         authLogout();
 
@@ -39,17 +29,11 @@ export default function Header() {
         // 成功メッセージ（オプション）
         // alert('ログアウトしました');
       } else {
-        console.log(
-          "⚠️ ログアウトでエラーが発生しましたが、状態はクリアしました"
-        );
-
         // エラーが発生してもフロントエンドの状態はクリア
         authLogout();
         navigate("/");
       }
     } catch (error) {
-      console.error("❌ ログアウト処理でエラー:", error);
-
       // エラーが発生してもフロントエンドの状態はクリア
       authLogout();
       navigate("/");
@@ -63,7 +47,7 @@ export default function Header() {
     <div className="drawer text-base-200 z-20">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
-        {/* Navbar */}
+        {/* PC時のナビバー */}
         <div className="navbar bg-primary w-full px-3 pt-4">
           {/* ハンバーガーメニュー */}
           <div className="flex-none lg:hidden">
@@ -94,7 +78,7 @@ export default function Header() {
           {/* PC時ナビメニュー */}
           <div className="mr-4 hidden flex-none items-center justify-center lg:flex">
             <ul className="menu menu-horizontal josefin-sans text-3xl">
-              {/* Navbar menu content here */}
+              {/* 共通ページ部分 */}
               <li>
                 <Link to="#">
                   <FaFrog />
@@ -108,10 +92,10 @@ export default function Header() {
                 </Link>
               </li>
             </ul>
-            {/* ログイン前後で切り替えるボタンここから */}
+            {/* ログイン後の表示 */}
             {isLoggedIn ? (
               <div className="flex">
-                <Link to="/signup">
+                <Link to="/mypage">
                   <Button
                     variant="header-btn"
                     className="text-accent mr-4 flex"
@@ -119,13 +103,13 @@ export default function Header() {
                     <span className="mt-0.5 mr-2">
                       <FaFaceSmileBeam />
                     </span>
-                    {user?.name}
+                    My Page
                   </Button>
                 </Link>
                 <Button
                   variant="header-btn"
                   className="text-primary flex"
-                  onClick={handleLogout} // 🎯 ログアウト処理を実行
+                  onClick={handleLogout}
                 >
                   <span className="mt-0.5 mr-2">
                     <FaRightFromBracket />
@@ -134,6 +118,7 @@ export default function Header() {
                 </Button>
               </div>
             ) : (
+              // ログイン前の表示
               <div className="flex">
                 <Link to="/signup">
                   <Button
@@ -156,7 +141,7 @@ export default function Header() {
                 </Link>
               </div>
             )}
-            {/* ログイン前後で切り替えるボタンここまで */}
+            {/* ログイン前後で切り替える箇所ここまで */}
           </div>
         </div>
       </div>
