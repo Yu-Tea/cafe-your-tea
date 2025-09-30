@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Button } from "../../shared/components/Button";
+// import { Button } from "../../shared/components/Button";
 import { apiClient } from "../../utils/axios";
 import { useAuth } from "../../shared/contexts/AuthContext";
 
@@ -39,7 +39,7 @@ export default function Login() {
     }));
   };
 
-  // 🎯 フォーム送信処理
+  // フォーム送信処理
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -93,7 +93,7 @@ export default function Login() {
             </p>
           </div>
           {/* Google認証は後で追加 */}
-          <div>
+          {/* <div>
             <Link to="#">
               <Button variant="google-btn" className="text-primary flex">
                 <img
@@ -109,7 +109,7 @@ export default function Login() {
               Googleでログインはこちらから
             </p>
           </div>
-          <div className="divider josefin-sans text-secondary">OR</div>
+          <div className="divider josefin-sans text-secondary">OR</div> */}
           {successMessage && (
             <div className="alert alert-success">{successMessage}</div>
           )}

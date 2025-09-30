@@ -1,8 +1,19 @@
 import axios from 'axios';
 
+// 環境変数からbaseURLを取得
+const getBaseURL = () => {
+  // 本番環境
+  if (process.env.NODE_ENV === 'production') {
+    return `${process.env.VITE_API_BASE_URL}/api/v1`;
+  }
+  
+  // 開発環境
+  return 'http://localhost:3000/api/v1';
+};
+
 // axiosインスタンスの作成
 export const apiClient = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
+  baseURL: getBaseURL(),
   withCredentials: true, // Cookieを含める
   headers: {
     'Content-Type': 'application/json',

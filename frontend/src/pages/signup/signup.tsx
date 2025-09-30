@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../../shared/components/Button";
+// import { Button } from "../../shared/components/Button";
 import { apiClient } from "../../utils/axios";
 import { useAuth } from "../../shared/contexts/AuthContext";
 
@@ -60,27 +60,22 @@ export default function Signup() {
     setErrors([]);
 
     try {
-      console.log('🚀 新規登録開始...', formData);
       const response = await apiClient.post<SignupResponse>("/users", {
         user: formData,
       });
-      console.log('✅ 新規登録レスポンス:', response);
 
       if (
         response.status === 200 &&
         response.data.name &&
         response.data.email
       ) {
-        console.log('🔄 認証状態更新開始...');
         await updateAuthState();
-        console.log('✅ 認証状態更新完了'); 
         // 成功時はボタンを無効化したまま遷移
         navigate("/", {
           state: { message: "ユーザー登録が完了しました！" },
         });
       }
     } catch (error: any) {
-      console.error("登録エラー:", error);
 
       if (error.response?.data?.errors) {
         // バックエンドからのバリデーションエラー
@@ -110,7 +105,7 @@ export default function Signup() {
           </div>
 
           {/* Google認証は後で追加 */}
-          <div>
+          {/* <div>
             <Link to="#">
               <Button variant="google-btn" className="text-primary flex">
                 <img
@@ -126,7 +121,7 @@ export default function Signup() {
               Googleで登録はこちらから
             </p>
           </div>
-          <div className="divider josefin-sans text-secondary">OR</div>
+          <div className="divider josefin-sans text-secondary">OR</div> */}
 
           {/* メールアドレス認証 */}
 
