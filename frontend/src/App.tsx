@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { UserProvider } from "./shared/contexts/UserContext";
+import { AuthProvider } from "./shared/contexts/AuthContext";
 import Header from "./shared/components/Header";
 import Footer from "./shared/components/Footer";
 import HomePage from "./pages/home";
@@ -8,19 +8,19 @@ import Signup from "./pages/signup/signup";
 
 function App() {
   return (
-    <UserProvider>
-      <div className="flex flex-col min-h-screen">
-      <Header />
-      <div className="flex-grow">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
+    <AuthProvider>
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-    </UserProvider>
+    </AuthProvider>
   );
 }
 

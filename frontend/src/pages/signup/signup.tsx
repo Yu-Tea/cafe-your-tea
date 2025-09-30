@@ -1,7 +1,8 @@
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../shared/components/Button";
-import { api } from "../../utils/axios";
+import { apiClient } from "../../utils/axios";
+import { useAuth } from "../../shared/contexts/AuthContext";
 
 // フォームデータの型定義
 interface SignupFormData {
@@ -15,28 +16,32 @@ interface SignupFormData {
 
 // APIレスポンスの型定義
 interface SignupResponse {
-  user?: {
+  status: string;
+  data?: {
     id: number;
     name: string;
     email: string;
   };
-  errors?: string[];
 }
 
 export default function Signup() {
+  const { login: updateAuthState } = useAuth();
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState<SignupFormData>({
     name: "",
     email: "",
     password: "",
     password_confirmation: "",
+    bio: "",
+    avatar_preset: 1,
   });
-
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // フォーム入力の処理
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -44,29 +49,51 @@ export default function Signup() {
     }));
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  // フォーム送信処理
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // 既に送信中の場合は何もしない
+    if (isLoading) return;
+
     setIsLoading(true);
     setErrors([]);
 
     try {
-      const response = await api.post<SignupResponse>("/api/v1/signup", {
+      console.log('🚀 新規登録開始...', formData);
+      const response = await apiClient.post<SignupResponse>("/users", {
         user: formData,
       });
+      console.log('✅ 新規登録レスポンス:', response);
 
-      if (response.status === 201) {
-        // サインアップ成功時はログインページへ
-        navigate("/login", {
-          state: { message: "登録が完了しました。ログインしてください。" },
+      if (
+        response.status === 200 &&
+        response.data.name &&
+        response.data.email
+      ) {
+        console.log('🔄 認証状態更新開始...');
+        await updateAuthState();
+        console.log('✅ 認証状態更新完了'); 
+        // 成功時はボタンを無効化したまま遷移
+        navigate("/", {
+          state: { message: "ユーザー登録が完了しました！" },
         });
       }
     } catch (error: any) {
+      console.error("登録エラー:", error);
+
       if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
+        // バックエンドからのバリデーションエラー
+        const errorMessages = Object.values(
+          error.response.data.errors
+        ).flat() as string[];
+        setErrors(errorMessages);
       } else {
-        setErrors(["登録に失敗しました"]);
+        setErrors(["登録に失敗しました。もう一度お試しください。"]);
       }
     } finally {
+      // エラーの場合のみボタンを再有効化
+      // 成功時は遷移するので不要
       setIsLoading(false);
     }
   };
@@ -126,7 +153,6 @@ export default function Signup() {
                 placeholder="お名前"
                 className="input input-primary w-full"
                 required
-                disabled={isLoading}
               />
             </div>
 
@@ -142,7 +168,6 @@ export default function Signup() {
                 placeholder="メールアドレス"
                 className="input input-primary w-full"
                 required
-                disabled={isLoading}
               />
             </div>
 
@@ -158,7 +183,6 @@ export default function Signup() {
                 placeholder="パスワード"
                 className="input input-primary w-full"
                 required
-                disabled={isLoading}
               />
             </div>
 
@@ -174,7 +198,6 @@ export default function Signup() {
                 placeholder="パスワード確認"
                 className="input input-primary w-full"
                 required
-                disabled={isLoading}
               />
             </div>
 
@@ -182,7 +205,6 @@ export default function Signup() {
               <button
                 type="submit"
                 className="btn btn-primary px-8 text-base font-normal"
-                disabled={isLoading}
               >
                 {isLoading ? "登録中..." : "登録する"}
               </button>

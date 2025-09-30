@@ -1,39 +1,63 @@
 import { FaCoffee, FaFrog } from "react-icons/fa";
-import { FaUserPlus, FaRightToBracket } from "react-icons/fa6";
-
-import { Link } from "react-router-dom";
+import {
+  FaUserPlus,
+  FaRightToBracket,
+  FaFaceSmileBeam,
+  FaRightFromBracket,
+} from "react-icons/fa6";
+import { useAuth } from "../../shared/contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
+import { performLogout } from "../../utils/api";
 
-const Header = () => {
-  // const navigate = useNavigate();
-  // const { user, loading, logout } = useUser();
+export default function Header() {
+  const { user, isLoggedIn, logout: authLogout } = useAuth();
+  const navigate = useNavigate();
+  // 🎯 デバッグログを追加
+  console.log("🔍 Header rendering:", {
+    user: user?.name || "null",
+    isLoggedIn,
+    timestamp: new Date().toISOString(),
+  });
+  // 🎯 ログアウト処理のハンドラー
+  const handleLogout = async () => {
+    try {
+      console.log("🚀 ログアウト処理開始...");
 
-  // ログアウト処理
-  // const handleLogout = async () => {
-  //   await logout();
-  //   navigate("/", {
-  //     state: { message: "ログアウトしました" },
-  //   });
-  // };
+      // バックエンドにログアウトリクエスト + フロントエンド状態クリア
+      const success = await performLogout();
 
-  // ローディング中の表示
-  // if (loading) {
-  //   return (
-  //     <div className="drawer text-base-200 z-20">
-  //       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-  //       <div className="drawer-content flex flex-col">
-  //         <div className="navbar bg-primary w-full px-3 pt-4">
-  //           <div className="josefin-sans mx-2 block flex-1 px-2 text-4xl font-semibold sm:text-5xl">
-  //             <Link to="/">Cafe Your Tea</Link>
-  //           </div>
-  //           <div className="mr-4 hidden flex-none items-center justify-center lg:flex">
-  //             <span className="loading loading-spinner loading-sm"></span>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+      if (success) {
+        console.log("✅ ログアウト成功");
+
+        // useAuthのlogout関数を呼び出して認証状態をクリア
+        authLogout();
+
+        // ホームページに遷移
+        navigate("/");
+
+        // 成功メッセージ（オプション）
+        // alert('ログアウトしました');
+      } else {
+        console.log(
+          "⚠️ ログアウトでエラーが発生しましたが、状態はクリアしました"
+        );
+
+        // エラーが発生してもフロントエンドの状態はクリア
+        authLogout();
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("❌ ログアウト処理でエラー:", error);
+
+      // エラーが発生してもフロントエンドの状態はクリア
+      authLogout();
+      navigate("/");
+
+      // エラーメッセージ（オプション）
+      // alert('ログアウト処理でエラーが発生しましたが、ログアウトしました');
+    }
+  };
 
   return (
     <div className="drawer text-base-200 z-20">
@@ -85,22 +109,53 @@ const Header = () => {
               </li>
             </ul>
             {/* ログイン前後で切り替えるボタンここから */}
-            <Link to="/signup">
-              <Button variant="header-btn" className="text-accent mr-4 flex">
-                <span className="mt-0.5 mr-2">
-                  <FaUserPlus />
-                </span>
-                Sign Up
-              </Button>
-            </Link>
-            <Link to="/login">
-              <Button variant="header-btn" className="text-primary flex">
-                <span className="mt-0.5 mr-2">
-                  <FaRightToBracket />
-                </span>
-                Login
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <div className="flex">
+                <Link to="/signup">
+                  <Button
+                    variant="header-btn"
+                    className="text-accent mr-4 flex"
+                  >
+                    <span className="mt-0.5 mr-2">
+                      <FaFaceSmileBeam />
+                    </span>
+                    {user?.name}
+                  </Button>
+                </Link>
+                <Button
+                  variant="header-btn"
+                  className="text-primary flex"
+                  onClick={handleLogout} // 🎯 ログアウト処理を実行
+                >
+                  <span className="mt-0.5 mr-2">
+                    <FaRightFromBracket />
+                  </span>
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <div className="flex">
+                <Link to="/signup">
+                  <Button
+                    variant="header-btn"
+                    className="text-accent mr-4 flex"
+                  >
+                    <span className="mt-0.5 mr-2">
+                      <FaUserPlus />
+                    </span>
+                    Sign Up
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button variant="header-btn" className="text-primary flex">
+                    <span className="mt-0.5 mr-2">
+                      <FaRightToBracket />
+                    </span>
+                    Login
+                  </Button>
+                </Link>
+              </div>
+            )}
             {/* ログイン前後で切り替えるボタンここまで */}
           </div>
         </div>
@@ -124,6 +179,4 @@ const Header = () => {
       </div>
     </div>
   );
-};
-
-export default Header;
+}

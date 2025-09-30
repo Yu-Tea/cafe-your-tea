@@ -11,6 +11,7 @@ class Api::V1::UsersController < ApplicationController
         name: user.name,
         email: user.email
       }
+
     else
       render json: {
         error: user.errors.full_messages

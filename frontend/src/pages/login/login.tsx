@@ -1,39 +1,36 @@
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../../shared/components/Button";
-import { useUser } from "../../shared/contexts/UserContext";
-import { api } from "../../utils/axios";
+import { apiClient } from "../../utils/axios";
+import { useAuth } from "../../shared/contexts/AuthContext";
 
 interface LoginFormData {
   email: string;
   password: string;
 }
 
-interface LoginResponse {
-  user?: {
-    id: number;
-    name: string;
-    email: string;
-  };
-  error?: string;
-  errors?: string[];
-}
 
 export default function Login() {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const { fetchUser } = useUser();
 
-  const successMessage = location.state?.message;
-
+  // フォームデータのstate
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   });
 
+  // エラーとローディング状態
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // 成功メッセージ（新規登録からの遷移時）
+  const [successMessage] = useState<string | null>(
+    location.state?.message || null
+  );
+
+  // フォーム入力の処理
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -42,32 +39,43 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  // 🎯 フォーム送信処理
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isLoading) return;
+
     setIsLoading(true);
     setErrors([]);
 
     try {
-      const response = await api.post<LoginResponse>("/api/v1/login", {
+
+      const response = await apiClient.post("/login", {
         email: formData.email,
         password: formData.password,
       });
 
       if (response.status === 200) {
-        await fetchUser();
+
+        // AuthContextのlogin関数を呼び出し（/meエンドポイントを使用）
+        await login(); 
+
+
+        // ログイン成功時はトップページにリダイレクト
         navigate("/", {
-          state: {
-            message: `${response.data.user?.name}さん、おかえりなさい！`,
-          },
+          state: { message: "ログインしました！" },
         });
       }
     } catch (error: any) {
-      if (error.response?.data?.errors) {
-        setErrors(error.response.data.errors);
+
+      if (error.response?.data?.status) {
+        setErrors([error.response.data.status]);
       } else if (error.response?.data?.error) {
         setErrors([error.response.data.error]);
       } else {
-        setErrors(["ログインに失敗しました"]);
+        setErrors([
+          "ログインに失敗しました。メールアドレスとパスワードを確認してください。",
+        ]);
       }
     } finally {
       setIsLoading(false);
