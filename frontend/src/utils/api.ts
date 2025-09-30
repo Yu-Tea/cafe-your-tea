@@ -6,15 +6,6 @@ interface LogoutResponse {
   message: string; // "ログアウトしました"
 }
 
-interface MeResponse {
-  logged_in: boolean;
-  id?: number;
-  name?: string;
-  email?: string;
-  bio?: string;
-  avatar_preset?: number;
-}
-
 
 // 認証関連のAPI呼び出し
 export const authApi = {
