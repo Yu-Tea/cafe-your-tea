@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 // import { Button } from "../../shared/components/Button";
 import { apiClient } from "../../utils/axios";
 import { useAuth } from "../../shared/contexts/AuthContext";
+import { Title } from "../../shared/components/Title";
+import { InputField } from "../../shared/components/InputField";
 
 interface LoginFormData {
   email: string;
@@ -48,25 +50,21 @@ export default function LogIn() {
     setErrors([]);
 
     try {
-
       const response = await apiClient.post("/login", {
         email: formData.email,
         password: formData.password,
       });
 
       if (response.status === 200) {
-
         // AuthContextのlogin関数を呼び出し（/meエンドポイントを使用）
-        await login(); 
+        await login();
 
-
-        // ログイン成功時はトップページにリダイレクト
-        navigate("/", {
+        // ログイン成功時はマイページにリダイレクト
+        navigate("/mypage", {
           state: { message: "ログインしました！" },
         });
       }
     } catch (error: any) {
-
       if (error.response?.data?.status) {
         setErrors([error.response.data.status]);
       } else if (error.response?.data?.error) {
@@ -85,12 +83,8 @@ export default function LogIn() {
     <div className="container mx-auto py-10">
       <div className="flex items-center justify-center px-10">
         <div className="flex w-full max-w-sm flex-col gap-y-5">
-          <div>
-            <h1 className="text-center">Login</h1>
-            <p className="text-secondary text-center text-sm font-bold tracking-widest">
-              ログイン
-            </p>
-          </div>
+          <Title title="Login" subtitle="ログイン" />
+
           {/* Google認証は後で追加 */}
           {/* <div>
             <Link to="#">
@@ -109,6 +103,8 @@ export default function LogIn() {
             </p>
           </div>
           <div className="divider josefin-sans text-secondary">OR</div> */}
+
+          {/* アラートメッセージ */}
           {successMessage && (
             <div className="alert alert-success">{successMessage}</div>
           )}
@@ -121,45 +117,29 @@ export default function LogIn() {
               </ul>
             </div>
           )}
+
+          {/* フォーム */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
-            <div className="flex flex-col">
-              <label
-                htmlFor="email"
-                className="label josefin-sans text-secondary text-2xl font-light"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="メールアドレス"
-                className="input input-primary w-full"
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <div className="flex flex-col">
-              <label
-                htmlFor="password"
-                className="label josefin-sans text-secondary text-2xl font-light"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="パスワード"
-                className="input input-primary w-full"
-                required
-                disabled={isLoading}
-              />
-            </div>
+            <InputField
+              label="Email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="メールアドレス"
+              required
+              disabled={isLoading}
+            />
+            <InputField
+              label="Password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="パスワード"
+              required
+              disabled={isLoading}
+            />
             <div className="text-center">
               <button
                 type="submit"
@@ -170,6 +150,8 @@ export default function LogIn() {
               </button>
             </div>
           </form>
+
+          {/* signupページへの案内 */}
           <div className="text-center">
             アカウントをお持ちでない方は
             <Link

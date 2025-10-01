@@ -22,12 +22,8 @@ export default function Header() {
       if (success) {
         // useAuthのlogout関数を呼び出して認証状態をクリア
         authLogout();
-
         // ホームページに遷移
         navigate("/");
-
-        // 成功メッセージ（オプション）
-        // alert('ログアウトしました');
       } else {
         // エラーが発生してもフロントエンドの状態はクリア
         authLogout();
@@ -37,9 +33,6 @@ export default function Header() {
       // エラーが発生してもフロントエンドの状態はクリア
       authLogout();
       navigate("/");
-
-      // エラーメッセージ（オプション）
-      // alert('ログアウト処理でエラーが発生しましたが、ログアウトしました');
     }
   };
 
