@@ -1,5 +1,4 @@
 class Api::V1::UsersController < ApplicationController
-
   # ユーザー新規作成
   def create
     user = User.new(user_params)
@@ -36,7 +35,7 @@ class Api::V1::UsersController < ApplicationController
       }, status: :ok
     else
       render json: {
-        status: 'error',  # 👈 統一されたエラーステータス
+        status: 'error', # 👈 統一されたエラーステータス
         errors: @current_user.errors.full_messages
       }, status: :unprocessable_entity
     end
@@ -48,7 +47,7 @@ class Api::V1::UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation, :bio, :avatar_preset)
   end
 
-   def update_user_params
+  def update_user_params
     params.require(:user).permit(:name, :bio, :avatar_preset)
   end
 end
