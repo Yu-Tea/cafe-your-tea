@@ -4,6 +4,7 @@ import type { User, AuthResponse } from '../../types/user';
 
 interface AuthContextType {
   user: User | null;
+  setUser: (user: User | null) => void;
   isLoggedIn: boolean;
   loading: boolean;
   login: () => Promise<void>;
@@ -89,6 +90,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   return (
     <AuthContext.Provider value={{
       user,
+      setUser,
       isLoggedIn: !!user,
       loading,
       login,

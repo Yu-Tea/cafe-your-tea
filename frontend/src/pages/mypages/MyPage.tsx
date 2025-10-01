@@ -11,9 +11,10 @@ const MyPage = () => {
       <div className="flex items-center justify-center px-10">
         <div className="flex w-full max-w-2xl flex-col gap-y-10">
           <Title title="My Page" subtitle={`${user?.name}さんのページ`} />
+
           {/* ユーザー情報 */}
           <div className="flex gap-x-8 text-left">
-            <Avatar user={user} />
+            <Avatar user={user} className="object-scale-down" />
             <div className="w-full">
               <div className="mt-2 mb-5 border-b-1 pb-3 border-neutral">
                 <span className="text-3xl font-bold">{user?.name}</span>
@@ -23,7 +24,7 @@ const MyPage = () => {
           </div>
         </div>
       </div>
-      <Link to="/mypage_form" className="btn btn-accent px-8 text-base font-normal">
+      <Link to="/mypage_form" className="btn btn-accent px-8 text-base font-normal mt-5">
         編集
       </Link>
 

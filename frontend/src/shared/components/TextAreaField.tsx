@@ -9,6 +9,7 @@ interface TextAreaFieldProps {
   rows?: number;
   id?: string;
   labelClassName?: string;
+  note?: string;
 }
 
 export const TextAreaField = ({
@@ -21,17 +22,21 @@ export const TextAreaField = ({
   disabled = false,
   rows = 3,
   id,
+  note,
 }: TextAreaFieldProps) => {
   const textareaId = id || `textarea-${name}`;
 
   return (
     <div className="flex flex-col">
-      <label
-        htmlFor={textareaId}
-        className="label josefin-sans text-secondary text-2xl font-light"
-      >
-        {label}
-      </label>
+      <div className="flex items-center">
+        <label
+          htmlFor={textareaId}
+          className="label josefin-sans text-secondary text-2xl font-light"
+        >
+          {label}
+        </label>
+        {note && <span className="text-neutral ml-2 text-sm">{note}</span>}
+      </div>
       <textarea
         id={textareaId}
         name={name}

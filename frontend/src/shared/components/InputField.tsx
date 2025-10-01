@@ -8,6 +8,7 @@ interface InputFieldProps {
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
+  note?: string;
 }
 
 export const InputField = ({
@@ -20,18 +21,22 @@ export const InputField = ({
   placeholder,
   required = false,
   disabled = false,
+  note,
 }: InputFieldProps) => {
   // idが指定されていない場合は、nameを使って自動生成
   const inputId = id || `input-${name}`;
 
   return (
     <div className="flex flex-col">
-      <label
-        htmlFor={inputId}
-        className="label josefin-sans text-secondary text-2xl font-light"
-      >
-        {label}
-      </label>
+      <div className="flex items-center">
+        <label
+          htmlFor={inputId}
+          className="label josefin-sans text-secondary text-2xl font-light"
+        >
+          {label}
+        </label>
+        {note && <span className="text-neutral ml-2 text-sm">{note}</span>}
+      </div>
       <input
         id={inputId}
         type={type}
