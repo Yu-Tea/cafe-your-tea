@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 // import { Button } from "../../shared/components/Button";
 import { apiClient } from "../../utils/axios";
 import { useAuth } from "../../shared/contexts/AuthContext";
+import { Title } from "../../shared/components/Title";
+import { InputField } from "../../shared/components/InputField";
 
 // フォームデータの型定義
 interface SignupFormData {
@@ -21,7 +23,7 @@ interface SignupResponse {
   email: string;
 }
 
-export default function Signup() {
+export default function SignUp() {
   const { login: updateAuthState } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<SignupFormData>({
@@ -29,8 +31,6 @@ export default function Signup() {
     email: "",
     password: "",
     password_confirmation: "",
-    bio: "",
-    avatar_preset: 1,
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -63,7 +63,7 @@ export default function Signup() {
 
       if (response.status === 200 && response.data) {
         await updateAuthState();
-        navigate("/", {
+        navigate("/mypage", {
           state: { message: "ユーザー登録が完了しました！" },
         });
       }
@@ -88,12 +88,7 @@ export default function Signup() {
     <div className="container mx-auto py-10">
       <div className="flex items-center justify-center px-10">
         <div className="flex w-full max-w-sm flex-col gap-y-5">
-          <div>
-            <h1 className="text-center">Sign Up</h1>
-            <p className="text-secondary text-center text-sm font-bold tracking-widest">
-              新規登録
-            </p>
-          </div>
+          <Title title="Sign Up" subtitle="新規登録" />
 
           {/* Google認証は後で追加 */}
           {/* <div>
@@ -114,9 +109,7 @@ export default function Signup() {
           </div>
           <div className="divider josefin-sans text-secondary">OR</div> */}
 
-          {/* メールアドレス認証 */}
-
-          {/* エラーメッセージ表示 */}
+          {/* アラートメッセージ */}
           {errors.length > 0 && (
             <div className="alert alert-error">
               <ul>
@@ -126,76 +119,65 @@ export default function Signup() {
               </ul>
             </div>
           )}
+
+          {/* フォーム */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
-            <div className="flex flex-col">
-              <label className="label josefin-sans text-secondary text-2xl font-light">
-                Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="お名前"
-                className="input input-primary w-full"
-                required
-              />
-            </div>
+            <InputField
+              label="Name"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="お名前"
+              required
+              disabled={isLoading}
+            />
 
-            <div className="flex flex-col">
-              <label className="label josefin-sans text-secondary text-2xl font-light">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="メールアドレス"
-                className="input input-primary w-full"
-                required
-              />
-            </div>
+            <InputField
+              label="Email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="メールアドレス"
+              required
+              disabled={isLoading}
+            />
 
-            <div className="flex flex-col">
-              <label className="label josefin-sans text-secondary text-2xl font-light">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="パスワード"
-                className="input input-primary w-full"
-                required
-              />
-            </div>
+            <InputField
+              label="Password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="パスワード ※6文字以上"
+              required
+              disabled={isLoading}
+            />
 
-            <div className="flex flex-col">
-              <label className="label josefin-sans text-secondary text-2xl font-light">
-                Password Confirmation
-              </label>
-              <input
-                type="password"
-                name="password_confirmation"
-                value={formData.password_confirmation}
-                onChange={handleChange}
-                placeholder="パスワード確認"
-                className="input input-primary w-full"
-                required
-              />
-            </div>
+            <InputField
+              label="Password Confirmation"
+              type="password"
+              name="password_confirmation"
+              value={formData.password_confirmation}
+              onChange={handleChange}
+              placeholder="パスワード確認"
+              required
+              disabled={isLoading}
+            />
 
             <div className="text-center">
               <button
                 type="submit"
                 className="btn btn-primary px-8 text-base font-normal"
+                disabled={isLoading}
               >
                 {isLoading ? "登録中..." : "登録する"}
               </button>
             </div>
           </form>
+
+          {/* loginページへの案内 */}
           <div className="text-center">
             すでにアカウントをお持ちの方は
             <Link
