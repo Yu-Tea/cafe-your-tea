@@ -1,6 +1,7 @@
 import { useAuth } from "../../shared/contexts/AuthContext";
 import { Avatar } from "../../shared/components/Avatar";
 import { Title } from "../../shared/components/Title";
+import { Link } from 'react-router-dom';
 
 const MyPage = () => {
   const { user } = useAuth();
@@ -22,9 +23,9 @@ const MyPage = () => {
           </div>
         </div>
       </div>
-      <button className="btn btn-accent px-8 text-base font-normal">
+      <Link to="/mypage_form" className="btn btn-accent px-8 text-base font-normal">
         編集
-      </button>
+      </Link>
 
       {/* ティーギャラリー */}
       <div className="mt-20 flex items-center justify-center px-10">
