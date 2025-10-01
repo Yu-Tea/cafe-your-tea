@@ -8,8 +8,10 @@ Rails.application.routes.draw do
       post 'login', to: 'authentication#login'
       post 'logout', to: 'authentication#logout'
       get 'me', to: 'authentication#me'
-      # ユーザー管理
+
       resources :users, only: %i[create]
+
+      resource :user, only: [:update] 
     end
   end
 end

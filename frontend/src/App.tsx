@@ -6,6 +6,7 @@ import HomePage from "./pages/home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
 import MyPage from "./pages/mypages/MyPage";
+import MyPageForm from "./pages/mypages/MyPageForm";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/mypage" element={<MyPage />} />
+            <Route path="/mypage_form" element={<MyPageForm />} />
           </Routes>
         </div>
         <Footer />
