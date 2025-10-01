@@ -11,7 +11,7 @@ interface LoginFormData {
   password: string;
 }
 
-export default function LogIn() {
+export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
