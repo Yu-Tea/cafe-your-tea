@@ -5,7 +5,7 @@ import Footer from "./shared/components/Footer";
 import HomePage from "./pages/home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
-import MyPage from "./pages/mypages/myPage";
+import MyPage from "./pages/mypages/MyPage";
 
 function App() {
   return (
