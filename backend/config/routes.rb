@@ -10,8 +10,9 @@ Rails.application.routes.draw do
       get 'me', to: 'authentication#me'
 
       resources :users, only: %i[create]
+      resources :tea_arts, only: %i[index show create update destroy]
 
-      resource :user, only: [:update] 
+      resource :user, only: [:update]
     end
   end
 end

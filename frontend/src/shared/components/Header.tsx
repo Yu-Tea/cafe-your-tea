@@ -1,4 +1,5 @@
 import { FaCoffee, FaFrog } from "react-icons/fa";
+import { BiSolidFoodMenu } from "react-icons/bi";
 import {
   FaUserPlus,
   FaRightToBracket,
@@ -8,12 +9,12 @@ import {
 import { useAuth } from "../../shared/contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
-import { performLogout } from "../../utils/api";
+import { performLogout } from "../../api/auth";
 
 export default function Header() {
   const { isLoggedIn, logout: authLogout } = useAuth();
   const navigate = useNavigate();
-  // 🎯 ログアウト処理のハンドラー
+  // ログアウト処理のハンドラー
   const handleLogout = async () => {
     try {
       // バックエンドにログアウトリクエスト + フロントエンド状態クリア
@@ -68,7 +69,7 @@ export default function Header() {
           <div className="josefin-sans mx-2 block flex-1 px-2 text-4xl font-semibold sm:text-5xl">
             <Link to="/">Cafe Your Tea</Link>
           </div>
-          {/* PC時ナビメニュー */}
+          {/* PC時ナビゲーション */}
           <div className="mr-4 hidden flex-none items-center justify-center lg:flex">
             <ul className="menu menu-horizontal josefin-sans text-3xl">
               {/* 共通ページ部分 */}
@@ -79,13 +80,25 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                <Link to="#">
-                  <FaCoffee />
+                <Link to="/menu">
+                  <BiSolidFoodMenu />
                   Menu
                 </Link>
               </li>
+              {/* ログイン後のみ追加表示 */}
+              {isLoggedIn && (
+                <>
+                  <li>
+                    <Link to="/tea_new">
+                      <FaCoffee />
+                      Tea Art
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
-            {/* ログイン後の表示 */}
+
+            {/* ログイン後のGナビ */}
             {isLoggedIn ? (
               <div className="flex">
                 <Link to="/mypage">
@@ -111,7 +124,7 @@ export default function Header() {
                 </Button>
               </div>
             ) : (
-              // ログイン前の表示
+              // ログイン前のGナビ
               <div className="flex">
                 <Link to="/signup">
                   <Button
@@ -134,11 +147,12 @@ export default function Header() {
                 </Link>
               </div>
             )}
-            {/* ログイン前後で切り替える箇所ここまで */}
+            {/* ログイン前後で切り替えるGナビここまで */}
           </div>
         </div>
       </div>
-      {/* サイドバー（MVP後に正式に調整） */}
+
+      {/* SP時のサイドバー（MVP後に正式に調整） */}
       <div className="drawer-side">
         <label
           htmlFor="my-drawer-3"

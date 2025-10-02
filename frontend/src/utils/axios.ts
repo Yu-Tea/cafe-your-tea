@@ -8,10 +8,10 @@ export const apiClient = axios.create({
   },
 });
 
-// レスポンスインターセプター（エラーハンドリング）
+// レスポンスのインターセプター（エラーハンドリング）
 apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  (response: any) => response,
+  (error: any) => {
     // 401エラーは認証確認の正常フローなのでログ出力しない
     if (error.response?.status === 401) {
       // 必要に応じて認証エラー用の処理を追加
@@ -24,11 +24,11 @@ apiClient.interceptors.response.use(
   }
 );
 
-// リクエストインターセプター（必要に応じて）
+// リクエストのインターセプター
 apiClient.interceptors.request.use(
-  (config) => {
+  (config: any) => {
     console.log("API Request:", config.method?.toUpperCase(), config.url);
     return config;
   },
-  (error) => Promise.reject(error)
+  (error: any) => Promise.reject(error)
 );

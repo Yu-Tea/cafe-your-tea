@@ -1,4 +1,4 @@
-import { apiClient } from "./axios";
+import { apiClient } from "../utils/axios";
 import type {
   AuthResponse,
   UpdateProfileRequest,
