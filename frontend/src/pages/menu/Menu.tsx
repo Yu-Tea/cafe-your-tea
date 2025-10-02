@@ -36,7 +36,7 @@ const Menu = () => {
           <div className="bg-gray-300 p-4">検索バー</div>
 
           {/* メニュー一覧 */}
-          <TeaArtGrid teaArts={teaArts} showAuthor={true} />
+          <TeaArtGrid teaArts={teaArts} />
         </div>
       </div>
     </div>
