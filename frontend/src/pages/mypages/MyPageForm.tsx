@@ -3,7 +3,7 @@ import { Title } from "../../shared/components/Title";
 import { InputField } from "../../shared/components/InputField";
 import { TextAreaField } from "../../shared/components/TextAreaField";
 import { Link, useNavigate } from "react-router-dom";
-import { updateUserProfile } from "../../utils/api";
+import { updateUserProfile } from "../../api/auth";
 import { useAuth } from "../../shared/contexts/AuthContext";
 
 // フォームデータの型定義
@@ -148,7 +148,7 @@ const MyPageForm = () => {
               note="※200文字以内"
             />
 
-            {/* 🆕 ボタン群（更新・キャンセル） */}
+            {/* ボタン群（更新・キャンセル） */}
             <div className="flex justify-center gap-x-6">
               <button
                 type="submit"

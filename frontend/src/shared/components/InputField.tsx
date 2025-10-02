@@ -27,7 +27,7 @@ export const InputField = ({
   const inputId = id || `input-${name}`;
 
   return (
-    <div className="flex flex-col">
+    <div>
       <div className="flex items-center">
         <label
           htmlFor={inputId}
