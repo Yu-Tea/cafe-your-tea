@@ -23,7 +23,7 @@ const TeaArtCard: React.FC<TeaArtCardProps> = ({ teaArt }) => {
 
   return (
     <div
-      className="bg-base-100 border-base-300 translate-y-1.5 cursor-pointer border-1 p-4 shadow-stone-400/20 transition duration-500 hover:shadow-lg hover:translate-y-1"
+      className="bg-base-100 border-base-300 translate-y-1.5 cursor-pointer border-1 p-4 shadow-stone-400/20 transition duration-300 hover:shadow-lg hover:translate-y-1"
       onClick={handleCardClick}
     >
       <div className="h-[180px] bg-gray-300"></div>

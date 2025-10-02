@@ -89,7 +89,7 @@ export default function Header() {
               {isLoggedIn && (
                 <>
                   <li>
-                    <Link to="/tea_new">
+                    <Link to="/tea-new">
                       <FaCoffee />
                       Tea Art
                     </Link>

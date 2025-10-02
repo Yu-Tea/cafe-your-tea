@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       post 'logout', to: 'authentication#logout'
       get 'me', to: 'authentication#me'
 
-      resources :users, only: %i[create]
+      resources :users, only: %i[create show]
       resources :tea_arts, only: %i[index show create update destroy]
 
       resource :user, only: [:update]

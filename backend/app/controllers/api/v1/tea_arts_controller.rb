@@ -17,6 +17,7 @@ class Api::V1::TeaArtsController < ApplicationController
 
   # GET /api/v1/tea_arts/:id
   def show
+    @tea_art = TeaArt.find(params[:id])
     render json: {
       tea_art: tea_art_json(@tea_art),
       can_edit: current_user&.id == @tea_art.user_id

@@ -4,6 +4,7 @@ export interface User {
   email: string;
   bio: string;
   avatar_preset: number;
+  is_owner?: boolean;
 }
 
 export interface AuthResponse {

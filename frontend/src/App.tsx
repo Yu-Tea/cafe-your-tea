@@ -5,11 +5,13 @@ import Footer from "./shared/components/Footer";
 import HomePage from "./pages/home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
+import UserPage from "./pages/userPages/UserPage"
 import MyPage from "./pages/mypages/MyPage";
 import MyPageForm from "./pages/mypages/MyPageForm";
 import Menu from "./pages/menu/Menu";
 import TeaArtNew from "./pages/teaArts/New";
 import TeaArtEdit from "./pages/teaArts/Edit";
+import NotFoundPage from "./pages/errors/NotFoundPage"
 
 function App() {
   return (
@@ -22,10 +24,12 @@ function App() {
             <Route path="/menu" element={<Menu />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/users/:id" element={<UserPage />} />
             <Route path="/mypage" element={<MyPage />} />
-            <Route path="/mypage_form" element={<MyPageForm />} />
-            <Route path="/tea_new" element={<TeaArtNew />} />
-            <Route path="/tea_edit" element={<TeaArtEdit />} />
+            <Route path="/mypage-form" element={<MyPageForm />} />
+            <Route path="/tea-new" element={<TeaArtNew />} />
+            <Route path="/tea-edit" element={<TeaArtEdit />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
         <Footer />
