@@ -28,7 +28,7 @@ export const InputField = ({
 
   return (
     <div>
-      <div className="flex items-center">
+      <div className="flex items-center mb-1">
         <label
           htmlFor={inputId}
           className="label josefin-sans text-secondary text-2xl font-light"

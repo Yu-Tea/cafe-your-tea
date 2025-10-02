@@ -106,7 +106,7 @@ export default function Header() {
                     variant="header-btn"
                     className="text-accent mr-4 flex"
                   >
-                    <span className="mt-0.5 mr-2">
+                    <span className="mr-2">
                       <FaFaceSmileBeam />
                     </span>
                     My Page
@@ -117,7 +117,7 @@ export default function Header() {
                   className="text-primary flex"
                   onClick={handleLogout}
                 >
-                  <span className="mt-0.5 mr-2">
+                  <span className="mr-2">
                     <FaRightFromBracket />
                   </span>
                   Logout

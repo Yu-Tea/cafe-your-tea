@@ -28,7 +28,7 @@ export const TextAreaField = ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center">
+      <div className="mb-1 flex items-center">
         <label
           htmlFor={textareaId}
           className="label josefin-sans text-secondary text-2xl font-light"
