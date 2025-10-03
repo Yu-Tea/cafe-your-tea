@@ -4,7 +4,7 @@ import { InputField } from "../../shared/components/InputField";
 import { TextAreaField } from "../../shared/components/TextAreaField";
 import { RadioButtonGroup } from "./components/RadioButtonGroup";
 import { useNavigate } from "react-router-dom";
-import { createTeaArt } from "../../api/teaArt";
+import { createTeaArt } from "../../api/teaArtApi";
 
 // フォームデータの型定義
 interface TeaArtFormData {
@@ -119,7 +119,6 @@ const New = () => {
               value={formData.title}
               onChange={handleChange}
               placeholder="ティーのメニュー名"
-              
               required
               disabled={isLoading}
               note="※15文字以内"

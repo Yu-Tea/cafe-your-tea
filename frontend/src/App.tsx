@@ -6,6 +6,7 @@ import HomePage from "./pages/home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
 import UserPage from "./pages/userPages/UserPage"
+import UserEditPage from "./pages/userPages/UserEditPage"
 import MyPage from "./pages/mypages/MyPage";
 import MyPageForm from "./pages/mypages/MyPageForm";
 import Menu from "./pages/menu/Menu";
@@ -25,6 +26,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/users/:id" element={<UserPage />} />
+            <Route path="/users/edit" element={<UserEditPage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypage-form" element={<MyPageForm />} />
             <Route path="/tea-new" element={<TeaArtNew />} />

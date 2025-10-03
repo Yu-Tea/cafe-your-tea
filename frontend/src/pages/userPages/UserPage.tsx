@@ -5,11 +5,20 @@ import { Title } from "../../shared/components/Title";
 import { Link } from "react-router-dom";
 import { getUser } from "../../api/userApi";
 import { User } from "../../types/user";
+import TeaArtGrid from "../../shared/components/TeaArtGrid";
+import type { TeaArt } from "../../types/teaArt";
+import { getTeaArts } from "../../api/teaArtApi";
+import { useAuth } from "../../shared/contexts/AuthContext";
 
 const UserPage = () => {
   const [userDetail, setUserDetail] = useState<User | null>(null);
+  const [teaArts, setTeaArts] = useState<TeaArt[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const { user: currentUser } = useAuth();
   const { id } = useParams<{ id: string }>();
+
+  const isOwnProfile =
+    currentUser && userDetail && currentUser.id === userDetail.id;
 
   useEffect(() => {
     const fetchUserDetail = async () => {
@@ -17,6 +26,8 @@ const UserPage = () => {
         setLoading(true);
         const data = await getUser(Number(id));
         setUserDetail(data);
+        const teaData = await getTeaArts();
+        setTeaArts(teaData.tea_arts);
       } catch (err) {
         console.error("Error fetching user detail:", err);
       } finally {
@@ -62,21 +73,29 @@ const UserPage = () => {
       {/* マイページのときのみ編集ボタン */}
       {userDetail.is_owner && (
         <Link
-          to="/mypage-form"
+          to="/users/edit"
           className="btn btn-accent mt-5 px-8 text-base font-normal"
         >
           編集
         </Link>
       )}
-
       {/* ティーギャラリー */}
       <div className="mt-20 flex items-center justify-center px-10">
-        <div className="flex w-full max-w-2xl flex-col gap-y-10">
+        <div className="flex w-full max-w-6xl flex-col gap-y-8">
           <Title
             title="Tea Gallery"
             subtitle={`${userDetail?.name}さんのティー`}
           />
-          <div>未作成です。Tea Artから作成しよう！</div>
+          <TeaArtGrid
+            teaArts={teaArts}
+            filterByUserId={true}
+            userId={userDetail.id} // 🎯 表示対象のユーザーID（URLパラメータから）
+            emptyMessage={
+              isOwnProfile // 🎯 currentUser.idとuserDetail.idの比較で判定
+                ? "まだ作品を投稿していません。"
+                : `${userDetail.name}さんの作品はまだありません。`
+            }
+          />
         </div>
       </div>
     </div>
