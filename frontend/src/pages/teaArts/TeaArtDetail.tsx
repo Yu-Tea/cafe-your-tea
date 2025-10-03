@@ -64,32 +64,34 @@ const TeaArtDetail = () => {
               <div className="h-[260px] w-[360px] bg-gray-400">画像</div>
               {/* メニュー説明 */}
               <div className="flex-1">
+                <div className="flex mb-3">
+                <div className="text-primary josefin-sans text-2xl font-light pt-1 mr-2">
+                  {teaArt.season} Season
+                </div>
                 {/* 温度表記の切り替え */}
-                <div className="mb-2">
+                <>
                   {(teaArt.temperature === "hot" ||
                     teaArt.temperature === "both") && (
-                    <span className="badge badge-outline badge-error josefin-sans mr-1 pt-1">
+                    <span className="badge badge-soft badge-error josefin-sans mr-1 pt-1 bg-error/20">
                       HOT
                     </span>
                   )}
                   {(teaArt.temperature === "ice" ||
                     teaArt.temperature === "both") && (
-                    <span className="badge badge-outline badge-info josefin-sans pt-1">
+                    <span className="badge badge-soft badge-info josefin-sans pt-1 bg-info/20">
                       ICE
                     </span>
                   )}
-                </div>
+                </>
                 {/* 温度表記の切り替えここまで */}
-                <span className="text-primary josefin-sans text-2xl font-light">
-                  {teaArt.season} Season
-                </span>
+                </div>
                 <div className="border-secondary mt-1 mb-2 border-b-1 pb-3 text-4xl font-bold tracking-wider">
                   {teaArt.title}
                 </div>
                 <div className="text-right">
                   <Link
                     to={`/users/${teaArt.user.id}`}
-                    className="btn btn-xs btn-accent font-normal"
+                    className="link link-hover text-accent textarea-md font-bold"
                   >
                     ティー作成者：{teaArt.user.name}
                   </Link>
