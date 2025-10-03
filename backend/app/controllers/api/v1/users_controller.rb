@@ -20,7 +20,19 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  # マイページ編集用のupdateアクション
+  # ユーザー個別ページ
+  def show
+    @user = User.find(params[:id])
+    render json: {
+        id: @user.id,
+        name: @user.name,
+        bio: @user.bio,
+        avatar_preset: @user.avatar_preset,
+        is_owner: current_user&.id == @user.id
+      }
+  end
+
+  # マイページ編集用
   def update
     if @current_user.update(update_user_params)
       render json: {

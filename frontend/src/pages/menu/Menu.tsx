@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import { getTeaArts } from "../../api/teaArt";
+import { getTeaArts } from "../../api/teaArtApi";
 import TeaArtGrid from "../../shared/components/TeaArtGrid";
-import type { TeaArt } from '../../types/teaArt';
+import type { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
-
 
 const Menu = () => {
   const [teaArts, setTeaArts] = useState<TeaArt[]>([]);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const fetchTeaArts = async () => {

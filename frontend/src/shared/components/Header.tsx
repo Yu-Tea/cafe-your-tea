@@ -12,7 +12,7 @@ import { Button } from "./Button";
 import { performLogout } from "../../api/auth";
 
 export default function Header() {
-  const { isLoggedIn, logout: authLogout } = useAuth();
+  const { isLoggedIn, logout: authLogout, user } = useAuth();
   const navigate = useNavigate();
   // ログアウト処理のハンドラー
   const handleLogout = async () => {
@@ -85,11 +85,12 @@ export default function Header() {
                   Menu
                 </Link>
               </li>
+
               {/* ログイン後のみ追加表示 */}
               {isLoggedIn && (
                 <>
                   <li>
-                    <Link to="/tea_new">
+                    <Link to="/tea-new">
                       <FaCoffee />
                       Tea Art
                     </Link>
@@ -101,7 +102,7 @@ export default function Header() {
             {/* ログイン後のGナビ */}
             {isLoggedIn ? (
               <div className="flex">
-                <Link to="/mypage">
+                <Link to={`/users/${user?.id}`}>
                   <Button
                     variant="header-btn"
                     className="text-accent mr-4 flex"

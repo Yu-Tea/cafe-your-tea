@@ -24,7 +24,7 @@ const MyPage = () => {
           </div>
         </div>
       </div>
-      <Link to="/mypage_form" className="btn btn-accent px-8 text-base font-normal mt-5">
+      <Link to="/mypage-form" className="btn btn-accent px-8 text-base font-normal mt-5">
         編集
       </Link>
 
