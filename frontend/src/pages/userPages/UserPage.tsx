@@ -89,9 +89,9 @@ const UserPage = () => {
           <TeaArtGrid
             teaArts={teaArts}
             filterByUserId={true}
-            userId={userDetail.id} // 🎯 表示対象のユーザーID（URLパラメータから）
+            userId={userDetail.id}
             emptyMessage={
-              isOwnProfile // 🎯 currentUser.idとuserDetail.idの比較で判定
+              isOwnProfile
                 ? "まだ作品を投稿していません。"
                 : `${userDetail.name}さんの作品はまだありません。`
             }

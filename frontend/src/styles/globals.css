@@ -28,7 +28,7 @@
   --color-success-content: #fdfcfb;
   --color-warning: #c4863a;
   --color-warning-content: #fdfcfb;
-  --color-error: #bb5049;
+  --color-error: #bf695c;
   --color-error-content: #fdfcfb;
   --radius-selector: 0rem;
   --radius-field: 0rem;
@@ -40,6 +40,7 @@
   --noise: 0;
   --text-2xl: 1.35rem;
   --text-3xl: 1.6rem;
+  --text-4xl: 1.85rem;
 }
 
 :root:has(input.theme-controller[value="cafe"]:checked),

@@ -8,7 +8,7 @@ interface TeaArtCardProps {
   teaArt: TeaArt;
 }
 
-const TeaArtCard: React.FC<TeaArtCardProps> = ({ teaArt }) => {
+const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
   const navigate = useNavigate();
 
   // カード全体のクリック
