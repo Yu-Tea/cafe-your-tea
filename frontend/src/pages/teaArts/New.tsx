@@ -5,14 +5,8 @@ import { TextAreaField } from "../../shared/components/TextAreaField";
 import { RadioButtonGroup } from "./components/RadioButtonGroup";
 import { useNavigate } from "react-router-dom";
 import { createTeaArt } from "../../api/teaArtApi";
-
-// フォームデータの型定義
-interface TeaArtFormData {
-  title: string;
-  description: string;
-  season: number;
-  temperature: number;
-}
+import TagCheckboxList from "./components/TagCheckboxList";
+import { TeaArtFormData } from "../../types/teaArt";
 
 const New = () => {
   const navigate = useNavigate();
@@ -22,8 +16,10 @@ const New = () => {
     description: "",
     season: 0,
     temperature: 0,
+    tag_names: [],
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedTagNames, setSelectedTagNames] = useState<string[]>([]);
 
   // 季節の選択肢
   const seasons = [
@@ -41,7 +37,7 @@ const New = () => {
     { id: "temp-2", value: 2, label: "HOT & ICE" },
   ];
 
-  // ラジオボタン用の処理（seasonとtemperature）
+  // 季節と温度用のラジオボタン用の処理
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -73,13 +69,19 @@ const New = () => {
     try {
       // API用の形式に変換して送信
       const requestData = {
-        tea_art: formData, // formDataをtea_artプロパティでラップ
+        tea_art: {
+          ...formData,
+          tag_names: selectedTagNames,
+        },
       };
+
       await createTeaArt(requestData);
       navigate("/menu"); // Menuページにリダイレクト
     } catch (error) {
       console.error("茶アート作成エラー:", error);
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -135,6 +137,15 @@ const New = () => {
               disabled={isLoading}
               note="※500文字以内"
             />
+
+            {/* タグ選択 */}
+            <div>
+              <TagCheckboxList
+                selectedTagNames={selectedTagNames}
+                onChange={setSelectedTagNames}
+              />
+            </div>
+
             {/* 季節選択 */}
             <RadioButtonGroup
               label="ティーの季節"

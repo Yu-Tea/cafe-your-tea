@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
       resources :users, only: %i[create show]
       resources :tea_arts, only: %i[index show create update destroy]
+      resources :tags, only: [:index]
 
       resource :user, only: [:update]
     end

@@ -12,7 +12,7 @@ interface LoginFormData {
 }
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -60,7 +60,7 @@ export default function Login() {
         await login();
 
         // ログイン成功時はマイページにリダイレクト
-        navigate("/mypage", {
+        navigate(`/users/${user?.id}`, {
           state: { message: "ログインしました！" },
         });
       }
