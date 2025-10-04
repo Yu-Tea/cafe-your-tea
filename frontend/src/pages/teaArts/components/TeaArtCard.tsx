@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { TeaArt } from "../../../types/teaArt";
-import { FaPenFancy, FaTrashAlt } from "react-icons/fa";
+import { FaPenFancy } from "react-icons/fa";
 import { DeleteButton } from "./DeleteButton";
 import TagButtonList from "./TagButtonList";
 import SeasonText from "./SeasonText";
