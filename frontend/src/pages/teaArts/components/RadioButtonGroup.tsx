@@ -34,7 +34,7 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
         {options.map((option) => (
           <label
             key={option.id}
-            className={`flex cursor-pointer flex-col items-center border-1 p-3 transition-all ${
+            className={`flex cursor-pointer flex-col items-center border-1 p-3 transition-all hover:bg-primary/10 ${
               value === option.value
                 ? "border-primary bg-primary/10"
                 : "border-neutral hover:border-primary/50"

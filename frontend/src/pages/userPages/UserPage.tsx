@@ -9,6 +9,7 @@ import TeaArtGrid from "../../shared/components/TeaArtGrid";
 import type { TeaArt } from "../../types/teaArt";
 import { getTeaArts } from "../../api/teaArtApi";
 import { useAuth } from "../../shared/contexts/AuthContext";
+import StatusDisplay from "../../shared/components/StatusDisplay";
 
 const UserPage = () => {
   const [userDetail, setUserDetail] = useState<User | null>(null);
@@ -37,8 +38,11 @@ const UserPage = () => {
     fetchUserDetail();
   }, [id]);
 
-  if (loading)
-    return <div className="loading loading-spinner loading-lg"></div>;
+  // ローディング状態
+  if (loading) {
+    return <StatusDisplay type="loading" />;
+  }
+  
   if (!userDetail) return <div>ユーザーが見つかりません</div>;
 
   return (
@@ -73,7 +77,7 @@ const UserPage = () => {
       {/* マイページのときのみ編集ボタン */}
       {userDetail.is_owner && (
         <Link
-          to="/users/edit"
+          to={`/users/${userDetail?.id}/edit`}
           className="btn btn-accent mt-5 px-8 text-base font-normal"
         >
           編集

@@ -80,7 +80,7 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                <Link to="/menu">
+                <Link to="/tea-arts">
                   <BiSolidFoodMenu />
                   Menu
                 </Link>
@@ -90,7 +90,7 @@ export default function Header() {
               {isLoggedIn && (
                 <>
                   <li>
-                    <Link to="/tea-arts/new">
+                    <Link to="/tea-arts/create">
                       <FaCoffee />
                       Tea Art
                     </Link>

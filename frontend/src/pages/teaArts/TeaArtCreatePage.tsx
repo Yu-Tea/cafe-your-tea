@@ -5,16 +5,10 @@ import { TextAreaField } from "../../shared/components/TextAreaField";
 import { RadioButtonGroup } from "./components/RadioButtonGroup";
 import { useNavigate } from "react-router-dom";
 import { createTeaArt } from "../../api/teaArtApi";
+import TagCheckboxList from "./components/TagCheckboxList";
+import { TeaArtFormData } from "../../types/teaArt";
 
-// フォームデータの型定義
-interface TeaArtFormData {
-  title: string;
-  description: string;
-  season: number;
-  temperature: number;
-}
-
-const New = () => {
+const TeaArtCreatePage = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<TeaArtFormData>({
@@ -22,8 +16,10 @@ const New = () => {
     description: "",
     season: 0,
     temperature: 0,
+    tag_names: [],
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedTagNames, setSelectedTagNames] = useState<string[]>([]);
 
   // 季節の選択肢
   const seasons = [
@@ -41,7 +37,7 @@ const New = () => {
     { id: "temp-2", value: 2, label: "HOT & ICE" },
   ];
 
-  // ラジオボタン用の処理（seasonとtemperature）
+  // 季節と温度用のラジオボタン用の処理
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -73,13 +69,19 @@ const New = () => {
     try {
       // API用の形式に変換して送信
       const requestData = {
-        tea_art: formData, // formDataをtea_artプロパティでラップ
+        tea_art: {
+          ...formData,
+          tag_names: selectedTagNames,
+        },
       };
+
       await createTeaArt(requestData);
-      navigate("/menu"); // Menuページにリダイレクト
+      navigate("/tea-arts"); // Menu一覧ページにリダイレクト
     } catch (error) {
       console.error("茶アート作成エラー:", error);
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -105,11 +107,11 @@ const New = () => {
       </div>
 
       {/* フォーム */}
-      <div className="mt-10 flex flex-col items-center justify-center px-10">
-        <div className="flex w-full max-w-2xl flex-col items-center">
+      <div className="mt-10 px-10">
+        <div className="flex flex-col items-center">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full max-w-2xl flex-col gap-y-8"
+            className="flex w-full max-w-3xl flex-col gap-y-8"
           >
             {/* タイトル */}
             <InputField
@@ -135,6 +137,15 @@ const New = () => {
               disabled={isLoading}
               note="※500文字以内"
             />
+
+            {/* タグ選択 */}
+            <div>
+              <TagCheckboxList
+                selectedTagNames={selectedTagNames}
+                onChange={setSelectedTagNames}
+              />
+            </div>
+
             {/* 季節選択 */}
             <RadioButtonGroup
               label="ティーの季節"
@@ -173,4 +184,4 @@ const New = () => {
   );
 };
 
-export default New;
+export default TeaArtCreatePage;
