@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { createTeaArt } from "../../api/teaArtApi";
 import TagCheckboxList from "./components/TagCheckboxList";
 import { TeaArtFormData } from "../../types/teaArt";
+import { SEASONS, TEMPERATURES } from "../../types/teaArt";
 
 const TeaArtCreatePage = () => {
   const navigate = useNavigate();
@@ -20,22 +21,6 @@ const TeaArtCreatePage = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTagNames, setSelectedTagNames] = useState<string[]>([]);
-
-  // 季節の選択肢
-  const seasons = [
-    { id: "season-0", value: 0, label: "通年" },
-    { id: "season-1", value: 1, label: "春期限定" },
-    { id: "season-2", value: 2, label: "夏期限定" },
-    { id: "season-3", value: 3, label: "秋期限定" },
-    { id: "season-4", value: 4, label: "冬期限定" },
-  ];
-
-  // 温度の選択肢
-  const temperatures = [
-    { id: "temp-0", value: 0, label: "HOT" },
-    { id: "temp-1", value: 1, label: "ICE" },
-    { id: "temp-2", value: 2, label: "HOT & ICE" },
-  ];
 
   // 季節と温度用のラジオボタン用の処理
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,20 +133,20 @@ const TeaArtCreatePage = () => {
 
             {/* 季節選択 */}
             <RadioButtonGroup
-              label="ティーの季節"
+              label="ティーの提供季節"
               name="season"
               value={formData.season}
-              options={seasons}
+              options={SEASONS}
               onChange={handleRadioChange}
               disabled={isLoading}
             />
 
             {/* 温度選択 */}
             <RadioButtonGroup
-              label="ティーの温度"
+              label="ティーの提供温度"
               name="temperature"
               value={formData.temperature}
-              options={temperatures}
+              options={TEMPERATURES}
               onChange={handleRadioChange}
               disabled={isLoading}
               gridClassName="md:grid-cols-3"

@@ -1,9 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import type { TeaArt } from "../../types/teaArt";
+import type { TeaArt } from "../../../types/teaArt";
 import { FaPenFancy, FaTrashAlt } from "react-icons/fa";
-import TagButtonList from "../../pages/teaArts/components/TagButtonList";
-import SeasonText from "../../pages/teaArts/components/SeasonText";
+import TagButtonList from "./TagButtonList";
+import SeasonText from "./SeasonText";
 
 interface TeaArtCardProps {
   teaArt: TeaArt;
@@ -24,7 +24,7 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
 
   return (
     <div
-      className="bg-base-100 border-base-300 translate-y-1.5 cursor-pointer border-1 p-4 shadow-stone-400/20 transition duration-300 hover:translate-y-1 hover:shadow-lg flex flex-col"
+      className="bg-base-100 border-base-300 flex translate-y-1.5 cursor-pointer flex-col border-1 p-4 shadow-stone-400/20 transition duration-300 hover:translate-y-1 hover:shadow-lg"
       onClick={handleCardClick}
     >
       {/* 画像 */}
@@ -35,17 +35,22 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
       <TagButtonList teaArt={teaArt} />
 
       {/* 自作かどうかで表示変更する範囲ここから */}
-      <div className="mt-1 flex items-end justify-end px-1 flex-1">
+      <div className="mt-1 flex flex-1 items-end justify-end px-1">
         {teaArt.is_owner ? (
           <>
             <Link
               to={`/tea-arts/${teaArt.id}/edit`}
               className="btn btn-xs btn-outline btn-accent mr-2"
+              onClick={handleAuthorClick}
             >
               <FaPenFancy />
               <span className="josefin-sans pt-0.5 font-normal">Edit</span>
             </Link>
-            <Link to="#" className="btn btn-xs btn-outline btn-accent">
+            <Link
+              to="#"
+              className="btn btn-xs btn-outline btn-accent"
+              onClick={handleAuthorClick}
+            >
               <FaTrashAlt />
               <span className="josefin-sans pt-0.5 font-normal">Delete</span>
             </Link>

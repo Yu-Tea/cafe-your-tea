@@ -1,6 +1,6 @@
 import React from "react";
 import TeaArtCard from "./TeaArtCard";
-import type { TeaArt } from "../../types/teaArt";
+import type { TeaArt } from "../../../types/teaArt";
 
 interface TeaArtGridProps {
   teaArts: TeaArt[];
