@@ -3,6 +3,7 @@ import { getTeaArts } from "../../api/teaArtApi";
 import TeaArtGrid from "./components/TeaArtGrid";
 import type { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
+import { TeaArtSearchForm } from "./components/TeaArtSearchForm";
 import StatusDisplay from "../../shared/components/StatusDisplay";
 
 const TeaArtsListPage = () => {
@@ -33,10 +34,11 @@ const TeaArtsListPage = () => {
   return (
     <div className="container mx-auto py-10 text-center">
       <div className="flex items-center justify-center px-10">
-        <div className="flex w-full max-w-7xl flex-col gap-y-8">
+        <div className="flex w-full max-w-7xl flex-col gap-y-8 items-center">
           <Title title="Menu" subtitle="メニュー" />
-          <div className="bg-gray-300 p-4">検索バー</div>
-
+          {/* 検索用 */}
+          <TeaArtSearchForm />
+          
           {/* メニュー一覧 */}
           <TeaArtGrid teaArts={teaArts} />
         </div>

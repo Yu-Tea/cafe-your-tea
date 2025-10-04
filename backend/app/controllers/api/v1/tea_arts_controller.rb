@@ -10,7 +10,7 @@ class Api::V1::TeaArtsController < ApplicationController
                       .page(params[:page])
 
     render json: {
-      tea_arts: @tea_arts.map { |tea_art| tea_art_json(tea_art) },
+      tea_arts: @tea_arts.map { |tea_art| tea_art_list_json(tea_art) },
       pagination: pagination_json(@tea_arts),
     }
   end
@@ -19,7 +19,7 @@ class Api::V1::TeaArtsController < ApplicationController
   def show
     @tea_art = TeaArt.find(params[:id])
     render json: {
-      tea_art: tea_art_json(@tea_art),
+      tea_art: tea_art_detail_json(@tea_art),
       can_edit: current_user&.id == @tea_art.user_id
     }
   end
@@ -37,7 +37,7 @@ class Api::V1::TeaArtsController < ApplicationController
       end
 
       render json: {
-        tea_art: tea_art_json(@tea_art),
+        tea_art: tea_art_detail_json(@tea_art),
         message: 'ティーアートが作成されました'
       }, status: :created
     else
@@ -55,7 +55,7 @@ class Api::V1::TeaArtsController < ApplicationController
       end
 
       render json: {
-        tea_art: tea_art_json(@tea_art),
+        tea_art: tea_art_detail_json(@tea_art),
         message: 'ティーアートが更新されました'
       }
     else
@@ -99,7 +99,7 @@ class Api::V1::TeaArtsController < ApplicationController
       Rails.logger.info "Found #{@tea_arts.count} tea arts for tag: #{tag_name}"
 
       render json: {
-        tea_arts: @tea_arts.map { |tea_art| tea_art_json(tea_art) },
+        tea_arts: @tea_arts.map { |tea_art| tea_art_list_json(tea_art) },
         pagination: pagination_json(@tea_arts),
         search_type: 'tag',
         selected_tag: tag_name,
@@ -117,20 +117,6 @@ class Api::V1::TeaArtsController < ApplicationController
         }
       }, status: :internal_server_error
     end
-  end
-
-  # 総合検索用（後で再調整する）
-  def search
-    @search_form = TeaArtSearchForm.new(search_params)
-    @tea_arts = @search_form.search.page(params[:page])
-
-    render json: {
-      tea_arts: @tea_arts.map { |tea_art| tea_art_json(tea_art) },
-      pagination: pagination_json(@tea_arts),
-      search_type: 'comprehensive',
-      search_params: @search_form.to_h,
-      total_count: @tea_arts.total_count
-    }
   end
 
   private
@@ -154,13 +140,32 @@ class Api::V1::TeaArtsController < ApplicationController
     params.require(:tea_art).permit(:title, :description, :season, :temperature, tag_names: [])
   end
 
-  def tea_art_json(tea_art)
+
+
+  # TeaArtのMenu用軽量データ
+  def tea_art_list_json(tea_art)
     {
       id: tea_art.id,
       title: tea_art.title,
-      description: tea_art.description,
-      season: tea_art.season_display, # "Spring"（先頭大文字の表示用）
-      temperature: tea_art.temperature,
+      season: tea_art.season_display,
+      tags: tea_art.tags.map { |tag| tag_json(tag) },
+      tag_names: tea_art.tag_names,
+      user: {
+        id: tea_art.user.id,
+        name: tea_art.user.name
+      },
+      is_owner: current_user&.id == tea_art.user_id
+    }
+  end
+
+  # TeaArtの完全データ
+  def tea_art_detail_json(tea_art)
+    {
+      id: tea_art.id,
+      title: tea_art.title,
+      description: tea_art.description,       # 詳細でのみ取得
+      season: tea_art.season_display,
+      temperature: tea_art.temperature,       # 詳細でのみ取得
       tags: tea_art.tags.map { |tag| tag_json(tag) },
       tag_names: tea_art.tag_names,
       user: {

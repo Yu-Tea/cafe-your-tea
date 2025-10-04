@@ -16,7 +16,7 @@ const SeasonText = ({ teaArt, className = "" }: SeasonTextProps) => {
       case "Autumn":
         return "text-warning/70"; // 山吹色
       case "Winter":
-        return "text-info/90"; // 水色
+        return "text-info/80"; // 水色
       default:
         return "text-secondary/80"; // デフォルト色
     }
