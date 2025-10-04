@@ -94,9 +94,9 @@ const UserEditPage = () => {
           )}
 
           {/* プロフィール編集 */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-y-3">
             {/* 画像選択 */}
-            <div className="flex flex-col gap-y-3">
+            <div className="flex flex-col gap-y-3 mb-6">
               <label className="text-left label josefin-sans text-secondary text-2xl font-light">Avatar Image</label>
               <div className="flex items-center justify-center gap-x-8">
                 {[1, 2, 3, 4, 5].map((avatarNum) => (
@@ -129,6 +129,7 @@ const UserEditPage = () => {
               label="Name"
               type="text"
               name="name"
+              maxLength={10}
               value={formData.name}
               onChange={handleChange}
               placeholder="お名前"
@@ -140,6 +141,7 @@ const UserEditPage = () => {
             <TextAreaField
               label="Profile"
               name="bio"
+              maxLength={200}
               value={formData.bio}
               onChange={handleChange}
               placeholder="自己紹介文"

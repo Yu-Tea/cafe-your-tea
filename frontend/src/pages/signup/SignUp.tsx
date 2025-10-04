@@ -121,14 +121,15 @@ export default function SignUp() {
           )}
 
           {/* フォーム */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-y-2">
             <InputField
               label="Name"
               type="text"
               name="name"
+              maxLength={10}
               value={formData.name}
               onChange={handleChange}
-              placeholder="お名前"
+              placeholder="お名前 ※10文字以内"
               required
               disabled={isLoading}
             />
@@ -148,6 +149,7 @@ export default function SignUp() {
               label="Password"
               type="password"
               name="password"
+              minLength={6}
               value={formData.password}
               onChange={handleChange}
               placeholder="パスワード ※6文字以上"
@@ -159,6 +161,7 @@ export default function SignUp() {
               label="Password Confirmation"
               type="password"
               name="password_confirmation"
+              minLength={6}
               value={formData.password_confirmation}
               onChange={handleChange}
               placeholder="パスワード確認"

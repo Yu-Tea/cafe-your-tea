@@ -4,7 +4,8 @@ import { getTeaArt } from "../../api/teaArtApi";
 
 import type { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
-import { FaPenFancy, FaTrashAlt } from "react-icons/fa";
+import { FaPenFancy } from "react-icons/fa";
+import { DeleteButton } from "./components/DeleteButton";
 import TagButtonList from "./components/TagButtonList";
 import SeasonText from "./components/SeasonText";
 import StatusDisplay from "../../shared/components/StatusDisplay";
@@ -57,7 +58,7 @@ const TeaArtDetailPage = () => {
           <div className="flex w-full max-w-4xl flex-col gap-y-10">
             <Title title="Menu Details" subtitle="メニュー詳細" />
             <div className="flex flex-col gap-x-6 text-left sm:flex-row">
-              <div className="h-[260px] w-[360px] bg-gray-400">画像</div>
+              <div className="h-[300px] w-[400px] bg-gray-400">画像</div>
 
               {/* ティー説明 */}
               <div className="flex-1">
@@ -102,25 +103,27 @@ const TeaArtDetailPage = () => {
               </div>
             </div>
 
-            {/* 自作メニューのみ表示ボタン */}
+            {/* 自作メニューのみ表示の編集・削除ボタン */}
             {teaArt.is_owner && (
               <div className="space-x-3">
                 <Link
                   to={`/tea-arts/${teaArt.id}/edit`}
-                  className="btn btn-neutral px-5"
+                  className="btn btn-neutral px-5 font-normal"
                 >
                   <FaPenFancy />
-                  <span className="font-normal">編集</span>
+                  編集
                 </Link>
-                <Link to="#" className="btn btn-neutral px-5">
-                  <FaTrashAlt />
-                  <span className="font-normal">削除</span>
-                </Link>
+                <DeleteButton
+                  teaArtId={teaArt.id}
+                  teaArtTitle={teaArt.title}
+                  className={`btn-neutral px-5`}
+                />
               </div>
             )}
           </div>
         </div>
       </div>
+
       {/* 注文 */}
       <div className="my-10 h-[300px] w-full bg-gray-300">注文</div>
       {/* コメント欄 */}

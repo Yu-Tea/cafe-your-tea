@@ -10,6 +10,7 @@ interface TextAreaFieldProps {
   id?: string;
   labelClassName?: string;
   note?: string;
+  maxLength?: number;
 }
 
 export const TextAreaField = ({
@@ -23,6 +24,7 @@ export const TextAreaField = ({
   rows = 3,
   id,
   note,
+  maxLength = 200,
 }: TextAreaFieldProps) => {
   const textareaId = id || `textarea-${name}`;
 
@@ -41,6 +43,7 @@ export const TextAreaField = ({
         id={textareaId}
         name={name}
         value={value}
+        maxLength={maxLength}
         onChange={onChange}
         placeholder={placeholder}
         rows={rows}
@@ -48,6 +51,7 @@ export const TextAreaField = ({
         required={required}
         disabled={disabled}
       />
+      <p className="validator-hint">{maxLength}文字以内で入力してください。</p>
     </div>
   );
 };
