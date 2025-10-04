@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getTeaArtsByTag } from "../../api/tagApi";
 import type { TeaArt } from "../../types/teaArt";
-import TeaArtGrid from "../../shared/components/TeaArtGrid";
+import TeaArtGrid from "./components/TeaArtGrid";
 import { Title } from "../../shared/components/Title";
 import StatusDisplay from "../../shared/components/StatusDisplay";
 

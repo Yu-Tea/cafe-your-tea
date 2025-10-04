@@ -1,16 +1,16 @@
 import React from "react";
 
 interface RadioOption {
-  id: string;
-  value: number;
-  label: string;
+  readonly id: string;
+  readonly value: number;
+  readonly label: string;
 }
 
 interface RadioButtonGroupProps {
   label: string;
   name: string;
   value: number;
-  options: RadioOption[];
+  options: readonly RadioOption[];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   gridClassName?: string;
@@ -34,7 +34,7 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
         {options.map((option) => (
           <label
             key={option.id}
-            className={`flex cursor-pointer flex-col items-center border-1 p-3 transition-all hover:bg-primary/10 ${
+            className={`hover:bg-primary/10 flex cursor-pointer flex-col items-center border-1 p-3 transition-all ${
               value === option.value
                 ? "border-primary bg-primary/10"
                 : "border-neutral hover:border-primary/50"

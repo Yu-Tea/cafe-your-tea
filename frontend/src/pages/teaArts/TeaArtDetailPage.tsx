@@ -61,9 +61,9 @@ const TeaArtDetailPage = () => {
 
               {/* ティー説明 */}
               <div className="flex-1">
-                <div className="mb-3 flex space-x-1 items-center">
+                <div className="mb-3 flex items-center space-x-1">
                   {/* 季節 */}
-                  <SeasonText teaArt={teaArt} className="mr-2 text-2xl pt-1" />
+                  <SeasonText teaArt={teaArt} className="mr-2 pt-1 text-2xl" />
                   {/* <div className="text-primary josefin-sans mr-2 pt-1 text-2xl font-light">
                     {teaArt.season} Season
                   </div> */}
@@ -128,11 +128,8 @@ const TeaArtDetailPage = () => {
         <Title title="Comments" subtitle="ティーを飲んだ方のご感想" />
       </div>
       <div className="text-center">
-        <Link
-          to="/tea-arts"
-          className="btn btn-ghost btn-accent text-accent josefin-sans hover:text-base-200 pt-1 text-2xl font-light"
-        >
-          <span className="font-normal">Back to Menu</span>
+        <Link to="/tea-arts" className="btn btn-outline btn-primary">
+          ← メニューの一覧に戻る
         </Link>
       </div>
     </>

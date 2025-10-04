@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getTeaArts } from "../../api/teaArtApi";
-import TeaArtGrid from "../../shared/components/TeaArtGrid";
+import TeaArtGrid from "./components/TeaArtGrid";
 import type { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
 import StatusDisplay from "../../shared/components/StatusDisplay";

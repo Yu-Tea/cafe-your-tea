@@ -5,7 +5,7 @@ import { Title } from "../../shared/components/Title";
 import { Link } from "react-router-dom";
 import { getUser } from "../../api/userApi";
 import { User } from "../../types/user";
-import TeaArtGrid from "../../shared/components/TeaArtGrid";
+import TeaArtGrid from "../teaArts/components/TeaArtGrid";
 import type { TeaArt } from "../../types/teaArt";
 import { getTeaArts } from "../../api/teaArtApi";
 import { useAuth } from "../../shared/contexts/AuthContext";
