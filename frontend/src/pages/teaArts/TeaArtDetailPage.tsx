@@ -40,10 +40,13 @@ const TeaArtDetailPage = () => {
     return <StatusDisplay type="loading" />;
   }
 
-  // エラー状態
-  if (error) {
+  if (error || !teaArt) {
     return (
-      <StatusDisplay type="error" message={error || "作品が見つかりませんでした"} />
+      <div className="container mx-auto px-4 py-8">
+        <div className="alert alert-error">
+          <span>{error || "作品が見つかりませんでした"}</span>
+        </div>
+      </div>
     );
   }
 
