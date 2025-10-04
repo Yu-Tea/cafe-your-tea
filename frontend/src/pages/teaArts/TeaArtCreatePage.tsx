@@ -8,7 +8,7 @@ import { createTeaArt } from "../../api/teaArtApi";
 import TagCheckboxList from "./components/TagCheckboxList";
 import { TeaArtFormData } from "../../types/teaArt";
 
-const New = () => {
+const TeaArtCreatePage = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<TeaArtFormData>({
@@ -76,7 +76,7 @@ const New = () => {
       };
 
       await createTeaArt(requestData);
-      navigate("/menu"); // Menuページにリダイレクト
+      navigate("/tea-arts"); // Menu一覧ページにリダイレクト
     } catch (error) {
       console.error("茶アート作成エラー:", error);
       throw error;
@@ -107,11 +107,11 @@ const New = () => {
       </div>
 
       {/* フォーム */}
-      <div className="mt-10 flex flex-col items-center justify-center px-10">
-        <div className="flex w-full max-w-2xl flex-col items-center">
+      <div className="mt-10 px-10">
+        <div className="flex flex-col items-center">
           <form
             onSubmit={handleSubmit}
-            className="flex w-full max-w-2xl flex-col gap-y-8"
+            className="flex w-full max-w-3xl flex-col gap-y-8"
           >
             {/* タイトル */}
             <InputField
@@ -184,4 +184,4 @@ const New = () => {
   );
 };
 
-export default New;
+export default TeaArtCreatePage;

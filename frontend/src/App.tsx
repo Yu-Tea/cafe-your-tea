@@ -8,11 +8,12 @@ import SignUp from "./pages/signup/SignUp";
 import UserPage from "./pages/userPages/UserPage";
 import UserEditPage from "./pages/userPages/UserEditPage";
 
-import Menu from "./pages/menu/Menu";
+import TeaArtsListPage from "./pages/teaArts/TeaArtsListPage";
+import TeaArtDetailPage from "./pages/teaArts/TeaArtDetailPage";
+import TeaArtCreatePage from "./pages/teaArts/TeaArtCreatePage";
+import TeaArtEditPage from "./pages/teaArts/TeaArtEditPage";
+import TeaArtsByTagPage from "./pages/teaArts/TeaArtsByTagPage";
 
-import TeaArtNew from "./pages/teaArts/New";
-import TeaArtEdit from "./pages/teaArts/Edit";
-import TeaArtDetail from "./pages/teaArts/TeaArtDetail";
 import NotFoundPage from "./pages/errors/NotFoundPage";
 
 function App() {
@@ -26,11 +27,12 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/users/:id" element={<UserPage />} />
-            <Route path="/users/edit" element={<UserEditPage />} />
-            <Route path="/menu" element={<Menu />} />
-            <Route path="/tea-arts/:id" element={<TeaArtDetail />} />
-            <Route path="/tea-arts/new" element={<TeaArtNew />} />
-            <Route path="/tea-arts/edit" element={<TeaArtEdit />} />
+            <Route path="/users/:id/edit" element={<UserEditPage />} />
+            <Route path="/tea-arts" element={<TeaArtsListPage />} />
+            <Route path="/tea-arts/:id" element={<TeaArtDetailPage />} />
+            <Route path="/tea-arts/create" element={<TeaArtCreatePage />} />
+            <Route path="/tea-arts/:id/edit" element={<TeaArtEditPage />} />
+            <Route path="/tea-arts/tag/:tagName" element={<TeaArtsByTagPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>

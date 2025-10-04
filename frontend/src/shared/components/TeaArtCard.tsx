@@ -1,8 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { TeaArt } from "../../types/teaArt";
-import { FaPenFancy,FaTrashAlt } from "react-icons/fa";
-
+import { FaPenFancy, FaTrashAlt } from "react-icons/fa";
+import TagButtonList from "../../pages/teaArts/components/TagButtonList";
+import SeasonText from "../../pages/teaArts/components/SeasonText";
 
 interface TeaArtCardProps {
   teaArt: TeaArt;
@@ -23,17 +24,18 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
 
   return (
     <div
-      className="bg-base-100 border-base-300 translate-y-1.5 cursor-pointer border-1 p-4 shadow-stone-400/20 transition duration-300 hover:shadow-lg hover:translate-y-1"
+      className="bg-base-100 border-base-300 translate-y-1.5 cursor-pointer border-1 p-4 shadow-stone-400/20 transition duration-300 hover:translate-y-1 hover:shadow-lg flex flex-col"
       onClick={handleCardClick}
     >
+      {/* 画像 */}
       <div className="h-[180px] bg-gray-300"></div>
-      <div className="text-neutral josefin-sans mt-3 font-light">
-        {teaArt.season} Season
-      </div>
-      <h3 className="text-secondary mb-2 font-bold">{teaArt.title}</h3>
+      {/* テキスト */}
+      <SeasonText teaArt={teaArt} className="mt-4 mb-0.5 text-lg" />
+      <h3 className="text-secondary mb-1 font-bold">{teaArt.title}</h3>
+      <TagButtonList teaArt={teaArt} />
 
-      <div className="flex items-center justify-end px-1">
-        {/* 自作かどうかで表示変更する範囲ここから */}
+      {/* 自作かどうかで表示変更する範囲ここから */}
+      <div className="mt-1 flex items-end justify-end px-1 flex-1">
         {teaArt.is_owner ? (
           <>
             <Link
@@ -43,10 +45,7 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
               <FaPenFancy />
               <span className="josefin-sans pt-0.5 font-normal">Edit</span>
             </Link>
-            <Link
-              to="#"
-              className="btn btn-xs btn-outline btn-accent"
-            >
+            <Link to="#" className="btn btn-xs btn-outline btn-accent">
               <FaTrashAlt />
               <span className="josefin-sans pt-0.5 font-normal">Delete</span>
             </Link>
@@ -60,8 +59,8 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
             by {teaArt.user.name}
           </Link>
         )}
-        {/* 自作かどうかで表示変更する範囲ここまで */}
       </div>
+      {/* 自作かどうかで表示変更する範囲ここまで */}
     </div>
   );
 };

@@ -59,8 +59,8 @@ export default function Login() {
         // AuthContextのlogin関数を呼び出し（/meエンドポイントを使用）
         await login();
 
-        // ログイン成功時はマイページにリダイレクト
-        navigate(`/users/${user?.id}`, {
+        // ログイン成功時はTOPページにリダイレクト
+        navigate("/", {
           state: { message: "ログインしました！" },
         });
       }

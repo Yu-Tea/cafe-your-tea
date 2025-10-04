@@ -10,7 +10,12 @@ Rails.application.routes.draw do
       get 'me', to: 'authentication#me'
 
       resources :users, only: %i[create show]
-      resources :tea_arts, only: %i[index show create update destroy]
+      resources :tea_arts, only: %i[index show create update destroy] do
+        collection do
+          get :search_by_tag  # タグ検索専用
+          get :search         # 総合検索用
+        end
+      end
       resources :tags, only: [:index]
 
       resource :user, only: [:update]

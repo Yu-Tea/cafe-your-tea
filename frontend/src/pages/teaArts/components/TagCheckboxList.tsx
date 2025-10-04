@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Tag, getTags } from "../../../api/tagApi";
+import StatusDisplay from "../../../shared/components/StatusDisplay";
 
 interface TagCheckboxListProps {
   selectedTagNames: string[];
@@ -54,16 +55,16 @@ const TagCheckboxList = ({
     }
   };
 
+  // ローディング状態
   if (loading) {
-    return (
-      <div className="flex items-center justify-center py-4">
-        <div className="text-gray-500">タグを読み込み中...</div>
-      </div>
-    );
+    return <StatusDisplay type="loading" />;
   }
 
+  // エラー状態
   if (error) {
-    return <div className="text-sm text-red-500">{error}</div>;
+    return (
+      <StatusDisplay type="error" message={error} />
+    );
   }
 
   return (
@@ -75,11 +76,11 @@ const TagCheckboxList = ({
         </span>
       </div>
 
-      <div className="grid grid-cols-5 gap-x-0.5 gap-y-2">
+      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-x-3 gap-y-2">
         {tags.map((tag) => (
           <label
             key={tag.id}
-            className="hover:bg-base-300 flex items-center space-x-1.5 px-1 py-2"
+            className="hover:bg-primary/10 flex cursor-pointer items-center space-x-1.5 p-2"
           >
             <input
               type="checkbox"
@@ -87,7 +88,7 @@ const TagCheckboxList = ({
               onChange={(e) => handleCheckboxChange(tag.name, e.target.checked)}
               className="checkbox checkbox-primary checkbox-sm"
             />
-            <span className="text-sm">{tag.name}</span>
+            <span className="cursor-pointer text-sm">{tag.name}</span>
           </label>
         ))}
       </div>

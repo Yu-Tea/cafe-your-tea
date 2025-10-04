@@ -9,21 +9,9 @@ class Api::V1::TeaArtsController < ApplicationController
                       .order(created_at: :desc)
                       .page(params[:page])
 
-    # タグでの絞り込み機能
-    if params[:tag_id].present?
-      @tea_arts = @tea_arts.by_tag_id(params[:tag_id])
-      @selected_tag = Tag.find(params[:tag_id])
-    end
-
-    if params[:tag_name].present?
-      @tea_arts = @tea_arts.by_tag(params[:tag_name])
-      @selected_tag = Tag.find_by(name: params[:tag_name])
-    end
-
     render json: {
       tea_arts: @tea_arts.map { |tea_art| tea_art_json(tea_art) },
       pagination: pagination_json(@tea_arts),
-      selected_tag: @selected_tag ? tag_json(@selected_tag) : nil
     }
   end
 
@@ -41,36 +29,108 @@ class Api::V1::TeaArtsController < ApplicationController
     @tea_art = current_user.tea_arts.build(tea_art_params)
 
     if @tea_art.save
-    # タグの処理
-    if tea_art_params[:tag_names].present?
-      tag_names = tea_art_params[:tag_names]
-      tags = tag_names.map { |name| Tag.find_or_create_by(name: name) }
-      @tea_art.tags = tags
-    end
+      # タグの処理
+      if tea_art_params[:tag_names].present?
+        tag_names = tea_art_params[:tag_names]
+        tags = tag_names.map { |name| Tag.find_or_create_by(name: name) }
+        @tea_art.tags = tags
+      end
 
-    render json: {
-      tea_art: tea_art_json(@tea_art),
-      message: 'ティーアートが作成されました'
-    }, status: :created
-  else
-    render json: { errors: @tea_art.errors }, status: :unprocessable_entity
-  end
+      render json: {
+        tea_art: tea_art_json(@tea_art),
+        message: 'ティーアートが作成されました'
+      }, status: :created
+    else
+        render json: { errors: @tea_art.errors }, status: :unprocessable_entity
+    end
   end
 
   # PATCH/PUT /api/v1/tea_arts/:id
   def update
-    raise ActiveRecord::RecordInvalid.new(@tea_art) unless @tea_art.update(tea_art_params)
+    if @tea_art.update(tea_art_params)
+      if tea_art_params[:tag_names].present?
+        tag_names = tea_art_params[:tag_names]
+        tags = tag_names.map { |name| Tag.find_or_create_by(name: name) }
+        @tea_art.tags = tags
+      end
 
-    render json: {
-      tea_art: tea_art_json(@tea_art),
-      message: 'ティーアートが更新されました'
-    }
+      render json: {
+        tea_art: tea_art_json(@tea_art),
+        message: 'ティーアートが更新されました'
+      }
+    else
+      render json: { errors: @tea_art.errors }, status: :unprocessable_entity
+    end
   end
 
   # DELETE /api/v1/tea_arts/:id
   def destroy
     @tea_art.destroy!
     render json: { message: 'ティーアートが削除されました' }
+  end
+
+  # 単一タグで絞り込み用
+  def search_by_tag
+    tag_name = params[:tag]  # ← tag_nameではなくtag！
+  
+    if tag_name.blank?
+      render json: {
+        tea_arts: [],
+        pagination: {
+          current_page: 1,
+          total_pages: 0,
+          total_count: 0,
+          per_page: 0
+        },
+        search_type: 'tag',
+        selected_tag: nil,
+        message: "タグ名が指定されていません"
+      }
+      return
+    end
+
+    begin
+      @tea_arts = TeaArt.joins(:tags)
+                        .where(tags: { name: tag_name })
+                        .includes(:tags, :user)
+                        .order(created_at: :desc)
+                        .page(params[:page])
+
+      Rails.logger.info "Found #{@tea_arts.count} tea arts for tag: #{tag_name}"
+
+      render json: {
+        tea_arts: @tea_arts.map { |tea_art| tea_art_json(tea_art) },
+        pagination: pagination_json(@tea_arts),
+        search_type: 'tag',
+        selected_tag: tag_name,
+        total_count: @tea_arts.total_count
+      }
+
+    rescue => e
+      Rails.logger.error "Error in search_by_tag: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+
+      render json: {
+        error: {
+          type: "TagSearchError",
+          message: "タグ検索でエラーが発生しました: #{e.message}"
+        }
+      }, status: :internal_server_error
+    end
+  end
+
+  # 総合検索用（後で再調整する）
+  def search
+    @search_form = TeaArtSearchForm.new(search_params)
+    @tea_arts = @search_form.search.page(params[:page])
+
+    render json: {
+      tea_arts: @tea_arts.map { |tea_art| tea_art_json(tea_art) },
+      pagination: pagination_json(@tea_arts),
+      search_type: 'comprehensive',
+      search_params: @search_form.to_h,
+      total_count: @tea_arts.total_count
+    }
   end
 
   private
@@ -110,13 +170,16 @@ class Api::V1::TeaArtsController < ApplicationController
       is_owner: current_user&.id == tea_art.user_id
     }
   end
-  
 
   def tag_json(tag)
     {
       id: tag.id,
       name: tag.name,
     }
+  end
+
+  def search_params
+    params.permit(:title, :user_name, :description, :tag_name, :season)
   end
 
   def pagination_json(collection)
