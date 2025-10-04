@@ -104,6 +104,7 @@ const TeaArtCreatePage = () => {
               type="text"
               name="title"
               value={formData.title}
+              maxLength={15}
               onChange={handleChange}
               placeholder="ティーのメニュー名"
               required
@@ -115,6 +116,7 @@ const TeaArtCreatePage = () => {
               label="Description"
               name="description"
               value={formData.description}
+              maxLength={500}
               onChange={handleChange}
               placeholder="ティーの説明文"
               rows={5}

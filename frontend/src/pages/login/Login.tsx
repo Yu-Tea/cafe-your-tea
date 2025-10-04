@@ -119,7 +119,7 @@ export default function Login() {
           )}
 
           {/* フォーム */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-y-3">
             <InputField
               label="Email"
               type="email"
@@ -134,6 +134,7 @@ export default function Login() {
               label="Password"
               type="password"
               name="password"
+              minLength={6}
               value={formData.password}
               onChange={handleChange}
               placeholder="パスワード"
@@ -143,10 +144,10 @@ export default function Login() {
             <div className="text-center">
               <button
                 type="submit"
-                className="btn btn-primary josefin-sans px-8 text-xl font-normal"
+                className="btn btn-primary px-8 text-base font-normal"
                 disabled={isLoading}
               >
-                {isLoading ? "ログイン中..." : "Login"}
+                {isLoading ? "ログイン中..." : "ログイン"}
               </button>
             </div>
           </form>

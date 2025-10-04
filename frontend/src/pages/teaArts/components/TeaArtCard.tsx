@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { TeaArt } from "../../../types/teaArt";
 import { FaPenFancy, FaTrashAlt } from "react-icons/fa";
+import { DeleteButton } from "./DeleteButton";
 import TagButtonList from "./TagButtonList";
 import SeasonText from "./SeasonText";
 
@@ -35,25 +36,25 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
       <TagButtonList teaArt={teaArt} />
 
       {/* 自作かどうかで表示変更する範囲ここから */}
-      <div className="mt-1 flex flex-1 items-end justify-end px-1">
+      <div className="mt-1 flex flex-1 items-end justify-end space-x-2 px-1">
         {teaArt.is_owner ? (
           <>
             <Link
               to={`/tea-arts/${teaArt.id}/edit`}
-              className="btn btn-xs btn-outline btn-accent mr-2"
+              className="btn btn-xs btn-outline btn-accent"
               onClick={handleAuthorClick}
             >
               <FaPenFancy />
               <span className="josefin-sans pt-0.5 font-normal">Edit</span>
             </Link>
-            <Link
-              to="#"
-              className="btn btn-xs btn-outline btn-accent"
-              onClick={handleAuthorClick}
-            >
-              <FaTrashAlt />
-              <span className="josefin-sans pt-0.5 font-normal">Delete</span>
-            </Link>
+            
+            <DeleteButton
+              teaArtId={teaArt.id}
+              teaArtTitle={teaArt.title}
+              className={`btn-xs btn-outline btn-accent`}
+              spanClassName={`josefin-sans pt-0.5`}
+              text="Delete"
+            />
           </>
         ) : (
           <Link
