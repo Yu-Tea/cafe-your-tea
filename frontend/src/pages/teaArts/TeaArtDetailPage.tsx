@@ -65,9 +65,6 @@ const TeaArtDetailPage = () => {
                 <div className="mb-3 flex items-center space-x-1">
                   {/* 季節 */}
                   <SeasonText teaArt={teaArt} className="mr-2 pt-1 text-2xl" />
-                  {/* <div className="text-primary josefin-sans mr-2 pt-1 text-2xl font-light">
-                    {teaArt.season} Season
-                  </div> */}
                   {/* 温度表記の切り替え */}
                   <>
                     {(teaArt.temperature === "hot" ||
@@ -93,7 +90,7 @@ const TeaArtDetailPage = () => {
                     to={`/users/${teaArt.user.id}`}
                     className="link link-hover text-accent textarea-md font-bold"
                   >
-                    ティー作成者：{teaArt.user.name}
+                    ティー制作者：{teaArt.user.name}
                   </Link>
                 </div>
                 <div className="mt-4 mb-6">{teaArt.description}</div>

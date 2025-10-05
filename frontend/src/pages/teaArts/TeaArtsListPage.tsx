@@ -1,22 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getTeaArts } from "../../api/teaArtApi";
 import TeaArtGrid from "./components/TeaArtGrid";
 import type { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
+import { TeaArtSearchForm } from "./components/TeaArtSearchForm";
 import StatusDisplay from "../../shared/components/StatusDisplay";
 
 const TeaArtsListPage = () => {
   const [teaArts, setTeaArts] = useState<TeaArt[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchConditions, setSearchConditions] = useState({
+    season: "",
+    tagName: "",
+    searchQuery: "",
+  });
 
   useEffect(() => {
     const fetchTeaArts = async () => {
       try {
         setLoading(true);
         const data = await getTeaArts();
-        setTeaArts(data.tea_arts || data); // APIレスポンスの構造に応じて調整
+        setTeaArts(data.tea_arts);
       } catch (err) {
-        console.error("Error fetching tea arts:", err);
+        console.error("ティーアート取得エラー:", err);
       } finally {
         setLoading(false);
       }
@@ -24,6 +30,35 @@ const TeaArtsListPage = () => {
 
     fetchTeaArts();
   }, []);
+
+  // 絞り込み検索の処理
+  const filteredTeaArts = useMemo(() => {
+    return teaArts.filter((teaArt) => {
+      // 季節フィルタ
+      if (
+        searchConditions.season &&
+        teaArt.season !== searchConditions.season
+      ) {
+        return false;
+      }
+
+      // タグフィルタ
+      if (searchConditions.tagName) {
+        const hasTag = teaArt.tag_names.includes(searchConditions.tagName);
+        if (!hasTag) return false;
+      }
+
+      // テキスト検索（title と user.name のみ）
+      if (searchConditions.searchQuery) {
+        const query = searchConditions.searchQuery.toLowerCase();
+        const matchesTitle = teaArt.title.toLowerCase().includes(query);
+        const matchesCreator = teaArt.user.name.toLowerCase().includes(query);
+        if (!matchesTitle && !matchesCreator) return false;
+      }
+
+      return true;
+    });
+  }, [teaArts, searchConditions]);
 
   // ローディング状態
   if (loading) {
@@ -33,12 +68,18 @@ const TeaArtsListPage = () => {
   return (
     <div className="container mx-auto py-10 text-center">
       <div className="flex items-center justify-center px-10">
-        <div className="flex w-full max-w-7xl flex-col gap-y-8">
+        <div className="flex w-full max-w-7xl flex-col items-center gap-y-8">
           <Title title="Menu" subtitle="メニュー" />
-          <div className="bg-gray-300 p-4">検索バー</div>
+          {/* 検索用 */}
+          <TeaArtSearchForm
+            onSearch={setSearchConditions}
+            onReset={() =>
+              setSearchConditions({ season: "", tagName: "", searchQuery: "" })
+            }
+          />
 
           {/* メニュー一覧 */}
-          <TeaArtGrid teaArts={teaArts} />
+          <TeaArtGrid teaArts={filteredTeaArts} />
         </div>
       </div>
     </div>
