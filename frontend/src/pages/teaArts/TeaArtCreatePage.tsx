@@ -83,10 +83,10 @@ const TeaArtCreatePage = () => {
 
       {/* イラスト描画枠 */}
       <div className="flex items-center justify-center gap-4">
-        <div className="size-[500px] bg-gray-400 text-white">
-          描画（後で実装）
+        <div className="size-[450px] bg-gray-400 text-white p-4">
+          <div className="bg-amber-50 size-full rounded-full"></div>
         </div>
-        <div className="h-[500px] w-[300px] bg-gray-400 text-white">
+        <div className="h-[450px] w-[250px] bg-gray-400 text-white">
           ツール（後で実装）
         </div>
       </div>
