@@ -47,7 +47,7 @@ export const TeaArtSearchForm = ({
     const newFormData = { ...formData, [key]: value };
     setFormData(newFormData);
 
-    // リアルタイム検索（デバウンス処理付き）
+    // リアルタイム検索
     onSearch(newFormData);
   };
 
@@ -63,10 +63,11 @@ export const TeaArtSearchForm = ({
     formData.season || formData.tagName || formData.searchQuery;
 
   return (
-    <div className="mb-6 flex items-center justify-center space-x-2">
+    <div className="text-secondary mb-6 flex items-center justify-center space-x-2">
       <span className="josefin-sans text-neutral pt-1 text-4xl font-light tracking-wider">
         Search
       </span>
+
       {/* 季節選択 */}
       <select
         value={formData.season}
@@ -74,11 +75,11 @@ export const TeaArtSearchForm = ({
         className="select select-neutral w-28"
       >
         <option value="">提供季節</option>
-        <option value="通年">通年</option>
-        <option value="春">春</option>
-        <option value="夏">夏</option>
-        <option value="秋">秋</option>
-        <option value="冬">冬</option>
+        <option value="All">通年</option>
+        <option value="Spring">春</option>
+        <option value="Summer">夏</option>
+        <option value="Autumn">秋</option>
+        <option value="Winter">冬</option>
       </select>
 
       {/* タグ選択 */}
@@ -96,7 +97,7 @@ export const TeaArtSearchForm = ({
         ))}
       </select>
 
-      {/* 検索入力 */}
+      {/* 検索入力フォーム */}
       <label className="input input-neutral flex items-center">
         <svg
           className="h-[1em] opacity-50"
@@ -130,7 +131,7 @@ export const TeaArtSearchForm = ({
             type="button"
             onClick={handleReset}
             className="btn btn-ghost btn-square"
-            title="検索条件をリセット"
+            
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
