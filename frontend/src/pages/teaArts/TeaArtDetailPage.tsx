@@ -58,7 +58,7 @@ const TeaArtDetailPage = () => {
           <div className="flex w-full max-w-[600px] flex-col items-center gap-y-10">
             <Title title="Menu Details" subtitle="メニュー詳細" />
             <div className="h-[400px] w-full bg-gray-400">画像</div>
-            <div className="text-left w-full">
+            <div className="w-full text-left">
               {/* ティー説明 */}
               <div className="mb-3 flex items-center space-x-1">
                 {/* 季節 */}
@@ -91,29 +91,29 @@ const TeaArtDetailPage = () => {
                   ティー制作者：{teaArt.user.name}
                 </Link>
               </div>
-              <div className="mt-4 mb-6">{teaArt.description}</div>
+              <div className="mt-4">{teaArt.description}</div>
 
               {/* タグ */}
-              <TagButtonList teaArt={teaArt} />
-            </div>
+              <TagButtonList teaArt={teaArt} className={`mt-5 space-x-4`} />
 
-            {/* 自作メニューのみ表示の編集・削除ボタン */}
-            {teaArt.is_owner && (
-              <div className="space-x-3">
-                <Link
-                  to={`/tea-arts/${teaArt.id}/edit`}
-                  className="btn btn-neutral px-5 font-normal"
-                >
-                  <FaPenFancy />
-                  編集
-                </Link>
-                <DeleteButton
-                  teaArtId={teaArt.id}
-                  teaArtTitle={teaArt.title}
-                  className={`btn-neutral px-5 btn-outline`}
-                />
-              </div>
-            )}
+              {/* 自作メニューのみ表示の編集・削除ボタン */}
+              {teaArt.is_owner && (
+                <div className="mt-5 w-full space-x-3 text-right">
+                  <Link
+                    to={`/tea-arts/${teaArt.id}/edit`}
+                    className="btn btn-neutral px-5 font-normal"
+                  >
+                    <FaPenFancy />
+                    編集
+                  </Link>
+                  <DeleteButton
+                    teaArtId={teaArt.id}
+                    teaArtTitle={teaArt.title}
+                    className={`btn-neutral btn-outline px-5`}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -121,7 +121,7 @@ const TeaArtDetailPage = () => {
       {/* 注文 */}
       <div className="my-10 flex h-[400px] w-full items-end justify-center bg-[url(../images/order_bg.png)] bg-contain bg-center bg-repeat-x">
         <div className="w-full max-w-3xl">
-          <div className="flex h-80 gap-6 flex-col sm:flex-row px-3">
+          <div className="flex h-80 flex-col gap-6 px-3 sm:flex-row">
             <div className="flex-1">
               <div className="bg-base-100 border-neutral/80 rounded-xl border-2 py-6 text-center">
                 <div>いらっしゃ〜い。このティーを注文する？</div>

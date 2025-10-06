@@ -152,7 +152,7 @@ const TeaArtEditPage = () => {
           >
             {/* タイトル */}
             <InputField
-              label="Title"
+            label="Title"
               type="text"
               name="title"
               value={formData.title}

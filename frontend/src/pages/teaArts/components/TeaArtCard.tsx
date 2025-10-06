@@ -31,9 +31,9 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
       {/* 画像 */}
       <div className="h-[180px] bg-gray-300"></div>
       {/* テキスト */}
-      <SeasonText teaArt={teaArt} className="mt-4 mb-0.5 text-lg" />
+      <SeasonText teaArt={teaArt} className={`mt-4 mb-0.5 text-lg`} />
       <h3 className="text-secondary mb-1 font-bold">{teaArt.title}</h3>
-      <TagButtonList teaArt={teaArt} />
+      <TagButtonList teaArt={teaArt} className={`space-x-2 text-sm`} />
 
       {/* 自作かどうかで表示変更する範囲ここから */}
       <div className="mt-1 flex flex-1 items-end justify-end space-x-2 px-1">
@@ -47,12 +47,12 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
               <FaPenFancy />
               <span className="josefin-sans pt-0.5 font-normal">Edit</span>
             </Link>
-            
+
             <DeleteButton
               teaArtId={teaArt.id}
               teaArtTitle={teaArt.title}
-              className={`btn-xs btn-outline btn-accent`}
-              spanClassName={`josefin-sans pt-0.5`}
+              className="btn-xs btn-outline btn-accent"
+              spanClassName="josefin-sans pt-0.5"
               text="Delete"
             />
           </>
