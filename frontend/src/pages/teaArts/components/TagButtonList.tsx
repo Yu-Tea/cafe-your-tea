@@ -3,22 +3,22 @@ import { Link } from "react-router-dom";
 
 interface TagButtonListProps {
   teaArt: TeaArt;
-  textSize?: "xs" | "sm";
+  className?: string;
 }
 
 // 作者名クリック時はカードのクリックイベントを止める
-  const handleAuthorClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
+const handleAuthorClick = (e: React.MouseEvent) => {
+  e.stopPropagation();
+};
 
-const TagButtonList = ({ teaArt, textSize = "sm" }: TagButtonListProps) => {
+const TagButtonList = ({ teaArt, className = "" }: TagButtonListProps) => {
   return (
-    <div className="space-x-2 text-left">
+    <div className={`text-left ${className}`}>
       {teaArt.tag_names.map((tagName, index) => (
         <Link
           to={`/tea-arts/tag/${encodeURIComponent(tagName)}`}
           key={index}
-          className={`link link-success text-${textSize} hover:btn-success rounded-full transition-colors`}
+          className="link link-success hover:btn-success rounded-full transition-colors"
           onClick={handleAuthorClick}
         >
           # {tagName}

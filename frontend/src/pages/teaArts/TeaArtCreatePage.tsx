@@ -5,9 +5,10 @@ import { TextAreaField } from "../../shared/components/TextAreaField";
 import { RadioButtonGroup } from "./components/RadioButtonGroup";
 import { useNavigate } from "react-router-dom";
 import { createTeaArt } from "../../api/teaArtApi";
-import TagCheckboxList from "./components/TagCheckboxList";
 import { TeaArtFormData } from "../../types/teaArt";
 import { SEASONS, TEMPERATURES } from "../../types/teaArt";
+import TagCheckboxList from "./components/TagCheckboxList";
+import TeaArtDraw from "./components/TeaArtDraw";
 
 const TeaArtCreatePage = () => {
   const navigate = useNavigate();
@@ -75,21 +76,15 @@ const TeaArtCreatePage = () => {
       <div className="flex flex-col items-center justify-center px-10">
         <div className="mb-10 flex w-full max-w-2xl flex-col items-center gap-y-6">
           <Title title="Tea Art" subtitle="ティーアートを描こう！" />
-          <div className="text-left">
-            説明文のテキストです。説明文のテキストです。説明文のテキストです。説明文のテキストです。説明文のテキストです。説明文のテキストです。説明文のテキストです。
+          <div>
+            あなただけのオリジナルティーを作って、メニューに登録しよう！<br/>（※登録後の編集ではティーのイラストは修正できないので注意してね）
           </div>
         </div>
       </div>
 
       {/* イラスト描画枠 */}
-      <div className="flex items-center justify-center gap-4">
-        <div className="size-[500px] bg-gray-400 text-white">
-          描画（後で実装）
-        </div>
-        <div className="h-[500px] w-[300px] bg-gray-400 text-white">
-          ツール（後で実装）
-        </div>
-      </div>
+
+      <TeaArtDraw />
 
       {/* フォーム */}
       <div className="mt-10 px-10">
