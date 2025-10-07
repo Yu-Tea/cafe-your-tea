@@ -63,7 +63,8 @@ export default function SignUp() {
 
       if (response.status === 200 && response.data) {
         await updateAuthState();
-        navigate("/mypage", {
+        // 登録完了時は自動ログインしてTOPページにリダイレクト
+        navigate("/", {
           state: { message: "ユーザー登録が完了しました！" },
         });
       }

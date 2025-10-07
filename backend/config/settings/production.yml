@@ -1,0 +1,2 @@
+cloudinary:
+  url: <%= ENV['CLOUDINARY_URL'] %>  # Renderで設定した環境変数を使用

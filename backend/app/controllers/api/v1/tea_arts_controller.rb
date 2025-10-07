@@ -11,7 +11,7 @@ class Api::V1::TeaArtsController < ApplicationController
 
     render json: {
       tea_arts: @tea_arts.map { |tea_art| tea_art_list_json(tea_art) },
-      pagination: pagination_json(@tea_arts),
+      pagination: pagination_json(@tea_arts)
     }
   end
 
@@ -26,22 +26,41 @@ class Api::V1::TeaArtsController < ApplicationController
 
   # POST /api/v1/tea_arts
   def create
-    @tea_art = current_user.tea_arts.build(tea_art_params)
-
-    if @tea_art.save
-      # タグの処理
-      if tea_art_params[:tag_names].present?
-        tag_names = tea_art_params[:tag_names]
-        tags = tag_names.map { |name| Tag.find_or_create_by(name: name) }
-        @tea_art.tags = tags
+    begin
+      
+      # 画像処理サービスを実行（image_dataがある場合）
+      image_url = nil
+      if params[:tea_art][:image_data].present?        
+        processor = TeaArtImageProcessor.new(params[:tea_art][:image_data])
+        image_url = processor.process # CloudinaryのURLを取得
       end
-
-      render json: {
-        tea_art: tea_art_detail_json(@tea_art),
-        message: 'ティーアートが作成されました'
-      }, status: :created
-    else
+      
+      # TeaArtモデルを作成（image_urlを含む）
+      @tea_art = current_user.tea_arts.build(tea_art_params)
+      @tea_art.image_url = image_url if image_url.present? # 画像URLを設定
+      
+      if @tea_art.save
+        # タグの処理
+        if tea_art_params[:tag_names].present?
+          tag_names = tea_art_params[:tag_names]
+          tags = tag_names.map { |name| Tag.find_or_create_by(name: name) }
+          @tea_art.tags = tags
+        end
+        
+        render json: {
+          tea_art: tea_art_detail_json(@tea_art),
+          message: 'ティーアートが作成されました'
+        }, status: :created
+      else
+        Rails.logger.error "ティーアート作成エラー: #{@tea_art.errors.full_messages}"
         render json: { errors: @tea_art.errors }, status: :unprocessable_entity
+      end
+      
+    rescue => e
+      Rails.logger.error "ティーアート作成処理エラー: #{e.message}"
+      render json: { 
+        error: "ティーアートの作成に失敗しました: #{e.message}" 
+      }, status: :unprocessable_entity
     end
   end
 
@@ -71,8 +90,8 @@ class Api::V1::TeaArtsController < ApplicationController
 
   # 単一タグで絞り込み用
   def search_by_tag
-    tag_name = params[:tag]  # ← tag_nameではなくtag！
-  
+    tag_name = params[:tag] # ← tag_nameではなくtag！
+
     if tag_name.blank?
       render json: {
         tea_arts: [],
@@ -84,7 +103,7 @@ class Api::V1::TeaArtsController < ApplicationController
         },
         search_type: 'tag',
         selected_tag: nil,
-        message: "タグ名が指定されていません"
+        message: 'タグ名が指定されていません'
       }
       return
     end
@@ -96,8 +115,6 @@ class Api::V1::TeaArtsController < ApplicationController
                         .order(created_at: :desc)
                         .page(params[:page])
 
-      Rails.logger.info "Found #{@tea_arts.count} tea arts for tag: #{tag_name}"
-
       render json: {
         tea_arts: @tea_arts.map { |tea_art| tea_art_list_json(tea_art) },
         pagination: pagination_json(@tea_arts),
@@ -105,14 +122,13 @@ class Api::V1::TeaArtsController < ApplicationController
         selected_tag: tag_name,
         total_count: @tea_arts.total_count
       }
-
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "Error in search_by_tag: #{e.message}"
       Rails.logger.error e.backtrace.join("\n")
 
       render json: {
         error: {
-          type: "TagSearchError",
+          type: 'TagSearchError',
           message: "タグ検索でエラーが発生しました: #{e.message}"
         }
       }, status: :internal_server_error
@@ -137,10 +153,9 @@ class Api::V1::TeaArtsController < ApplicationController
   end
 
   def tea_art_params
-    params.require(:tea_art).permit(:title, :description, :season, :temperature, tag_names: [])
+    # image_dataは別途処理するのでpermitに含めなくてOK
+    params.require(:tea_art).permit(:title, :description, :image_url, :season, :temperature, tag_names: [])
   end
-
-
 
   # TeaArtのMenu用軽量データ
   def tea_art_list_json(tea_art)
@@ -163,9 +178,10 @@ class Api::V1::TeaArtsController < ApplicationController
     {
       id: tea_art.id,
       title: tea_art.title,
-      description: tea_art.description,       # 詳細でのみ取得
+      description: tea_art.description, # 完全データでのみ取得
       season: tea_art.season_display,
-      temperature: tea_art.temperature,       # 詳細でのみ取得
+      temperature: tea_art.temperature, # 完全データでのみ取得
+      image_url: tea_art.image_url, # 完全データでのみ取得
       tags: tea_art.tags.map { |tag| tag_json(tag) },
       tag_names: tea_art.tag_names,
       user: {
@@ -179,7 +195,7 @@ class Api::V1::TeaArtsController < ApplicationController
   def tag_json(tag)
     {
       id: tag.id,
-      name: tag.name,
+      name: tag.name
     }
   end
 
