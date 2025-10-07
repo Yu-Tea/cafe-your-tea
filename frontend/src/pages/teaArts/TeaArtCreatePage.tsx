@@ -77,7 +77,6 @@ const TeaArtCreatePage = () => {
           ...formData,
           tag_names: selectedTagNames,
           image_data: finalBase64,
-          // tea_color: finalTeaColor,
         },
       };
 

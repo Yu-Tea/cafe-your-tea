@@ -1,10 +1,4 @@
-import {
-  useState,
-  useRef,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-} from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Stage, Layer, Line, Circle } from "react-konva";
 import { SketchPicker } from "react-color";
 import { FaUndo, FaRedo, FaTrashAlt } from "react-icons/fa";
@@ -29,7 +23,7 @@ interface TeaArtDrawProps {
   onBackgroundColorChange?: (color: string) => void;
 }
 
-const TeaArtDraw = ({ onArtComplete, onArtChange, ref }: TeaArtDrawProps) => {
+const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
   const [lines, setLines] = useState<DrawLine[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [history, setHistory] = useState<DrawLine[][]>([[]]);
@@ -196,13 +190,36 @@ const TeaArtDraw = ({ onArtComplete, onArtChange, ref }: TeaArtDrawProps) => {
     const stage = stageRef.current;
     if (!stage) return null;
 
-    return stage.toDataURL({
-      mimeType: "image/png",
-      quality: 1,
-      width: CANVAS_SIZE,
-      height: CANVAS_SIZE,
-      pixelRatio: 1,
-    });
+    // SP時のズレを調整するため一時的に位置とスケールを調整
+    const originalScaleX = stage.scaleX();
+    const originalScaleY = stage.scaleY();
+    const originalX = stage.x();
+    const originalY = stage.y();
+
+    try {
+      // スケールを1に戻して、位置も調整
+      stage.scaleX(1);
+      stage.scaleY(1);
+      stage.x(0); // 位置をリセット
+      stage.y(0); // 位置をリセット
+
+      // 430pxサイズでBase64生成
+      const base64Data = stage.toDataURL({
+        mimeType: "image/png",
+        quality: 1,
+        width: CANVAS_SIZE, // 430px
+        height: CANVAS_SIZE, // 430px
+        pixelRatio: 1,
+      });
+
+      return base64Data;
+    } finally {
+      // 元の設定に戻す
+      stage.scaleX(originalScaleX);
+      stage.scaleY(originalScaleY);
+      stage.x(originalX);
+      stage.y(originalY);
+    }
   }, []);
 
   // 描画内容が変更された時の処理
@@ -218,15 +235,17 @@ const TeaArtDraw = ({ onArtComplete, onArtChange, ref }: TeaArtDrawProps) => {
     }
   }, [lines, onArtComplete, onArtChange, getArtAsBase64]);
 
-  // 外部から呼び出せるメソッド
-  useImperativeHandle(
-    ref,
-    () => ({
-      getArtAsBase64,
-      getBackgroundColor: () => backgroundColor,
-    }),
-    [getArtAsBase64, backgroundColor]
-  );
+  // お茶の色変更したときの処理
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const base64Data = getArtAsBase64();
+      if (base64Data) {
+        onArtComplete?.(base64Data);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [backgroundColor, getArtAsBase64, onArtComplete]);
 
   return (
     <div className="flex flex-col items-center justify-center gap-7 px-5 sm:flex-row">
@@ -423,8 +442,8 @@ const TeaArtDraw = ({ onArtComplete, onArtChange, ref }: TeaArtDrawProps) => {
         
       }
       .konvajs-content canvas {
-        top: 11px !important;
-        left: 11px !important;
+        top: 10px !important;
+        left: 8px !important;
         
       }
       .cup-bg, .tea-texture{

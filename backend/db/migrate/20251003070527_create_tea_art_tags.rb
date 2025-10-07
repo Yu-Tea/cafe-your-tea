@@ -5,7 +5,7 @@ class CreateTeaArtTags < ActiveRecord::Migration[7.1]
       t.references :tag, null: false, foreign_key: true
       t.timestamps
     end
-    
-    add_index :tea_art_tags, [:tea_art_id, :tag_id], unique: true, name: 'unique_tea_art_tag'
+
+    add_index :tea_art_tags, %i[tea_art_id tag_id], unique: true, name: 'unique_tea_art_tag'
   end
 end

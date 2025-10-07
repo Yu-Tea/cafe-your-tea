@@ -1,5 +1,16 @@
 FROM --platform=linux/amd64 ruby:3.2.2
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client libpq-dev
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    curl \
+    libvips \
+    postgresql-client \
+    build-essential \
+    imagemagick \
+    libmagickwand-dev \
+    nodejs \
+    pkg-config \
+    shared-mime-info \
+    && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 WORKDIR /app
 

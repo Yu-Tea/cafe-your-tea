@@ -24,12 +24,12 @@ class Api::V1::UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     render json: {
-        id: @user.id,
-        name: @user.name,
-        bio: @user.bio,
-        avatar_preset: @user.avatar_preset,
-        is_owner: current_user&.id == @user.id
-      }
+      id: @user.id,
+      name: @user.name,
+      bio: @user.bio,
+      avatar_preset: @user.avatar_preset,
+      is_owner: current_user&.id == @user.id
+    }
   end
 
   # マイページ編集用

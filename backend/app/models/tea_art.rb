@@ -13,7 +13,7 @@ class TeaArt < ApplicationRecord
 
   # enumの定義
   enum season: {
-    all_seasons: 0,           # 通年
+    all_seasons: 0, # 通年
     spring: 1,        # 春
     summer: 2,        # 夏
     autumn: 3,        # 秋
@@ -40,7 +40,7 @@ class TeaArt < ApplicationRecord
   def tag_names
     tags.pluck(:name)
   end
-  
+
   def tag_names=(names)
     self.tags = names.reject(&:blank?).uniq.map do |name|
       Tag.find_or_create_by(name: name.strip)
@@ -53,4 +53,3 @@ class TeaArt < ApplicationRecord
   scope :by_tag_id, ->(tag_id) { joins(:tags).where(tags: { id: tag_id }) }
   scope :by_tag, ->(tag_name) { joins(:tags).where(tags: { name: tag_name }) }
 end
-
