@@ -137,7 +137,7 @@ class Api::V1::TeaArtsController < ApplicationController
   end
 
   def tea_art_params
-    params.require(:tea_art).permit(:title, :description, :season, :temperature, tag_names: [])
+    params.require(:tea_art).permit(:title, :description, :image_url, :season, :temperature, tag_names: [])
   end
 
 

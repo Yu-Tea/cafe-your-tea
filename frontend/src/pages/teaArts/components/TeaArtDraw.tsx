@@ -1,8 +1,13 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+} from "react";
 import { Stage, Layer, Line, Circle } from "react-konva";
 import { SketchPicker } from "react-color";
 import { FaUndo, FaRedo, FaTrashAlt } from "react-icons/fa";
-
 import Konva from "konva";
 
 interface DrawLine {
@@ -12,7 +17,19 @@ interface DrawLine {
   id: string;
 }
 
-const TeaArtDraw = () => {
+// ref用のインターface
+export interface TeaArtDrawRef {
+  getArtAsBase64: () => string | null;
+}
+
+interface TeaArtDrawProps {
+  onArtComplete?: (base64Data: string) => void;
+  onArtChange?: (hasContent: boolean) => void;
+  ref?: React.Ref<TeaArtDrawRef>;
+  onBackgroundColorChange?: (color: string) => void;
+}
+
+const TeaArtDraw = ({ onArtComplete, onArtChange, ref }: TeaArtDrawProps) => {
   const [lines, setLines] = useState<DrawLine[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [history, setHistory] = useState<DrawLine[][]>([[]]);
@@ -174,6 +191,43 @@ const TeaArtDraw = () => {
     setHistoryStep(0);
   }, []);
 
+  // Base64変換メソッド
+  const getArtAsBase64 = useCallback((): string | null => {
+    const stage = stageRef.current;
+    if (!stage) return null;
+
+    return stage.toDataURL({
+      mimeType: "image/png",
+      quality: 1,
+      width: CANVAS_SIZE,
+      height: CANVAS_SIZE,
+      pixelRatio: 1,
+    });
+  }, []);
+
+  // 描画内容が変更された時の処理
+  useEffect(() => {
+    const hasContent = lines.length > 0;
+    onArtChange?.(hasContent);
+
+    if (hasContent) {
+      const base64Data = getArtAsBase64();
+      if (base64Data) {
+        onArtComplete?.(base64Data);
+      }
+    }
+  }, [lines, onArtComplete, onArtChange, getArtAsBase64]);
+
+  // 外部から呼び出せるメソッド
+  useImperativeHandle(
+    ref,
+    () => ({
+      getArtAsBase64,
+      getBackgroundColor: () => backgroundColor,
+    }),
+    [getArtAsBase64, backgroundColor]
+  );
+
   return (
     <div className="flex flex-col items-center justify-center gap-7 px-5 sm:flex-row">
       {/* 描画エリア */}
@@ -182,9 +236,8 @@ const TeaArtDraw = () => {
         style={{ width: containerSize, height: containerSize }}
       >
         <div
-          className="tea-texture pointer-events-none absolute z-10 aspect-square bg-[url(../images/tea_texture.png)] bg-center"
+          className="tea-texture pointer-events-none absolute z-10 aspect-square bg-[url(../images/tea_texture.png)] bg-center mix-blend-overlay"
           style={{
-            mixBlendMode: "overlay",
             width: containerSize,
             height: containerSize,
           }}
@@ -290,7 +343,7 @@ const TeaArtDraw = () => {
         </div>
 
         {/* お茶の色選択 */}
-        <div>
+        <div className="relative">
           <div className="text-secondary mb-2 space-x-2">
             <span className="josefin-sans text-3xl">Tea Color</span>
             <span>ーお茶の色ー</span>
@@ -306,24 +359,26 @@ const TeaArtDraw = () => {
           {showColorPicker && (
             <div className="absolute z-50 text-center">
               <div
-                className="fixed"
+                className="fixed inset-0"
                 onClick={() => setShowColorPicker(false)}
               />
-              <SketchPicker
-                color={backgroundColor}
-                onChange={(color) => setBackgroundColor(color.hex)}
-                disableAlpha={true}
-                presetColors={[
-                  "#D4563B",
-                  "#E28F33",
-                  "#D8CD10",
-                  "#6EB264",
-                  "#6FA8A5",
-                  "#6573A0",
-                  "#805F8B",
-                  "#9B4A63",
-                ]}
-              />
+              <div className="relative z-10">
+                <SketchPicker
+                  color={backgroundColor}
+                  onChange={(color) => setBackgroundColor(color.hex)}
+                  disableAlpha={true}
+                  presetColors={[
+                    "#D4563B",
+                    "#E28F33",
+                    "#D8CD10",
+                    "#6EB264",
+                    "#6FA8A5",
+                    "#6573A0",
+                    "#805F8B",
+                    "#9B4A63",
+                  ]}
+                />
+              </div>
             </div>
           )}
         </div>
@@ -382,4 +437,5 @@ const TeaArtDraw = () => {
   );
 };
 
+// forwardRefで参照を渡せるようにする
 export default TeaArtDraw;

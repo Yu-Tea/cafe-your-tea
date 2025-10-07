@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Title } from "../../shared/components/Title";
 import { InputField } from "../../shared/components/InputField";
 import { TextAreaField } from "../../shared/components/TextAreaField";
@@ -8,10 +8,16 @@ import { createTeaArt } from "../../api/teaArtApi";
 import { TeaArtFormData } from "../../types/teaArt";
 import { SEASONS, TEMPERATURES } from "../../types/teaArt";
 import TagCheckboxList from "./components/TagCheckboxList";
-import TeaArtDraw from "./components/TeaArtDraw";
+import TeaArtDraw, { TeaArtDrawRef } from "./components/TeaArtDraw";
+import StatusDisplay from "../../shared/components/StatusDisplay";
 
 const TeaArtCreatePage = () => {
   const navigate = useNavigate();
+
+  // 描画関連のstate
+  const drawRef = useRef<TeaArtDrawRef>(null);
+  const [artBase64, setArtBase64] = useState<string | null>(null);
+  const [hasArtContent, setHasArtContent] = useState(false);
 
   const [formData, setFormData] = useState<TeaArtFormData>({
     title: "",
@@ -50,6 +56,18 @@ const TeaArtCreatePage = () => {
     // 既に送信中の場合は何もしない
     if (isLoading) return;
 
+    // 描画チェック
+    let finalBase64 = artBase64;
+
+    if (!finalBase64) {
+      finalBase64 = drawRef.current?.getArtAsBase64() || null;
+    }
+
+    if (!finalBase64) {
+      alert("ティーアートを描画してから作成してください");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -58,8 +76,14 @@ const TeaArtCreatePage = () => {
         tea_art: {
           ...formData,
           tag_names: selectedTagNames,
+          image_data: finalBase64,
+          // tea_color: finalTeaColor,
         },
       };
+
+      //  送信前にデータを確認！
+      // console.log('=== 送信データの確認 ===');
+      // console.log('全体データ:', requestData);
 
       await createTeaArt(requestData);
       navigate("/tea-arts"); // Menu一覧ページにリダイレクト
@@ -71,20 +95,30 @@ const TeaArtCreatePage = () => {
     }
   };
 
+  // ローディング状態
+  if (isLoading) {
+    return <StatusDisplay type="loading" />;
+  }
+
   return (
     <div className="container mx-auto py-10 text-center">
       <div className="flex flex-col items-center justify-center px-10">
         <div className="mb-10 flex w-full max-w-2xl flex-col items-center gap-y-6">
           <Title title="Tea Art" subtitle="ティーアートを描こう！" />
           <div>
-            あなただけのオリジナルティーを作って、メニューに登録しよう！<br/>（※登録後の編集ではティーのイラストは修正できないので注意してね）
+            あなただけのオリジナルティーを作って、メニューに登録しよう！
+            <br />
+            （※登録後の編集ではティーのイラストは修正できないので注意してね）
           </div>
         </div>
       </div>
 
       {/* イラスト描画枠 */}
-
-      <TeaArtDraw />
+      <TeaArtDraw
+        ref={drawRef}
+        onArtComplete={setArtBase64}
+        onArtChange={setHasArtContent}
+      />
 
       {/* フォーム */}
       <div className="mt-10 px-10">
@@ -154,7 +188,7 @@ const TeaArtCreatePage = () => {
               <button
                 type="submit"
                 className="btn btn-primary px-8 text-base font-normal"
-                disabled={isLoading}
+                disabled={isLoading || !hasArtContent}
               >
                 {isLoading ? "作成中..." : "作成する"}
               </button>
