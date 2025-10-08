@@ -9,6 +9,7 @@ interface DeleteButtonProps {
   text?: string;
   className?: string;
   spanClassName?: string;
+  redirectAfterDelete?: boolean; // 削除後にリダイレクトするかどうか
 }
 
 export const DeleteButton = ({
@@ -17,11 +18,16 @@ export const DeleteButton = ({
   text = "削除",
   className = "",
   spanClassName = "",
+  redirectAfterDelete = true, // デフォルトはリダイレクトあり
 }: DeleteButtonProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    // イベントのデフォルト動作を防いでボタン押したときに詳細ページへの遷移を禁止
+    e.preventDefault();
+    e.stopPropagation();
+
     // 削除確認ダイアログ
     const isConfirmed = window.confirm(
       `「${teaArtTitle}」を削除しますか？\nこの操作は取り消せません。`
@@ -33,10 +39,16 @@ export const DeleteButton = ({
       setIsDeleting(true);
       await deleteTeaArt(teaArtId);
 
-      // 削除成功時は一覧ページに戻る
-      navigate("/tea-arts", {
-        state: { message: "ティーアートが削除されました" },
-      });
+      // 削除成功時の処理を分岐
+      if (redirectAfterDelete) {
+        // リダイレクトが有効な場合のみナビゲート
+        navigate("/tea-arts", {
+          state: { message: "ティーアートが削除されました" },
+        });
+      } else {
+        // リダイレクトしない場合はページをリロード
+        window.location.reload();
+      }
     } catch (error) {
       console.error("削除エラー:", error);
       alert("削除に失敗しました。もう一度お試しください。");
@@ -51,6 +63,7 @@ export const DeleteButton = ({
       onClick={handleDelete}
       disabled={isDeleting}
       className={`btn ${className}`}
+      onMouseDown={(e) => e.preventDefault()}
     >
       {isDeleting ? (
         <>
