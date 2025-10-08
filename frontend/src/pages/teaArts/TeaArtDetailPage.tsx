@@ -57,9 +57,22 @@ const TeaArtDetailPage = () => {
         <div className="flex items-center justify-center px-10">
           <div className="flex w-full max-w-[600px] flex-col items-center gap-y-10">
             <Title title="Menu Details" subtitle="メニュー詳細" />
-            <div className="h-[400px] w-full bg-gray-400">画像</div>
+            {/* 画像 */}
+            <div className="border-secondary/20 relative aspect-[3/2] w-full overflow-hidden rounded-xl border-1">
+              <img
+                src={teaArt.image_url}
+                alt={teaArt.title}
+                className="absolute h-full w-full object-cover"
+              />
+              <img
+                src="../images/bg_table_big.png"
+                alt="テーブル"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            
+            {/* ティー説明 */}
             <div className="w-full text-left">
-              {/* ティー説明 */}
               <div className="mb-3 flex items-center space-x-1">
                 {/* 季節 */}
                 <SeasonText teaArt={teaArt} className="mr-2 pt-1 text-2xl" />
@@ -124,8 +137,12 @@ const TeaArtDetailPage = () => {
         <div className="w-full max-w-3xl">
           <div className="flex h-80 flex-col gap-6 px-3 sm:flex-row">
             <div className="flex-1">
-              <div className="bg-base-100 border-neutral/80 rounded-xl border-2 py-6 px-4 text-center">
-                <div>いらっしゃ〜い。このティーを注文する？<br/>Xへの投稿やコメントも受け付けてるよ！</div>
+              <div className="bg-base-100 border-neutral/80 rounded-xl border-2 px-4 py-6 text-center">
+                <div>
+                  いらっしゃ〜い。このティーを注文する？
+                  <br />
+                  Xへの投稿やコメントも受け付けてるよ！
+                </div>
                 <Link to="#" className="btn btn-accent mt-5 px-6">
                   注文する！
                 </Link>

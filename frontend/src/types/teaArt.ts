@@ -4,6 +4,7 @@ export interface TeaArt {
   description: string;
   season: string;
   temperature: string;
+  image_url: string;
   tags: Tag[];
   tag_names: string[];
   user: {

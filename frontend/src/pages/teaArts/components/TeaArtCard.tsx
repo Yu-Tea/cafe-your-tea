@@ -31,14 +31,25 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
       onClick={handleCardClick}
     >
       {/* 画像 */}
-      <div className="h-[180px] bg-gray-300"></div>
+      <div className="relative aspect-[3/2] w-full overflow-hidden">
+        <img
+          src={teaArt.image_url}
+          alt={teaArt.title}
+          className="absolute h-full w-full object-cover"
+        />
+        <img
+          src="../images/bg_table_small.png"
+          alt="テーブル"
+          className="h-full w-full object-cover"
+        />
+      </div>
       {/* テキスト */}
       <SeasonText teaArt={teaArt} className={`mt-4 mb-0.5 text-lg`} />
       <h3 className="text-secondary mb-1 font-bold">{teaArt.title}</h3>
       <TagButtonList teaArt={teaArt} className={`space-x-2 text-sm`} />
 
       {/* 自作かどうかで表示変更する範囲ここから */}
-      <div className="mt-1 flex flex-1 items-end justify-end space-x-2 px-1">
+      <div className="mt-2 flex flex-1 items-end justify-end space-x-2 px-1">
         {teaArt.is_owner ? (
           <>
             <Link
