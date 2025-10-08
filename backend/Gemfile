@@ -43,10 +43,10 @@ gem 'omniauth-google-oauth2'
 
 gem 'carrierwave'
 gem 'cloudinary', '~> 1.25'
-gem 'mini_magick'
-gem 'mimemagic', '0.3.10'
-gem 'marcel', '~> 1.0'
 gem 'config'
+gem 'marcel', '~> 1.0'
+gem 'mimemagic', '0.3.10'
+gem 'mini_magick'
 
 gem 'kaminari'
 

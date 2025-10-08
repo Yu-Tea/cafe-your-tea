@@ -1,4 +1,5 @@
 import React from "react";
+// import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { TeaArt } from "../../../types/teaArt";
 import { FaPenFancy } from "react-icons/fa";
@@ -8,6 +9,7 @@ import SeasonText from "./SeasonText";
 
 interface TeaArtCardProps {
   teaArt: TeaArt;
+  onDeleteSuccess?: () => void;
 }
 
 const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
@@ -54,6 +56,7 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
               className="btn-xs btn-outline btn-accent"
               spanClassName="josefin-sans pt-0.5"
               text="Delete"
+              redirectAfterDelete={false}
             />
           </>
         ) : (

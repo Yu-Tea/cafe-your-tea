@@ -1,8 +1,8 @@
-if Settings.cloudinary&.url.present?
-  Cloudinary.config_from_url(Settings.cloudinary.url)
-end
+Cloudinary.config_from_url(Settings.cloudinary.url) if Settings.cloudinary&.url.present?
 
 # セキュア設定
-Cloudinary.config do |config|
-  config.secure = Settings.cloudinary&.secure || true
-end if Settings.cloudinary
+if Settings.cloudinary
+  Cloudinary.config do |config|
+    config.secure = Settings.cloudinary&.secure || true
+  end
+end

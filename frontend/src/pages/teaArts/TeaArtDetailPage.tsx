@@ -110,6 +110,7 @@ const TeaArtDetailPage = () => {
                     teaArtId={teaArt.id}
                     teaArtTitle={teaArt.title}
                     className={`btn-neutral btn-outline px-5`}
+                    redirectAfterDelete={true}
                   />
                 </div>
               )}
@@ -123,8 +124,8 @@ const TeaArtDetailPage = () => {
         <div className="w-full max-w-3xl">
           <div className="flex h-80 flex-col gap-6 px-3 sm:flex-row">
             <div className="flex-1">
-              <div className="bg-base-100 border-neutral/80 rounded-xl border-2 py-6 text-center">
-                <div>いらっしゃ〜い。このティーを注文する？</div>
+              <div className="bg-base-100 border-neutral/80 rounded-xl border-2 py-6 px-4 text-center">
+                <div>いらっしゃ〜い。このティーを注文する？<br/>Xへの投稿やコメントも受け付けてるよ！</div>
                 <Link to="#" className="btn btn-accent mt-5 px-6">
                   注文する！
                 </Link>
