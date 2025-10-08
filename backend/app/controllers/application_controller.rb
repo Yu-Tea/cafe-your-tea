@@ -112,10 +112,7 @@ class ApplicationController < ActionController::API
     }, status: :unprocessable_entity
   end
 
-  def handle_internal_server_error(exception)
-    Rails.logger.error "Internal Server Error: #{exception.message}"
-    Rails.logger.error exception.backtrace.join("\n")
-
+  def handle_internal_server_error(_exception)
     render json: {
       error: {
         type: 'InternalServerError',

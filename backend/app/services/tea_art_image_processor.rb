@@ -4,13 +4,17 @@ class TeaArtImageProcessor
   # 画像パスの定数定義
   CUP_IMAGE_PATH = Rails.root.join('public/images/cup_img_big.png')
   TEXTURE_IMAGE_PATH = Rails.root.join('public/images/tea_texture.png')
+  OGP_BG_IMAGE_PATH = Rails.root.join('public/images/ogp_bg.png')
 
-  def initialize(base64_image_data)
+  def initialize(base64_image_data, title = nil)
     @base64_image_data = base64_image_data
+    @title = title
   end
 
   def process
-    temp_file = nil
+    temp_file_path = nil
+    ogp_temp_file_path = nil
+
     begin
       # base64からPNG画像を作成
       user_image = create_image_from_base64(@base64_image_data)
@@ -27,20 +31,30 @@ class TeaArtImageProcessor
       # 最終サイズにリサイズ
       final_result = resize_final_image(step2_result)
 
-      # 一時ファイルとして保存
+      # ティーアート画像を一時ファイルとして保存
       temp_file_path = save_temp_image(final_result)
 
-      # Cloudinaryにアップロード
-      cloudinary_url = upload_to_cloudinary(temp_file_path)
+      # OGP画像を作成
+      ogp_image = create_ogp_image(temp_file_path, @title)
 
-      # CloudinaryのURLを返す
-      cloudinary_url
+      # OGP画像も同じsave_temp_imageメソッドで保存
+      ogp_temp_file_path = save_temp_image(ogp_image)
+
+      # Cloudinaryにアップロード
+      tea_art_url = upload_to_cloudinary(temp_file_path)
+      ogp_url = upload_to_cloudinary(ogp_temp_file_path)
+
+      # 両方のURLを返す
+      {
+        tea_art_url: tea_art_url,
+        ogp_url: ogp_url
+      }
     rescue StandardError => e
       Rails.logger.error "画像処理エラー: #{e.message}"
       raise "画像の合成処理に失敗しました: #{e.message}"
     ensure
-      # 最後に一時ファイルを削除
-      cleanup_temp_file(temp_file) if temp_file
+      cleanup_temp_file(temp_file_path) if temp_file_path
+      cleanup_temp_file(ogp_temp_file_path) if ogp_temp_file_path
     end
   end
 
@@ -50,7 +64,7 @@ class TeaArtImageProcessor
   def create_image_from_base64(base64_data)
     raise 'base64データが空です' if base64_data.blank?
 
-    # base64のヘッダーを除去（data:image/png;base64, など）
+    # base64のヘッダーを除去（data:image/png;base64など）
     image_data = base64_data.gsub(%r{^data:image/[a-z]+;base64,}, '')
 
     # base64をデコード
@@ -90,8 +104,6 @@ class TeaArtImageProcessor
     # 透過チャンネルを明示的に保持
     result_base.alpha('set')
     result_user.alpha('set')
-
-    puts '透過設定完了'
 
     result = result_base.composite(result_user) do |c|
       c.compose 'Over'      # 通常の重ね合わせ
@@ -155,6 +167,47 @@ class TeaArtImageProcessor
     temp_file
   end
 
+  # OGP生成
+  def create_ogp_image(tea_art_image_path, title)
+    # 背景画像を読み込み
+    ogp_base = MiniMagick::Image.open(OGP_BG_IMAGE_PATH)
+
+    # 加工済みティーアート画像を読み込み
+    tea_art_image = MiniMagick::Image.open(tea_art_image_path)
+
+    # ティーアート画像の下95pxをカット
+    cropped_tea_art = tea_art_image.dup
+    current_width = cropped_tea_art.width
+    current_height = cropped_tea_art.height
+    new_height = current_height - 95
+
+    tea_art_image.crop "#{current_width}x#{new_height}+0+0"
+
+    # 背景画像にティーアート画像を合成（左下ピッタリ）
+    ogp_result = ogp_base.dup
+    ogp_result = ogp_result.composite(tea_art_image) do |c|
+      c.compose 'Over'
+      c.geometry "+0+#{630 - new_height}" # 左下ピッタリ（630 - 画像の高さ）
+    end
+
+    # フォントパスを設定
+    font_path = Rails.root.join('public/fonts/MPLUS1p-Bold.ttf')
+
+    # ティータイトルのテキストを追加（中央揃え）
+    ogp_result.combine_options do |c|
+      c.font font_path.to_s if File.exist?(font_path)
+      c.pointsize '72'  # フォントサイズ
+      c.fill '#f6f1eb'  # テキスト色
+      c.gravity 'North' # 上揃え
+      c.annotate '+0+66', title.to_s.truncate(15) # 上から66px
+    end
+
+    ogp_result
+  rescue StandardError => e
+    Rails.logger.error "OGP画像作成エラー: #{e.message}"
+    raise "OGP画像の作成に失敗しました: #{e.message}"
+  end
+
   # Cloudinaryアップロード処理
   def upload_to_cloudinary(file_path)
     raise "アップロード対象のファイルが見つかりません: #{file_path}" unless File.exist?(file_path)
@@ -173,11 +226,9 @@ class TeaArtImageProcessor
 
     result['secure_url']
   rescue StandardError => e
-    Rails.logger.error "Cloudinaryアップロードエラー: #{e.message}"
     raise "画像のアップロードに失敗しました: #{e.message}"
   end
 
-  # 一時ファイル削除処理
   def cleanup_temp_file(temp_file)
     return unless temp_file.is_a?(Tempfile)
 

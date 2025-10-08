@@ -85,7 +85,7 @@ const UserPage = () => {
       )}
       {/* ティーギャラリー */}
       <div className="mt-20 flex items-center justify-center px-10">
-        <div className="flex w-full max-w-6xl flex-col gap-y-8">
+        <div className="flex max-w-6xl flex-col gap-y-8">
           <Title
             title="Tea Gallery"
             subtitle={`${userDetail?.name}さんのティー`}

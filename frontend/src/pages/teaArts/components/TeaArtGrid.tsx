@@ -31,7 +31,7 @@ const TeaArtGrid: React.FC<TeaArtGridProps> = ({
 
   // カード数が3つ以下のときの調整
   const getResponsiveGridClass = (itemCount: number) => {
-    const baseClasses = "grid gap-4 w-full";
+    const baseClasses = "grid gap-4";
 
     if (itemCount === 1) {
       return `${baseClasses} grid-cols-1 justify-items-center`;

@@ -2,7 +2,7 @@ class Api::V1::TeaArtsController < ApplicationController
   before_action :authenticate_user!, only: %i[create update destroy]
   before_action :set_tea_art, only: %i[show update destroy]
   before_action :check_owner, only: %i[update destroy]
-  
+
   # GET /api/v1/tea_arts
   def index
     @tea_arts = TeaArt.includes(:user, :tags)
@@ -26,16 +26,21 @@ class Api::V1::TeaArtsController < ApplicationController
 
   # POST /api/v1/tea_arts
   def create
-    # 画像処理サービスを実行（image_dataがある場合）
-    image_url = nil
-    if params[:tea_art][:image_data].present?
-      processor = TeaArtImageProcessor.new(params[:tea_art][:image_data])
-      image_url = processor.process # CloudinaryのURLを取得
+    # 画像処理サービスを実行
+    if tea_art_params[:image_data].present?
+      processor = TeaArtImageProcessor.new(
+        tea_art_params[:image_data],
+        tea_art_params[:title]
+      )
+      image_urls = processor.process # 合成ティー画像とOGP画像の両方のURLを取得
     end
 
-    # TeaArtモデルを作成（image_urlを含む）
-    @tea_art = current_user.tea_arts.build(tea_art_params)
-    @tea_art.image_url = image_url if image_url.present? # 画像URLを設定
+    # TeaArtモデルを作成（image_dataはDBに保存しないので除外）
+    create_params = tea_art_params.except(:image_data, :tag_names)
+    @tea_art = current_user.tea_arts.build(create_params)
+    # 画像URLを設定
+    @tea_art.image_url = image_urls[:tea_art_url] if image_urls[:tea_art_url].present?
+    @tea_art.ogp_image_url = image_urls[:ogp_url] if image_urls[:ogp_url].present?
 
     if @tea_art.save
       # タグの処理
@@ -50,11 +55,9 @@ class Api::V1::TeaArtsController < ApplicationController
         message: 'ティーアートが作成されました'
       }, status: :created
     else
-      Rails.logger.error "ティーアート作成エラー: #{@tea_art.errors.full_messages}"
       render json: { errors: @tea_art.errors }, status: :unprocessable_entity
     end
   rescue StandardError => e
-    Rails.logger.error "ティーアート作成処理エラー: #{e.message}"
     render json: {
       error: "ティーアートの作成に失敗しました: #{e.message}"
     }, status: :unprocessable_entity
@@ -119,9 +122,6 @@ class Api::V1::TeaArtsController < ApplicationController
         total_count: @tea_arts.total_count
       }
     rescue StandardError => e
-      Rails.logger.error "Error in search_by_tag: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
-
       render json: {
         error: {
           type: 'TagSearchError',
@@ -149,8 +149,8 @@ class Api::V1::TeaArtsController < ApplicationController
   end
 
   def tea_art_params
-    # image_dataは別途処理するのでpermitに含めなくてOK
-    params.require(:tea_art).permit(:title, :description, :image_url, :season, :temperature, tag_names: [])
+    params.require(:tea_art).permit(:title, :description, :image_url, :ogp_image_url, :season, :temperature,
+                                    :image_data, tag_names: [])
   end
 
   # TeaArtのMenu用軽量データ
@@ -159,7 +159,7 @@ class Api::V1::TeaArtsController < ApplicationController
       id: tea_art.id,
       title: tea_art.title,
       season: tea_art.season_display,
-      image_url: tea_art.image_url, 
+      image_url: tea_art.image_url,
       tags: tea_art.tags.map { |tag| tag_json(tag) },
       tag_names: tea_art.tag_names,
       user: {
@@ -179,6 +179,7 @@ class Api::V1::TeaArtsController < ApplicationController
       season: tea_art.season_display,
       temperature: tea_art.temperature, # 完全データでのみ取得
       image_url: tea_art.image_url,
+      ogp_image_url: tea_art.ogp_image_url, # 完全データでのみ取得
       tags: tea_art.tags.map { |tag| tag_json(tag) },
       tag_names: tea_art.tag_names,
       user: {

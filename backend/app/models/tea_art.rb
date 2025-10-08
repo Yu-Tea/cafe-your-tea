@@ -1,7 +1,7 @@
 class TeaArt < ApplicationRecord
   belongs_to :user
   # レコード削除時にCloudinaryの画像も削除
-  before_destroy :delete_cloudinary_image
+  before_destroy :delete_cloudinary_images
 
   # バリデーション
   validates :title, presence: true, length: { maximum: 15 } # OGP画像に合わせて再調整
@@ -56,44 +56,36 @@ class TeaArt < ApplicationRecord
   scope :by_tag, ->(tag_name) { joins(:tags).where(tags: { name: tag_name }) }
 
   private
-  
-  def delete_cloudinary_image
-    return unless image_url.present?
-    
+
+  def delete_cloudinary_images
+    # ティーアート画像を削除
+    delete_single_cloudinary_image(image_url) if image_url.present?
+
+    # OGP画像を削除
+    delete_single_cloudinary_image(ogp_image_url) if ogp_image_url.present?
+  end
+
+  def delete_single_cloudinary_image(url)
+    return unless url.present?
+
     begin
-      puts "🔍 Cloudinary画像削除開始: #{image_url}"
-      
-      # 🔥 image_urlからpublic_idを抽出
-      public_id = extract_public_id_from_url(image_url)
-      
+      # URLからpublic_idを抽出
+      public_id = extract_public_id_from_url(url)
+
       if public_id.present?
-        puts "📝 抽出されたpublic_id: #{public_id}"
-        
-        # 🔥 Cloudinaryから画像を削除
-        result = Cloudinary::Uploader.destroy(public_id)
-        
-        if result['result'] == 'ok'
-          puts "✅ Cloudinary画像削除成功: #{public_id}"
-          Rails.logger.info "Cloudinary画像削除成功: #{public_id}"
-        else
-          puts "⚠️ Cloudinary画像削除結果: #{result}"
-          Rails.logger.warn "Cloudinary画像削除結果: #{public_id} - #{result}"
-        end
-      else
-        puts "⚠️ public_idを抽出できませんでした: #{image_url}"
-        Rails.logger.warn "public_id抽出失敗: #{image_url}"
+        # Cloudinaryから画像を削除
+        Cloudinary::Uploader.destroy(public_id)
       end
-    rescue => e
-      puts "❌ Cloudinary画像削除エラー: #{e.message}"
-      Rails.logger.error "Cloudinary画像削除エラー: #{e.message}"
+    rescue StandardError => e
+      Rails.logger.error "削除エラー: #{e.message}"
       # エラーが発生してもレコード削除は続行
     end
   end
-  
+
   def extract_public_id_from_url(url)
     return nil if url.blank?
-    
-    # 🔥 Cloudinaryの様々なURLパターンに対応
+
+    # Cloudinaryの様々なURLパターンに対応
     patterns = [
       # 基本パターン: /upload/v123456/folder/filename.ext → folder/filename
       %r{/upload/v\d+/(.+)\.[^.]+$},
@@ -102,13 +94,11 @@ class TeaArt < ApplicationRecord
       # 変換パラメータありパターン: /upload/w_500,h_300/v123456/folder/filename.ext → folder/filename
       %r{/upload/[^/]+/v\d+/(.+)\.[^.]+$}
     ]
-    
-    patterns.each do |pattern|
+
+    patterns.each_with_index do |pattern, _index|
       match = url.match(pattern)
       return match[1] if match
     end
-    
     nil
   end
-
 end
