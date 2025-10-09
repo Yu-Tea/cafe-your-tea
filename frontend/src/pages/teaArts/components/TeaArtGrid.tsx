@@ -30,26 +30,26 @@ const TeaArtGrid: React.FC<TeaArtGridProps> = ({
   }
 
   // カード数が3つ以下のときの調整
-  const getResponsiveGridClass = (itemCount: number) => {
-    const baseClasses = "grid gap-4";
+  // const getResponsiveGridClass = (itemCount: number) => {
+  //   const baseClasses = "grid gap-4";
 
-    if (itemCount === 1) {
-      return `${baseClasses} grid-cols-1 justify-items-center`;
-    }
+  //   if (itemCount === 1) {
+  //     return `${baseClasses} grid-cols-1 justify-items-center`;
+  //   }
 
-    if (itemCount === 2) {
-      return `${baseClasses} grid-cols-1 sm:grid-cols-2 justify-center`;
-    }
+  //   if (itemCount === 2) {
+  //     return `${baseClasses} grid-cols-1 sm:grid-cols-2 justify-center`;
+  //   }
 
-    if (itemCount === 3) {
-      return `${baseClasses} grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center`;
-    }
+  //   if (itemCount === 3) {
+  //     return `${baseClasses} grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center`;
+  //   }
 
-    return `${baseClasses} grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`;
-  };
+  //   return `${baseClasses} grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`;
+  // };
 
   return (
-    <div className={getResponsiveGridClass(teaArts.length)}>
+    <div className="grid-cols-1 py-8 text-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {filteredTeaArts.map((teaArt) => (
         <TeaArtCard key={teaArt.id} teaArt={teaArt} />
       ))}

@@ -58,7 +58,6 @@ class ApplicationController < ActionController::API
         httponly: true,
         same_site: :none,
         path: '/'
-        # domain: extract_domain_from_url(ENV['FRONTEND_URL']) # これはなくてもいいっぽい？
       }
     else
       {

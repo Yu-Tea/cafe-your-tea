@@ -45,7 +45,6 @@ class Api::V1::AuthenticationController < ApplicationController
   def jwt_cookie_options_for_delete
     if Rails.env.production?
       {
-        # domain: extract_domain_from_url(ENV['FRONTEND_URL']), # これはなくてもいいっぽい？
         path: '/',
         secure: true,
         httponly: true,

@@ -96,7 +96,8 @@ const TeaArtCreatePage = () => {
 
   // ローディング状態
   if (isLoading) {
-    return <StatusDisplay type="loading" />;
+    // return <StatusDisplay type="loading" />;
+    return <div>TeaArtCreateのローティング画面。画像新規作成中です</div>;
   }
 
   return (
