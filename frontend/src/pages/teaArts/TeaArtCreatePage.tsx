@@ -92,10 +92,10 @@ const TeaArtCreatePage = () => {
   // ローディング状態
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center">
-        <div className="font-bold">
+      <div className="flex h-full min-h-0 flex-1 flex-col items-center justify-center">
+        <span className="font-bold">
           ティーをメニューに登録中だよ。しばらく待っててね！
-        </div>
+        </span>
         <span className="loading loading-ring text-neutral loading-xl mt-10"></span>
       </div>
     );

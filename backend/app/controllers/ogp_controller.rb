@@ -1,4 +1,4 @@
-class OgpController < ApplicationController
+class OgpController < ActionController::Base 
   def tea_art
     @tea_art = TeaArt.includes(:user).find_by(id: params[:id])
     return render plain: "Not found", status: 404 unless @tea_art

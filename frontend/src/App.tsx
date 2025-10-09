@@ -21,7 +21,7 @@ function App() {
     <AuthProvider>
       <div className="flex min-h-screen flex-col">
         <Header />
-        <div className="flex-grow flex items-center justify-center">
+        <div className="flex flex-1 flex-col">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
@@ -32,7 +32,10 @@ function App() {
             <Route path="/tea-arts/:id" element={<TeaArtDetailPage />} />
             <Route path="/tea-arts/create" element={<TeaArtCreatePage />} />
             <Route path="/tea-arts/:id/edit" element={<TeaArtEditPage />} />
-            <Route path="/tea-arts/tag/:tagName" element={<TeaArtsByTagPage />} />
+            <Route
+              path="/tea-arts/tag/:tagName"
+              element={<TeaArtsByTagPage />}
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>

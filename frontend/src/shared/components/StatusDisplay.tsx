@@ -20,15 +20,19 @@ const StatusDisplay = ({ type, message }: StatusDisplayProps) => {
   // ローディング状態
   if (type === "loading") {
     return (
-      <span className="loading loading-ring text-neutral loading-xl"></span>
+      <div className="flex h-full min-h-0 flex-1 flex-col items-center justify-center">
+        <span className="loading loading-ring text-neutral loading-xl"></span>
+      </div>
     );
   }
 
   // エラー状態
   if (type === "error") {
     return (
-      <div className="alert alert-error mx-auto max-w-md">
-        <span>{displayMessage}</span>
+      <div className="flex h-full min-h-0 flex-1 flex-col items-center justify-center">
+        <div className="alert alert-error mx-auto max-w-md">
+          <span>{displayMessage}</span>
+        </div>
       </div>
     );
   }
@@ -36,8 +40,10 @@ const StatusDisplay = ({ type, message }: StatusDisplayProps) => {
   // 空データ状態
   if (type === "empty") {
     return (
-      <div className="alert alert-info mx-auto max-w-md">
-        <span>{displayMessage}</span>
+      <div className="flex h-full min-h-0 flex-1 flex-col items-center justify-center">
+        <div className="alert alert-info mx-auto max-w-md">
+          <span>{displayMessage}</span>
+        </div>
       </div>
     );
   }
