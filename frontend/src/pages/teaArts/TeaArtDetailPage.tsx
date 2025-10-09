@@ -6,6 +6,7 @@ import type { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
 import { FaPenFancy } from "react-icons/fa";
 import { DeleteButton } from "./components/DeleteButton";
+import TwitterButton from "./components/TwitterButton";
 import TagButtonList from "./components/TagButtonList";
 import SeasonText from "./components/SeasonText";
 import StatusDisplay from "../../shared/components/StatusDisplay";
@@ -109,9 +110,22 @@ const TeaArtDetailPage = () => {
               {/* タグ */}
               <TagButtonList teaArt={teaArt} className={`mt-5 space-x-4`} />
 
-              {/* 自作メニューのみ表示の編集・削除ボタン */}
+              {/* 自作メニューのみ表示のボタン3つ */}
               {teaArt.is_owner && (
-                <div className="mt-5 w-full space-x-3 text-right">
+                <div className="mt-5 w-full space-x-2 text-right">
+                  {/* 注文時用バージョン
+                  <TwitterButton
+                    teaArtId={teaArt.id}
+                    teaArtTitle={teaArt.title}
+                    teaArtUserName={teaArt.user.name}
+                    textVariant="order" 
+                    className={`btn-accent gap-0.5 px-5`}
+                  /> */}
+                  <TwitterButton
+                    teaArtId={teaArt.id}
+                    teaArtTitle={teaArt.title}
+                    className={`btn-accent gap-0.5 px-5`}
+                  />
                   <Link
                     to={`/tea-arts/${teaArt.id}/edit`}
                     className="btn btn-neutral px-5 font-normal"
@@ -141,9 +155,9 @@ const TeaArtDetailPage = () => {
                 <div>
                   いらっしゃ〜い。このティーを注文する？
                   <br />
-                  Xへの投稿やコメントも受け付けてるよ！
+                  Xへの投稿や感想コメントも受け付けてるよ！
                 </div>
-                <Link to="#" className="btn btn-accent mt-5 px-6">
+                <Link to="#" className="btn btn-success mt-5 px-6">
                   注文する！
                 </Link>
               </div>

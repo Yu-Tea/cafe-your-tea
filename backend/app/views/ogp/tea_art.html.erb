@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- 基本メタタグ -->
+  <title><%= @tea_art.title %></title>
+  <meta name="description" content="<%= "「#{@tea_art.title}」の詳細ページです。" %>">
+  
+  <!-- OGPメタタグ -->
+  <meta property="og:site_name" content="Cafe Your Tea" />
+  <meta property="og:title" content="<%= @tea_art.title %>" />
+  <meta property="og:description" content="<%= "「#{@tea_art.title}」の詳細ページです。" %>" />
+  <meta property="og:image" content="<%= @tea_art.ogp_image_url %>" />
+  <meta property="og:url" content="<%= request.original_url %>" />
+  <meta property="og:type" content="article" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Cafe Your Tea" />
+  <meta name="twitter:description" content="<%= "「#{@tea_art.title}」の詳細ページです。" %>" />
+  <meta name="twitter:image" content="<%= @tea_art.ogp_image_url %>" />
+  
+  <!-- 人間ユーザー用のリダイレクト（念のため） -->
+  <script>
+    // 万が一人間がアクセスした場合のフォールバック
+    setTimeout(() => {
+      window.location.href = '<%= ENV['FRONTEND_URL'] %>/tea-arts/<%= @tea_art.id %>';
+    }, 3000);
+  </script>
+</head>
+<body style="text-align: center; padding: 50px; background-color: #f5f5f5;">
+  <div style="max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <p style="color: #95a5a6; font-size: 14px;">
+      ページを読み込み中です...<br>
+      自動で移動しない場合は<a href="<%= ENV['FRONTEND_URL'] %>/tea-arts/<%= @tea_art.id %>" style="color: #3498db;">こちらをクリック</a>
+    </p>
+  </div>
+</body>
+</html>

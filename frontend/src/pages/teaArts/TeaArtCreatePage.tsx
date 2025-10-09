@@ -9,7 +9,6 @@ import { TeaArtFormData } from "../../types/teaArt";
 import { SEASONS, TEMPERATURES } from "../../types/teaArt";
 import TagCheckboxList from "./components/TagCheckboxList";
 import TeaArtDraw, { TeaArtDrawRef } from "./components/TeaArtDraw";
-import StatusDisplay from "../../shared/components/StatusDisplay";
 
 const TeaArtCreatePage = () => {
   const navigate = useNavigate();
@@ -80,10 +79,6 @@ const TeaArtCreatePage = () => {
         },
       };
 
-      //  送信前にデータを確認！
-      // console.log('=== 送信データの確認 ===');
-      // console.log('全体データ:', requestData);
-
       await createTeaArt(requestData);
       navigate("/tea-arts"); // Menu一覧ページにリダイレクト
     } catch (error) {
@@ -96,7 +91,14 @@ const TeaArtCreatePage = () => {
 
   // ローディング状態
   if (isLoading) {
-    return <StatusDisplay type="loading" />;
+    return (
+      <div className="flex flex-col items-center">
+        <div className="font-bold">
+          ティーをメニューに登録中だよ。しばらく待っててね！
+        </div>
+        <span className="loading loading-ring text-neutral loading-xl mt-10"></span>
+      </div>
+    );
   }
 
   return (
