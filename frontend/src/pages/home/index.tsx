@@ -1,6 +1,6 @@
 export default function HomePage() {
   return (
-    <div className="w-full">
+    <>
       <section className="relative m-0 h-96 w-full px-15 pt-10 sm:overflow-hidden">
         {/* 背景画像用の疑似要素的div */}
         <div
@@ -53,6 +53,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
