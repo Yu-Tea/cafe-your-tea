@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  # ヘルスチェック用ルート
-  get '/health', to: 'application#health'
+  get 'up' => 'rails/health#show', as: :rails_health_check
+  root to: 'health_check#index'
+  
   # OGP用ルート
   get '/ogp/tea_arts/:id', to: 'ogp#tea_art', as: :ogp_tea_art
 

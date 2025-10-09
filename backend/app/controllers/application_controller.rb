@@ -2,18 +2,6 @@ class ApplicationController < ActionController::API
   include ActionController::Cookies
   include Rails.application.routes.url_helpers
 
-  # 後で消す
-  def health
-    render json: {
-      status: 'ok',
-      message: 'Cafe Your Tea API is running!',
-      timestamp: Time.current.iso8601,
-      version: '1.0.0',
-      environment: Rails.env,
-      database: database_status
-    }
-  end
-
   before_action :set_current_user
 
   # APIエラーハンドリング
@@ -72,23 +60,6 @@ class ApplicationController < ActionController::API
   end
 
   private
-
-  # def extract_domain_from_url(url)
-  #   return nil unless url
-
-  #   # "https://cafe-yt-front.vercel.app" から "cafe-yt-front.vercel.app" を抽出
-  #   URI.parse(url).host
-  # rescue URI::InvalidURIError
-  #   nil
-  # end
-
-  # health用なので後で消す
-  def database_status
-    ActiveRecord::Base.connection.execute('SELECT 1')
-    'connected'
-  rescue StandardError
-    'disconnected'
-  end
 
   # エラーハンドリングメソッド
   def handle_not_found(exception)

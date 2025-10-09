@@ -21,7 +21,7 @@ function App() {
     <AuthProvider>
       <div className="flex min-h-screen flex-col">
         <Header />
-        <div className="flex-grow">
+        <div className="flex-grow flex items-center justify-center">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
