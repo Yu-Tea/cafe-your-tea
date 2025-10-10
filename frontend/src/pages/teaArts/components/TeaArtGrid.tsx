@@ -49,7 +49,6 @@ const TeaArtGrid: React.FC<TeaArtGridProps> = ({
   };
 
   return (
-    // <div className="grid gap-4 grid-cols-1 py-8 text-center sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       <div className={getResponsiveGridClass(teaArts.length)}>
       {filteredTeaArts.map((teaArt) => (
         <TeaArtCard key={teaArt.id} teaArt={teaArt} />

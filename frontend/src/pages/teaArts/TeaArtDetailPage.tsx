@@ -10,6 +10,7 @@ import TwitterButton from "./components/TwitterButton";
 import TagButtonList from "./components/TagButtonList";
 import SeasonText from "./components/SeasonText";
 import StatusDisplay from "../../shared/components/StatusDisplay";
+import Order from "./components/Order";
 
 const TeaArtDetailPage = () => {
   const [teaArt, setTeaArt] = useState<TeaArt | null>(null);
@@ -71,7 +72,7 @@ const TeaArtDetailPage = () => {
                 className="h-full w-full object-cover"
               />
             </div>
-            
+
             {/* ティー説明 */}
             <div className="w-full text-left">
               <div className="mb-3 flex items-center space-x-1">
@@ -113,14 +114,6 @@ const TeaArtDetailPage = () => {
               {/* 自作メニューのみ表示のボタン3つ */}
               {teaArt.is_owner && (
                 <div className="mt-5 w-full space-x-2 text-right">
-                  {/* 注文時用バージョン
-                  <TwitterButton
-                    teaArtId={teaArt.id}
-                    teaArtTitle={teaArt.title}
-                    teaArtUserName={teaArt.user.name}
-                    textVariant="order" 
-                    className={`btn-accent gap-0.5 px-5`}
-                  /> */}
                   <TwitterButton
                     teaArtId={teaArt.id}
                     teaArtTitle={teaArt.title}
@@ -147,35 +140,45 @@ const TeaArtDetailPage = () => {
       </div>
 
       {/* 注文 */}
-      <div className="my-10 flex h-[400px] w-full items-end justify-center bg-[url(../images/order_bg.png)] bg-contain bg-center bg-repeat-x">
-        <div className="w-full max-w-3xl">
-          <div className="flex h-80 flex-col gap-6 px-3 sm:flex-row">
-            <div className="flex-1">
-              <div className="bg-base-100 border-neutral/80 rounded-xl border-2 px-4 py-6 text-center">
-                <div>
-                  いらっしゃ〜い。このティーを注文する？
-                  <br />
-                  Xへの投稿や感想コメントも受け付けてるよ！
+      <Order teaArt={teaArt} />
+
+      {/* コメント欄 */}
+
+      <div className="container mx-auto">
+        <div className="flex flex-col items-center justify-center gap-y-6 px-5">
+          <Title title="Comments" subtitle="ティーを飲んだ方のご感想" />
+          <div className="sm:border-secondary/20 w-full max-w-3xl space-y-3 rounded-xl py-4 sm:border-1 sm:px-8">
+            <div className="chat chat-start">
+              <div className="chat-image avatar">
+                <div className="w-10">
+                  <img alt="アバター画像" src="../images/avatar_user1.png" />
                 </div>
-                <Link to="#" className="btn btn-success mt-5 px-6">
-                  注文する！
-                </Link>
+              </div>
+              <div className="chat-header text-secondary">てすと名前さん</div>
+              <div className="chat-bubble max-w-full px-5 py-4 text-sm">
+                あいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこ
               </div>
             </div>
-            <img
-              src="../images/kero_img_01.png"
-              alt="ケロチャ"
-              className="relative w-[300px] self-end object-contain"
-            />
+            <div className="chat chat-start">
+              <div className="chat-image avatar">
+                <div className="w-10">
+                  <img
+                    alt="Tailwind CSS chat bubble component"
+                    src="../images/avatar_user2.png"
+                  />
+                </div>
+              </div>
+              <div className="chat-header text-secondary">てすと名前さん</div>
+              <div className="chat-bubble max-w-full px-5 py-4 text-sm">
+                おいしかったです！また飲みにきますね〜
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* コメント欄 */}
-      <div className="container mx-auto py-10 text-center">
-        <Title title="Comments" subtitle="ティーを飲んだ方のご感想" />
-      </div>
-      <div className="text-center">
+      {/* 戻るボタン */}
+      <div className="mt-15 mb-5 text-center">
         <Link to="/tea-arts" className="btn btn-outline btn-primary">
           ← メニューの一覧に戻る
         </Link>
