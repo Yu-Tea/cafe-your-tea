@@ -47,10 +47,13 @@ export const TextAreaField = ({
         onChange={onChange}
         placeholder={placeholder}
         rows={rows}
-        className="textarea textarea-primary w-full"
+        className="textarea textarea-primary validator w-full"
         required={required}
         disabled={disabled}
       />
+      <p className="text-secondary text-sm text-left mt-1">
+        {value.length}/{maxLength}文字
+      </p>
       <p className="validator-hint">{maxLength}文字以内で入力してください。</p>
     </div>
   );
