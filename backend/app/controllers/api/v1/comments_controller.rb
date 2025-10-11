@@ -89,10 +89,10 @@ class Api::V1::CommentsController < ApplicationController
     {
       id: comment.id,
       body: comment.body,
-      is_guest: comment.is_guest,
       user_name: comment.is_guest ? "匿名" : comment.user&.name,
       avatar_preset: comment.is_guest ? nil : comment.user&.avatar_preset,
-      created_at: comment.created_at.strftime('%Y/%m/%d %H:%M')
+      created_at: comment.created_at.strftime('%Y/%m/%d %H:%M'),
+      is_owner: comment.user_id == current_user&.id
     }
   end
 

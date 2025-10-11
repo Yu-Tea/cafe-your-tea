@@ -5,7 +5,7 @@ import { getTeaArt } from "../../api/teaArtApi";
 import type { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
 import { FaPenFancy } from "react-icons/fa";
-import { DeleteButton } from "./components/DeleteButton";
+import { TeaDeleteButton } from "./components/TeaDeleteButton";
 import TwitterButton from "./components/TwitterButton";
 import TagButtonList from "./components/TagButtonList";
 import SeasonText from "./components/SeasonText";
@@ -19,6 +19,8 @@ const TeaArtDetailPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   const { id } = useParams<{ id: string }>();
+  const teaArtId = Number(id);
+  
 
   useEffect(() => {
     const fetchTeaArt = async () => {
@@ -107,7 +109,9 @@ const TeaArtDetailPage = () => {
                   ティー制作者：{teaArt.user.name}
                 </Link>
               </div>
-              <div className="mt-4">{teaArt.description}</div>
+              <div className="mt-4 whitespace-pre-wrap">
+                {teaArt.description}
+              </div>
 
               {/* タグ */}
               <TagButtonList teaArt={teaArt} className={`mt-5 space-x-4`} />
@@ -127,7 +131,7 @@ const TeaArtDetailPage = () => {
                     <FaPenFancy />
                     編集
                   </Link>
-                  <DeleteButton
+                  <TeaDeleteButton
                     teaArtId={teaArt.id}
                     teaArtTitle={teaArt.title}
                     className={`btn-neutral btn-outline px-5`}
@@ -144,7 +148,7 @@ const TeaArtDetailPage = () => {
       <Order teaArt={teaArt} />
 
       {/* コメント欄 */}
-      <Comments />
+      <Comments teaArtId={teaArtId} />
 
       {/* 戻るボタン */}
       <div className="mt-15 mb-5 text-center">

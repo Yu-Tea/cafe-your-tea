@@ -1,12 +1,11 @@
 export interface Comment {
   id: number;
   body: string;
-  is_guest: boolean;
+  is_guest?: boolean;
   user_name: string;
-  avatar_preset: string;
+  avatar_preset: number | null;
   created_at: string;
-  can_edit: boolean;
-  can_delete: boolean;
+  is_owner: boolean;
 }
 
 export interface CreateCommentRequest {
