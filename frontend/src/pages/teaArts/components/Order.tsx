@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { Comment } from "../../../types/comment";
 import OrderBubble from "./OrderBubble";
 import OrderTeaModal from "./OrderTeaModal";
 import CommentsForm from "./CommentsForm";
@@ -12,9 +13,10 @@ interface OrderProps {
       name: string;
     };
   };
+  onCommentCreated?: (comment: Comment) => void;
 }
 
-const Order = ({ teaArt }: OrderProps) => {
+const Order = ({ teaArt, onCommentCreated }: OrderProps) => {
   // 注文の進行状況を管理
   const [orderStep, setOrderStep] = useState<
     "initial" | "preparing" | "serving" | "completed" | "comment_send"
@@ -38,10 +40,11 @@ const Order = ({ teaArt }: OrderProps) => {
     setOrderStep("completed");
   };
 
-  // コメント作成後の処理（必要に応じて）
-  const handleCommentCreated = () => {
+  // コメント作成後の処理
+  const handleCommentCreated = (comment: Comment) => {
     setOrderStep("comment_send");
-    console.log('コメントが作成されました！');
+    onCommentCreated?.(comment); // 親に新規コメントを渡す
+    console.log("コメントが作成されました！");
   };
 
   return (
@@ -75,8 +78,8 @@ const Order = ({ teaArt }: OrderProps) => {
 
       {/* 注文完了時のみ表示 */}
       {orderStep === "completed" && teaArt && (
-        <CommentsForm 
-          teaArtId={teaArt.id} 
+        <CommentsForm
+          teaArtId={teaArt.id}
           onCommentCreated={handleCommentCreated}
         />
       )}

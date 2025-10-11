@@ -8,24 +8,28 @@ export interface Comment {
   is_owner: boolean;
 }
 
+export interface Pagination {
+  current_page: number;
+  total_pages: number;
+  total_count: number;
+  per_page: number;
+  next_page: number | null;
+  prev_page: number | null;
+  has_next_page: boolean;
+  has_prev_page: boolean;
+}
+
 export interface CreateCommentRequest {
   comment: {
     body: string;
   };
 }
 
-export interface CommentResponse {
-  comment: Comment;
+export interface CreateCommentResponse {
+  comment: Comment; // 作成されたコメント単体
 }
 
-export interface CommentsListResponse {
+export interface CommentsResponse {
   comments: Comment[];
-  pagination: {
-    current_page: number;
-    total_pages: number;
-    total_count: number;
-    per_page: number;
-    next_page: number | null;
-    prev_page: number | null;
-  };
+  pagination: Pagination;
 }

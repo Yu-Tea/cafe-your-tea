@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useAuth } from "../../../shared/contexts/AuthContext";
 import { IoIosSend } from "react-icons/io";
 import { createComment } from "../../../api/commentApi";
-import type { CreateCommentRequest } from "../../../types/comment";
+import type { CreateCommentRequest, Comment } from "../../../types/comment";
 
 interface CommentsFormProps {
   teaArtId: number;
-  onCommentCreated?: () => void; // コメント作成後のコールバック
+  onCommentCreated?: (newComment: Comment) => void; // コメント作成後のコールバック
 }
 
 const CommentsForm = ({ teaArtId, onCommentCreated }: CommentsFormProps) => {
@@ -17,7 +17,7 @@ const CommentsForm = ({ teaArtId, onCommentCreated }: CommentsFormProps) => {
 
   const maxLength = 150;
 
-  // プリセットコメント
+  // ゲスト用の定型文
   const presetComments = [
     "おいしかったです〜！",
     "すっきりした後味で飲みやすかったです。",
@@ -42,13 +42,15 @@ const CommentsForm = ({ teaArtId, onCommentCreated }: CommentsFormProps) => {
         },
       };
 
-      await createComment(teaArtId, commentData);
+      // createCommentのレスポンスから新しいコメントを取得
+      const response = await createComment(teaArtId, commentData);
+      const newComment = response.comment; // ← commentプロパティを取得
 
       // 成功時のリセット
       setComment("");
 
-      // 親コンポーネントに通知
-      onCommentCreated?.();
+      // 親コンポーネントに新しいコメントを渡す
+      onCommentCreated?.(newComment);
     } catch (err) {
       console.error("コメント送信エラー:", err);
       setError("コメントの送信に失敗しました。もう一度お試しください。");
@@ -105,7 +107,7 @@ const CommentsForm = ({ teaArtId, onCommentCreated }: CommentsFormProps) => {
                   </select>
                 </div>
                 {/* ゲスト用の説明文 */}
-                <p className="text-sm text-secondary">
+                <p className="text-secondary text-sm">
                   ※
                   ログインしていないゲストの方は定型文のみ送信できます。投稿者名は「匿名」と表示されます。
                 </p>

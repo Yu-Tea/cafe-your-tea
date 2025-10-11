@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getTeaArt } from "../../api/teaArtApi";
-
+import { Comment } from "../../types/comment";
 import type { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
 import { FaPenFancy } from "react-icons/fa";
@@ -17,10 +17,10 @@ const TeaArtDetailPage = () => {
   const [teaArt, setTeaArt] = useState<TeaArt | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [newComment, setNewComment] = useState<Comment | null>(null);
 
   const { id } = useParams<{ id: string }>();
   const teaArtId = Number(id);
-  
 
   useEffect(() => {
     const fetchTeaArt = async () => {
@@ -55,6 +55,16 @@ const TeaArtDetailPage = () => {
       </div>
     );
   }
+
+  // コメント作成時のコールバック
+  const handleCommentCreated = (comment: Comment) => {
+    setNewComment(comment);
+  };
+
+  // 新規コメントをCommentsで処理したらリセット
+  const handleNewCommentProcessed = () => {
+    setNewComment(null);
+  };
 
   return (
     <>
@@ -145,10 +155,14 @@ const TeaArtDetailPage = () => {
       </div>
 
       {/* 注文 */}
-      <Order teaArt={teaArt} />
+      <Order teaArt={teaArt} onCommentCreated={handleCommentCreated} />
 
       {/* コメント欄 */}
-      <Comments teaArtId={teaArtId} />
+      <Comments
+        teaArtId={teaArtId}
+        newComment={newComment}
+        onNewCommentProcessed={handleNewCommentProcessed}
+      />
 
       {/* 戻るボタン */}
       <div className="mt-15 mb-5 text-center">

@@ -103,7 +103,9 @@ class Api::V1::CommentsController < ApplicationController
       total_count: collection.total_count,
       per_page: collection.limit_value,
       next_page: collection.next_page,
-      prev_page: collection.prev_page
+      prev_page: collection.prev_page,
+      has_next_page: collection.next_page.present?,
+      has_prev_page: collection.prev_page.present?,
     }
   end
 end
