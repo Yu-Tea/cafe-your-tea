@@ -92,7 +92,8 @@ class Api::V1::CommentsController < ApplicationController
       user_name: comment.is_guest ? "匿名" : comment.user&.name,
       avatar_preset: comment.is_guest ? nil : comment.user&.avatar_preset,
       created_at: comment.created_at.strftime('%Y/%m/%d %H:%M'),
-      is_owner: comment.user_id == current_user&.id
+      # ログインユーザーかつ自分のコメントの場合のみtrue
+      is_owner: current_user.present? && !comment.is_guest && comment.user_id == current_user.id
     }
   end
 
