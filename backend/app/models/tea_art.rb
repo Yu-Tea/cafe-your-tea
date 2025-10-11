@@ -10,6 +10,7 @@ class TeaArt < ApplicationRecord
   validates :ogp_image_url, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]), allow_blank: true }
 
   has_many :tea_art_tags, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many :tags, through: :tea_art_tags
   belongs_to :user
 

@@ -3,7 +3,7 @@ import { FaArrowAltCircleDown } from "react-icons/fa";
 import TwitterButton from "./TwitterButton";
 
 interface OrderBubbleProps {
-  orderStep: "initial" | "preparing" | "serving" | "completed";
+  orderStep: "initial" | "preparing" | "serving" | "completed" | "comment_send";
   onOrder: () => void;
   teaArt?: {
     id: number;
@@ -75,6 +75,27 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
               <FaArrowAltCircleDown />
               <span>感想コメントは下記フォームから</span>
             </div>
+          </>
+        );
+
+      case "comment_send":
+        return (
+          <>
+            {/* X投稿＆感想コメント募集 */}
+            <div className="mb-4">
+              わ〜い感想ありがと〜！
+              <br />
+              Xへの投稿もよろしくね〜！
+            </div>
+            {teaArt && (
+              <TwitterButton
+                teaArtId={teaArt.id}
+                teaArtTitle={teaArt.title}
+                teaArtUserName={teaArt.user.name}
+                textVariant="order"
+                className={`btn-accent gap-0.5 px-5`}
+              />
+            )}
           </>
         );
 

@@ -3,7 +3,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { TeaArt } from "../../../types/teaArt";
 import { FaPenFancy } from "react-icons/fa";
-import { DeleteButton } from "./DeleteButton";
+import { TeaDeleteButton } from "./TeaDeleteButton";
 import TagButtonList from "./TagButtonList";
 import SeasonText from "./SeasonText";
 
@@ -61,7 +61,7 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
               <span className="josefin-sans pt-0.5 font-normal">Edit</span>
             </Link>
 
-            <DeleteButton
+            <TeaDeleteButton
               teaArtId={teaArt.id}
               teaArtTitle={teaArt.title}
               className="btn-xs btn-outline btn-accent"

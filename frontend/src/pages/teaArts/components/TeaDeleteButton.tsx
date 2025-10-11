@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteTeaArt } from "../../../api/teaArtApi";
 import { FaTrashAlt } from "react-icons/fa";
 
-interface DeleteButtonProps {
+interface TeaDeleteButtonProps {
   teaArtId: number;
   teaArtTitle: string;
   text?: string;
@@ -12,14 +12,14 @@ interface DeleteButtonProps {
   redirectAfterDelete?: boolean; // 削除後にリダイレクトするかどうか
 }
 
-export const DeleteButton = ({
+export const TeaDeleteButton = ({
   teaArtId,
   teaArtTitle,
   text = "削除",
   className = "",
   spanClassName = "",
   redirectAfterDelete = true, // デフォルトはリダイレクトあり
-}: DeleteButtonProps) => {
+}: TeaDeleteButtonProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
 

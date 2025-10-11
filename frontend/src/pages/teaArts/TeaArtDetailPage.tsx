@@ -1,23 +1,26 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getTeaArt } from "../../api/teaArtApi";
-
+import { Comment } from "../../types/comment";
 import type { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
 import { FaPenFancy } from "react-icons/fa";
-import { DeleteButton } from "./components/DeleteButton";
+import { TeaDeleteButton } from "./components/TeaDeleteButton";
 import TwitterButton from "./components/TwitterButton";
 import TagButtonList from "./components/TagButtonList";
 import SeasonText from "./components/SeasonText";
 import StatusDisplay from "../../shared/components/StatusDisplay";
 import Order from "./components/Order";
+import Comments from "./components/Comments";
 
 const TeaArtDetailPage = () => {
   const [teaArt, setTeaArt] = useState<TeaArt | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [newComment, setNewComment] = useState<Comment | null>(null);
 
   const { id } = useParams<{ id: string }>();
+  const teaArtId = Number(id);
 
   useEffect(() => {
     const fetchTeaArt = async () => {
@@ -52,6 +55,16 @@ const TeaArtDetailPage = () => {
       </div>
     );
   }
+
+  // コメント作成時のコールバック
+  const handleCommentCreated = (comment: Comment) => {
+    setNewComment(comment);
+  };
+
+  // 新規コメントをCommentsで処理したらリセット
+  const handleNewCommentProcessed = () => {
+    setNewComment(null);
+  };
 
   return (
     <>
@@ -106,7 +119,9 @@ const TeaArtDetailPage = () => {
                   ティー制作者：{teaArt.user.name}
                 </Link>
               </div>
-              <div className="mt-4">{teaArt.description}</div>
+              <div className="mt-4 whitespace-pre-wrap">
+                {teaArt.description}
+              </div>
 
               {/* タグ */}
               <TagButtonList teaArt={teaArt} className={`mt-5 space-x-4`} />
@@ -126,7 +141,7 @@ const TeaArtDetailPage = () => {
                     <FaPenFancy />
                     編集
                   </Link>
-                  <DeleteButton
+                  <TeaDeleteButton
                     teaArtId={teaArt.id}
                     teaArtTitle={teaArt.title}
                     className={`btn-neutral btn-outline px-5`}
@@ -140,42 +155,14 @@ const TeaArtDetailPage = () => {
       </div>
 
       {/* 注文 */}
-      <Order teaArt={teaArt} />
+      <Order teaArt={teaArt} onCommentCreated={handleCommentCreated} />
 
       {/* コメント欄 */}
-
-      <div className="container mx-auto">
-        <div className="flex flex-col items-center justify-center gap-y-6 px-5">
-          <Title title="Comments" subtitle="ティーを飲んだ方のご感想" />
-          <div className="sm:border-secondary/20 w-full max-w-3xl space-y-3 rounded-xl py-4 sm:border-1 sm:px-8">
-            <div className="chat chat-start">
-              <div className="chat-image avatar">
-                <div className="w-10">
-                  <img alt="アバター画像" src="../images/avatar_user1.png" />
-                </div>
-              </div>
-              <div className="chat-header text-secondary">てすと名前さん</div>
-              <div className="chat-bubble max-w-full px-5 py-4 text-sm">
-                あいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこあいうえおかきくけこ
-              </div>
-            </div>
-            <div className="chat chat-start">
-              <div className="chat-image avatar">
-                <div className="w-10">
-                  <img
-                    alt="Tailwind CSS chat bubble component"
-                    src="../images/avatar_user2.png"
-                  />
-                </div>
-              </div>
-              <div className="chat-header text-secondary">てすと名前さん</div>
-              <div className="chat-bubble max-w-full px-5 py-4 text-sm">
-                おいしかったです！また飲みにきますね〜
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Comments
+        teaArtId={teaArtId}
+        newComment={newComment}
+        onNewCommentProcessed={handleNewCommentProcessed}
+      />
 
       {/* 戻るボタン */}
       <div className="mt-15 mb-5 text-center">
