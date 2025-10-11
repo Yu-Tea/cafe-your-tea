@@ -1,6 +1,4 @@
 import { useState } from "react";
-// import { Link } from "react-router-dom";
-// import { FaCommentDots } from "react-icons/fa6";
 import OrderBubble from "./OrderBubble";
 import OrderTeaModal from "./OrderTeaModal";
 import CommentsForm from "./CommentsForm";
@@ -19,7 +17,7 @@ interface OrderProps {
 const Order = ({ teaArt }: OrderProps) => {
   // 注文の進行状況を管理
   const [orderStep, setOrderStep] = useState<
-    "initial" | "preparing" | "serving" | "completed"
+    "initial" | "preparing" | "serving" | "completed" | "comment_send"
   >("initial");
   const [showTeaModal, setShowTeaModal] = useState(false);
 
@@ -27,7 +25,7 @@ const Order = ({ teaArt }: OrderProps) => {
   const handleOrder = () => {
     setOrderStep("preparing");
 
-    // 2秒後にティー提供モーダル表示
+    // 1秒後にティー提供モーダル表示
     setTimeout(() => {
       setOrderStep("serving");
       setShowTeaModal(true);
@@ -38,6 +36,12 @@ const Order = ({ teaArt }: OrderProps) => {
   const handleDrinkTea = () => {
     setShowTeaModal(false);
     setOrderStep("completed");
+  };
+
+  // コメント作成後の処理（必要に応じて）
+  const handleCommentCreated = () => {
+    setOrderStep("comment_send");
+    console.log('コメントが作成されました！');
   };
 
   return (
@@ -70,7 +74,12 @@ const Order = ({ teaArt }: OrderProps) => {
       </div>
 
       {/* 注文完了時のみ表示 */}
-      {orderStep === "completed" && <CommentsForm />}
+      {orderStep === "completed" && teaArt && (
+        <CommentsForm 
+          teaArtId={teaArt.id} 
+          onCommentCreated={handleCommentCreated}
+        />
+      )}
     </div>
   );
 };

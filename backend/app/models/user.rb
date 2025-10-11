@@ -14,8 +14,8 @@ class User < ApplicationRecord
   # デフォルト値の設定（DBレベルで設定済みだが念のため）
   before_validation :set_defaults, on: :create
 
-  # tea_artsテーブルとリレーション
   has_many :tea_arts, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   private
 

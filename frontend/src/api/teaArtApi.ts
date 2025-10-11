@@ -49,17 +49,10 @@ export const deleteTeaArt = async (
   return response.data;
 };
 
-// タグ検索専用（高速・シンプル）
+// タグ検索専用
 export const searchByTag = async (tagName: string, page = 1) => {
   const response = await apiClient.get(
     `/tea_arts/search_by_tag?tag_name=${encodeURIComponent(tagName)}&page=${page}`
   );
   return response.data;
 };
-
-// 総合検索用（将来の機能拡張）
-// export const comprehensiveSearch = async (searchParams: SearchParams, page = 1) => {
-//   const params = new URLSearchParams({ ...searchParams, page: page.toString() });
-//   const response = await fetch(`/api/v1/tea_arts/search?${params}`);
-//   return response.data;
-// };

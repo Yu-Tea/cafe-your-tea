@@ -1,40 +1,80 @@
 import { useState } from "react";
+import { useAuth } from "../../../shared/contexts/AuthContext";
 import { IoIosSend } from "react-icons/io";
+import { createComment } from "../../../api/commentApi";
+import type { CreateCommentRequest } from "../../../types/comment";
 
-const CommentsForm = () => {
+interface CommentsFormProps {
+  teaArtId: number;
+  onCommentCreated?: () => void; // コメント作成後のコールバック
+}
+
+const CommentsForm = ({ teaArtId, onCommentCreated }: CommentsFormProps) => {
+  const { isLoggedIn } = useAuth();
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const maxLength = 150;
+
+  // プリセットコメント
+  const presetComments = [
+    "おいしかったです〜！",
+    "すっきりした後味で飲みやすかったです。",
+    "深い味わいで心が落ち着きました。",
+    "ティーアートが素敵ですね！",
+    "見た目も味も楽しめました〜。",
+    "ほっとする時間を過ごせました。",
+    "心まであたたまりました！",
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (comment.trim() && !isSubmitting) {
-      setIsSubmitting(true);
+    if (!comment.trim() || isSubmitting) return;
 
-      try {
-        // 後で追加
+    setIsSubmitting(true);
+    setError(null);
 
-        // 成功時の処理
-        alert("感想をありがとうございます！ケロ〜");
-        setComment("");
-      } catch (error) {
-        console.error("コメント送信エラー:", error);
-        alert("送信に失敗しました。もう一度お試しください。");
-      } finally {
-        setIsSubmitting(false);
-      }
+    try {
+      const commentData: CreateCommentRequest = {
+        comment: {
+          body: comment.trim(),
+        },
+      };
+
+      await createComment(teaArtId, commentData);
+
+      // 成功時のリセット
+      setComment("");
+
+      // 親コンポーネントに通知
+      onCommentCreated?.();
+    } catch (err) {
+      console.error("コメント送信エラー:", err);
+      setError("コメントの送信に失敗しました。もう一度お試しください。");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     if (value.length <= maxLength) {
       setComment(value);
+      setError(null);
+    }
+  };
+
+  const handlePresetSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedComment = e.target.value;
+    if (selectedComment !== "このティーを飲んだ感想を送ってね！") {
+      setComment(selectedComment);
+      setError(null);
     }
   };
 
   return (
-    <div className="flex items-center justify-center px-10 mt-5">
+    <div className="mt-5 flex items-center justify-center px-10">
       <div className="w-full max-w-3xl">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -44,20 +84,62 @@ const CommentsForm = () => {
             >
               Comments
             </label>
-            <textarea
-              id="comment-id"
-              value={comment}
-              onChange={handleChange}
-              placeholder="このティーを飲んだ感想を送ってね！"
-              maxLength={maxLength}
-              className="textarea textarea-primary w-full"
-              rows={4}
-              disabled={isSubmitting}
-            />
-            <div className="mt-2 flex justify-between">
-              <p className="text-secondary text-sm">
-                {comment.length}/{maxLength}文字
-              </p>
+
+            {/* コメント入力フィールド */}
+            {!isLoggedIn ? (
+              // ゲスト用：定型文のみ
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2">
+                  <select
+                    value={comment || "このティーを飲んだ感想を送ってね！"}
+                    onChange={handlePresetSelect}
+                    className="select select-bordered flex-1"
+                    disabled={isSubmitting}
+                  >
+                    <option disabled>このティーを飲んだ感想を送ってね！</option>
+                    {presetComments.map((preset, index) => (
+                      <option key={index} value={preset}>
+                        {preset}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* ゲスト用の説明文 */}
+                <p className="text-sm text-secondary">
+                  ※
+                  ログインしていないゲストの方は定型文のみ送信できます。投稿者名は「匿名」と表示されます。
+                </p>
+              </div>
+            ) : (
+              // ログインユーザー用：自由入力
+              <>
+                <textarea
+                  id="comment-id"
+                  value={comment}
+                  onChange={handleCommentChange}
+                  placeholder="このティーを飲んだ感想を送ってね！"
+                  maxLength={maxLength}
+                  className="textarea textarea-primary w-full"
+                  rows={4}
+                  disabled={isSubmitting}
+                />
+                <div className="mt-2 flex justify-between">
+                  <p className="text-secondary text-sm">
+                    {comment.length}/{maxLength}文字
+                  </p>
+                </div>
+              </>
+            )}
+
+            {/* エラーメッセージ */}
+            {error && (
+              <div className="alert alert-error mt-2">
+                <span>{error}</span>
+              </div>
+            )}
+
+            {/* 送信ボタン */}
+            <div className="mt-3 flex justify-end">
               <button
                 type="submit"
                 disabled={!comment.trim() || isSubmitting}

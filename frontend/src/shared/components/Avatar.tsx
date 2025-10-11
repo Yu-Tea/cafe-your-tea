@@ -1,21 +1,23 @@
-import { User } from "../../types/user";
-
 interface AvatarProps {
-  user: User | null; // 既存のUser型を使用
+  user?: {
+    name: string;
+    avatar_preset: number;
+  } | null;
+  avatarPreset?: number | null;
   className?: string;
 }
 
 export const Avatar = ({
   user,
-
+  avatarPreset,
   className = "",
 }: AvatarProps) => {
-  // アバター画像のパスを生成
-  const avatarSrc = user?.avatar_preset
-    ? `/images/avatar_user${user.avatar_preset}.png`
+  // 優先順位：user > 個別プロパティ
+  const presetNumber = user?.avatar_preset ?? avatarPreset;
+
+  const avatarSrc = presetNumber
+    ? `/images/avatar_user${presetNumber}.png`
     : "/images/avatar_guest.png";
 
-  const altText = user?.name ? `${user.name}のアバター` : "ゲストアバター";
-
-  return <img src={avatarSrc} alt={altText} className={`${className}`} />;
+  return <img src={avatarSrc} className={className} />;
 };
