@@ -3,6 +3,7 @@ import { useAuth } from "../../../shared/contexts/AuthContext";
 import { IoIosSend } from "react-icons/io";
 import { createComment } from "../../../api/commentApi";
 import type { CreateCommentRequest, Comment } from "../../../types/comment";
+import { TextAreaField } from "../../../shared/components/TextAreaField";
 
 interface CommentsFormProps {
   teaArtId: number;
@@ -80,56 +81,55 @@ const CommentsForm = ({ teaArtId, onCommentCreated }: CommentsFormProps) => {
       <div className="w-full max-w-3xl">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label
-              htmlFor="comment-id"
-              className="label josefin-sans text-secondary text-2xl font-light"
-            >
-              Comments
-            </label>
-
             {/* コメント入力フィールド */}
             {!isLoggedIn ? (
               // ゲスト用：定型文のみ
-              <div className="space-y-3">
-                <div className="flex items-center space-x-2">
-                  <select
-                    value={comment || "このティーを飲んだ感想を送ってね！"}
-                    onChange={handlePresetSelect}
-                    className="select select-bordered flex-1"
-                    disabled={isSubmitting}
-                  >
-                    <option disabled>このティーを飲んだ感想を送ってね！</option>
-                    {presetComments.map((preset, index) => (
-                      <option key={index} value={preset}>
-                        {preset}
+              <>
+                <label
+                  htmlFor="comment-id"
+                  className="label josefin-sans text-secondary text-2xl font-light"
+                >
+                  Comment
+                </label>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-2">
+                    <select
+                      id="comment-id"
+                      value={comment || "このティーを飲んだ感想を送ってね！"}
+                      onChange={handlePresetSelect}
+                      className="select select-bordered flex-1"
+                      disabled={isSubmitting}
+                    >
+                      <option disabled>
+                        このティーを飲んだ感想を送ってね！
                       </option>
-                    ))}
-                  </select>
+                      {presetComments.map((preset, index) => (
+                        <option key={index} value={preset}>
+                          {preset}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {/* ゲスト用の説明文 */}
+                  <p className="text-secondary text-sm">
+                    ※
+                    ログインしていないゲストの方は定型文のみ送信できます。投稿者名は「匿名」と表示されます。
+                  </p>
                 </div>
-                {/* ゲスト用の説明文 */}
-                <p className="text-secondary text-sm">
-                  ※
-                  ログインしていないゲストの方は定型文のみ送信できます。投稿者名は「匿名」と表示されます。
-                </p>
-              </div>
+              </>
             ) : (
               // ログインユーザー用：自由入力
               <>
-                <textarea
-                  id="comment-id"
+                <TextAreaField
+                  label="Comment"
+                  name="body"
                   value={comment}
+                  maxLength={maxLength}
                   onChange={handleCommentChange}
                   placeholder="このティーを飲んだ感想を送ってね！"
-                  maxLength={maxLength}
-                  className="textarea textarea-primary w-full"
                   rows={4}
                   disabled={isSubmitting}
                 />
-                <div className="mt-2 flex justify-between">
-                  <p className="text-secondary text-sm">
-                    {comment.length}/{maxLength}文字
-                  </p>
-                </div>
               </>
             )}
 

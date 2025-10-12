@@ -3,6 +3,7 @@ import type {
   CreateCommentRequest,
   CreateCommentResponse,
   CommentsResponse,
+  UpdateCommentResponse,
 } from "../types/comment";
 
 // コメント一覧取得
@@ -33,7 +34,7 @@ export const createComment = async (
 export const updateComment = async (
   id: number,
   data: CreateCommentRequest
-): Promise<CreateCommentResponse> => {
+): Promise<UpdateCommentResponse> => {
   const response = await apiClient.patch(`/comments/${id}`, data);
   return response.data;
 };
