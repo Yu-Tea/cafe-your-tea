@@ -33,3 +33,8 @@ export interface CommentsResponse {
   comments: Comment[];
   pagination: Pagination;
 }
+
+export interface UpdateCommentResponse {
+  comment: Comment;
+  message?: string;
+}
