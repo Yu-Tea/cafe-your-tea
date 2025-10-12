@@ -17,6 +17,7 @@ import {
 
 const TeaArtEditPage = () => {
   const { id } = useParams<{ id: string }>();
+  const [imageUrl, setImageUrl] = useState<string>("");
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<TeaArtFormData>({
@@ -42,6 +43,8 @@ const TeaArtEditPage = () => {
         setIsDataLoading(true);
         const response = await getTeaArt(Number(id)); // idを数値に変換
         const teaArt = response.tea_art;
+
+        setImageUrl(teaArt.image_url || "");
 
         // 取得したデータでformDataを初期化
         setFormData({
@@ -125,23 +128,42 @@ const TeaArtEditPage = () => {
     );
   }
 
+  // ローディング状態
+  if (isLoading) {
+    return (
+      <div className="flex h-full min-h-0 flex-1 flex-col items-center justify-center">
+        <span className="font-bold">
+          更新中だよ。しばらく待っててね！
+        </span>
+        <span className="loading loading-ring text-neutral loading-xl mt-10"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto py-10 text-center">
       <div className="flex flex-col items-center justify-center px-10">
-        <div className="mb-10 flex w-full max-w-2xl flex-col items-center gap-y-6">
+        <div className="mb-10 flex w-full max-w-[600px] flex-col items-center gap-y-6">
           <Title title="Tea Art Edit" subtitle="ティーアートの編集" />
           <div className="text-left">
-            説明文のテキストです。説明文のテキストです。説明文のテキストです。説明文のテキストです。説明文のテキストです。説明文のテキストです。説明文のテキストです。
+            ティーの情報の編集が行えます。（※画像は修正できません。）
+          </div>
+          {/* 画像 */}
+          <div className="border-secondary/20 relative aspect-[3/2] w-full  overflow-hidden rounded-xl border-1">
+            <img
+              src={imageUrl}
+              className="absolute h-full w-full object-cover"
+            />
+            <img
+              src="../../images/bg_table_big.png"
+              alt="テーブル"
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
       </div>
 
-      {/* イラスト描画枠 */}
-      <div className="flex items-center justify-center gap-4">
-        <div className="size-[400px] bg-gray-400 text-white">
-          作成済みTeaArt画像の表示（後で実装）
-        </div>
-      </div>
+      
 
       {/* フォーム */}
       <div className="mt-10 px-10">
