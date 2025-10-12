@@ -113,7 +113,7 @@ const TeaArtEditPage = () => {
     }
   };
 
-  // ✅ データ取得中の表示
+  // データ取得中の表示
   if (isDataLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -152,7 +152,7 @@ const TeaArtEditPage = () => {
           >
             {/* タイトル */}
             <InputField
-            label="Title"
+              label="Title"
               type="text"
               name="title"
               value={formData.title}
@@ -172,7 +172,6 @@ const TeaArtEditPage = () => {
               rows={5}
               required
               disabled={isLoading}
-              note="※500文字以内"
             />
 
             {/* タグ選択 */}
