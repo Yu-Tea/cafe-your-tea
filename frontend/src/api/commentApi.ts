@@ -42,7 +42,7 @@ export const updateComment = async (
 // コメント削除
 export const deleteComment = async (
   id: number
-): Promise<{ message: string }> => {
+): Promise<{ message: string; comment_id: number }> => {
   const response = await apiClient.delete(`/comments/${id}`);
   return response.data;
 };

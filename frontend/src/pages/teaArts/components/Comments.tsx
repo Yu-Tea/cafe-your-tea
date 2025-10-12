@@ -2,7 +2,11 @@ import { useEffect, useState, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Title } from "../../../shared/components/Title";
 import { Avatar } from "../../../shared/components/Avatar";
-import { getComments, updateComment } from "../../../api/commentApi";
+import {
+  getComments,
+  updateComment,
+  deleteComment,
+} from "../../../api/commentApi";
 import { Comment } from "../../../types/comment";
 import { FaPenFancy, FaTrash } from "react-icons/fa";
 import StatusDisplay from "../../../shared/components/StatusDisplay";
@@ -25,11 +29,17 @@ const Comments = ({
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
-  // 編集状態の管理用
+  // 編集機能の状態
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editingText, setEditingText] = useState<string>("");
   const [updating, setUpdating] = useState(false);
   const [editError, setEditError] = useState<string | null>(null);
+
+  // 削除機能の状態
+  const [deletingCommentId, setDeletingCommentId] = useState<number | null>(
+    null
+  );
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   // 新しいコメントが追加された時の処理
   useEffect(() => {
@@ -128,6 +138,31 @@ const Comments = ({
     }
   };
 
+  // 削除処理
+  const handleDelete = async (comment: Comment) => {
+    // 削除確認
+    const isConfirmed = window.confirm(
+      `「${comment.body.length > 20 ? comment.body.substring(0, 20) + "..." : comment.body}」\nこのコメントを削除してもよろしいですか？`
+    );
+
+    if (!isConfirmed) return;
+
+    setDeletingCommentId(comment.id);
+    setDeleteError(null);
+
+    try {
+      await deleteComment(comment.id);
+
+      // コメント一覧から削除
+      setComments((prev) => prev.filter((c) => c.id !== comment.id));
+    } catch (err) {
+      console.error("コメント削除エラー:", err);
+      setDeleteError("コメントの削除に失敗しました。もう一度お試しください。");
+    } finally {
+      setDeletingCommentId(null);
+    }
+  };
+
   if (loading) {
     return <StatusDisplay type="loading" />;
   }
@@ -204,12 +239,14 @@ const Comments = ({
                                 <>
                                   <button
                                     onClick={() => handleEditStart(comment)}
+                                    disabled={deletingCommentId === comment.id}
                                     className="btn btn-link btn-xs text-accent hover:text-neutral px-0.5"
                                     title="編集"
                                   >
                                     <FaPenFancy size={15} />
                                   </button>
                                   <button
+                                    onClick={() => handleDelete(comment)}
                                     className="btn btn-link btn-xs text-secondary hover:text-neutral px-0.5"
                                     title="削除"
                                   >
@@ -272,6 +309,20 @@ const Comments = ({
                             {editError && (
                               <div className="alert alert-error py-2 text-xs">
                                 <span>{editError}</span>
+                              </div>
+                            )}
+                            {/* 🔥 削除エラーメッセージの表示 */}
+                            {deleteError && (
+                              <div className="mt-2 w-full max-w-md">
+                                <div className="alert alert-error py-2 text-xs">
+                                  <span>{deleteError}</span>
+                                  <button
+                                    onClick={() => setDeleteError(null)}
+                                    className="btn btn-xs btn-ghost"
+                                  >
+                                    ×
+                                  </button>
+                                </div>
                               </div>
                             )}
                           </div>
