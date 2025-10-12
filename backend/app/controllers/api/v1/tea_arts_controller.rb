@@ -86,10 +86,8 @@ class Api::V1::TeaArtsController < ApplicationController
           generate_ogp_image(@tea_art)
 
           # 古いOGP画像をCloudinaryから削除
-          if old_ogp_url.present?
-            delete_old_ogp_image(old_ogp_url)
-          end
-        rescue => e
+          delete_old_ogp_image(old_ogp_url) if old_ogp_url.present?
+        rescue StandardError
           # OGP処理エラーでもメイン処理は継続
         end
       end
@@ -171,53 +169,47 @@ class Api::V1::TeaArtsController < ApplicationController
   end
 
   def generate_ogp_image(tea_art)
-    begin
-    if tea_art.ogp_image_url.blank?
-      return
-    end
-    
+    return if tea_art.ogp_image_url.blank?
+
     # 既存のprocessメソッドと同じように引数を渡す
     processor = TeaArtImageProcessor.new(nil, tea_art.title) # base64は不要なのでnil
-    result = processor.process_ogp_update(tea_art)
-    
-    rescue => e
-      Rails.logger.error "OGP画像生成エラー: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
-    end
+    processor.process_ogp_update(tea_art)
+  rescue StandardError => e
+    Rails.logger.error "OGP画像生成エラー: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
   end
 
   # 🔥 コントローラー専用の削除処理
   def delete_old_ogp_image(url)
-  return unless url.present?
+    return unless url.present?
 
-  begin
-    # URLからpublic_idを抽出
-    public_id = extract_public_id_from_url(url)
+    begin
+      # URLからpublic_idを抽出
+      public_id = extract_public_id_from_url(url)
 
-    if public_id.present?
-      result = Cloudinary::Uploader.destroy(public_id)
-    else
-      Rails.logger.warn "public_idが抽出できませんでした"
+      if public_id.present?
+        Cloudinary::Uploader.destroy(public_id)
+      else
+        Rails.logger.warn 'public_idが抽出できませんでした'
+      end
     end
   end
 
   def extract_public_id_from_url(url)
-  return nil if url.blank?
+    return nil if url.blank?
 
-  patterns = [
-    %r{/upload/v\d+/(.+)\.[^.]+$},
-    %r{/upload/(.+)\.[^.]+$},
-    %r{/upload/[^/]+/v\d+/(.+)\.[^.]+$}
-  ]
+    patterns = [
+      %r{/upload/v\d+/(.+)\.[^.]+$},
+      %r{/upload/(.+)\.[^.]+$},
+      %r{/upload/[^/]+/v\d+/(.+)\.[^.]+$}
+    ]
 
-  patterns.each_with_index do |pattern, index|
-    match = url.match(pattern)
-    if match
-      return match[1]
+    patterns.each_with_index do |pattern, _index|
+      match = url.match(pattern)
+      return match[1] if match
     end
-  end
 
-  nil
+    nil
   end
 
   def tea_art_params
