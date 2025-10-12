@@ -96,8 +96,10 @@ const UserEditPage = () => {
           {/* プロフィール編集 */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-y-3">
             {/* 画像選択 */}
-            <div className="flex flex-col gap-y-3 mb-6">
-              <label className="text-left label josefin-sans text-secondary text-2xl font-light">Avatar Image</label>
+            <div className="mb-6 flex flex-col gap-y-3">
+              <label className="label josefin-sans text-secondary text-left text-2xl font-light">
+                Avatar Image
+              </label>
               <div className="flex items-center justify-center gap-x-8">
                 {[1, 2, 3, 4, 5].map((avatarNum) => (
                   <div
@@ -147,11 +149,10 @@ const UserEditPage = () => {
               placeholder="自己紹介文"
               required
               disabled={isLoading}
-              note="※200文字以内"
             />
 
             {/* ボタン群（更新・キャンセル） */}
-            <div className="flex justify-center gap-x-6">
+            <div className="mt-5 flex justify-center gap-x-6">
               <button
                 type="submit"
                 className="btn btn-primary px-8 text-base font-normal"
