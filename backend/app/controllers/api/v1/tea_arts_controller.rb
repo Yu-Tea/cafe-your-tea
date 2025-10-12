@@ -65,11 +65,33 @@ class Api::V1::TeaArtsController < ApplicationController
 
   # PATCH/PUT /api/v1/tea_arts/:id
   def update
+    # 更新前のタイトルとOGP画像のURLを取得
+    old_title = @tea_art.title
+    old_ogp_url = @tea_art.ogp_image_url
+
     if @tea_art.update(tea_art_params)
+      # タグの処理
       if tea_art_params[:tag_names].present?
         tag_names = tea_art_params[:tag_names]
         tags = tag_names.map { |name| Tag.find_or_create_by(name: name) }
         @tea_art.tags = tags
+      end
+
+      # タイトルが変更されたかチェック
+      title_changed = old_title != @tea_art.title
+
+      # タイトル変更時にOGP画像再生成
+      if title_changed
+        begin
+          generate_ogp_image(@tea_art)
+
+          # 古いOGP画像をCloudinaryから削除
+          if old_ogp_url.present?
+            delete_old_ogp_image(old_ogp_url)
+          end
+        rescue => e
+          # OGP処理エラーでもメイン処理は継続
+        end
       end
 
       render json: {
@@ -148,6 +170,56 @@ class Api::V1::TeaArtsController < ApplicationController
     }, status: :forbidden
   end
 
+  def generate_ogp_image(tea_art)
+    begin
+    if tea_art.ogp_image_url.blank?
+      return
+    end
+    
+    # 既存のprocessメソッドと同じように引数を渡す
+    processor = TeaArtImageProcessor.new(nil, tea_art.title) # base64は不要なのでnil
+    result = processor.process_ogp_update(tea_art)
+    
+    rescue => e
+      Rails.logger.error "OGP画像生成エラー: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+    end
+  end
+
+  # 🔥 コントローラー専用の削除処理
+  def delete_old_ogp_image(url)
+  return unless url.present?
+
+  begin
+    # URLからpublic_idを抽出
+    public_id = extract_public_id_from_url(url)
+
+    if public_id.present?
+      result = Cloudinary::Uploader.destroy(public_id)
+    else
+      Rails.logger.warn "public_idが抽出できませんでした"
+    end
+  end
+
+  def extract_public_id_from_url(url)
+  return nil if url.blank?
+
+  patterns = [
+    %r{/upload/v\d+/(.+)\.[^.]+$},
+    %r{/upload/(.+)\.[^.]+$},
+    %r{/upload/[^/]+/v\d+/(.+)\.[^.]+$}
+  ]
+
+  patterns.each_with_index do |pattern, index|
+    match = url.match(pattern)
+    if match
+      return match[1]
+    end
+  end
+
+  nil
+  end
+
   def tea_art_params
     params.require(:tea_art).permit(:title, :description, :image_url, :ogp_image_url, :season, :temperature,
                                     :image_data, tag_names: [])
@@ -179,7 +251,6 @@ class Api::V1::TeaArtsController < ApplicationController
       season: tea_art.season_display,
       temperature: tea_art.temperature, # 完全データでのみ取得
       image_url: tea_art.image_url,
-      ogp_image_url: tea_art.ogp_image_url, # 完全データでのみ取得
       tags: tea_art.tags.map { |tag| tag_json(tag) },
       tag_names: tea_art.tag_names,
       user: {

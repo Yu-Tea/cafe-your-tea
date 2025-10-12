@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
   root to: 'health_check#index'
-  
+
   # ティー詳細ページ動的OGP用
   get '/ogp/tea_arts/:id', to: 'ogp#tea_art', as: :ogp_tea_art
 
@@ -20,12 +20,12 @@ Rails.application.routes.draw do
         end
 
         # ネストしたコメントリソース（作成・一覧取得）
-        resources :comments, only: [:index, :create]
+        resources :comments, only: %i[index create]
       end
       resources :tags, only: [:index]
 
       # 個別コメント操作（編集・削除・詳細）
-      resources :comments, only: [:update, :destroy]
+      resources :comments, only: %i[update destroy]
 
       resource :user, only: [:update]
     end

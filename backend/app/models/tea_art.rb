@@ -73,12 +73,8 @@ class TeaArt < ApplicationRecord
       # URLからpublic_idを抽出
       public_id = extract_public_id_from_url(url)
 
-      if public_id.present?
-        # Cloudinaryから画像を削除
-        Cloudinary::Uploader.destroy(public_id)
-      end
-    rescue StandardError => e
-      Rails.logger.error "削除エラー: #{e.message}"
+      Cloudinary::Uploader.destroy(public_id) if public_id.present?
+    rescue StandardError
       # エラーが発生してもレコード削除は続行
     end
   end
