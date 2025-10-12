@@ -152,7 +152,6 @@ const TeaArtCreatePage = () => {
               rows={5}
               required
               disabled={isLoading}
-              note="※500文字以内"
             />
 
             {/* タグ選択 */}
