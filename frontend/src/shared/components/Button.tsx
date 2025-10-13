@@ -6,7 +6,7 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const buttonStyle = {
-  "header-btn": "bg-base-200 hover:bg-base-300 josefin-sans text-2xl px-3 pt-2 pb-1.5",
+  "header-btn": "bg-base-200 hover:bg-base-300 josefin-sans text-2xl px-2.5 py-2",
   "google-btn": "btn btn-block bg-base-100 hover:bg-base-300 josefin-sans text-xl pt-3 pb-2 border-1 border-neutral",
 } as const;
 

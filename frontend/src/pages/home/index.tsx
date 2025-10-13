@@ -20,7 +20,7 @@ export default function HomePage() {
               <div className="bg-base-100 mb-4 rounded-xl px-10 py-8">
                 いらっしゃいませ〜！Cafe Your Teaへようこそ！
                 <br />
-                ボク、はこのカフェの店員のケロチャだよ。
+                ボクは、このカフェの店員のケロチャだよ。
                 <br />
                 ここではお客様が提案してくれた素敵なティーを飲めるよ。
                 <br />

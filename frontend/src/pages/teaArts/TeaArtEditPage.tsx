@@ -44,6 +44,18 @@ const TeaArtEditPage = () => {
         const response = await getTeaArt(Number(id)); // idを数値に変換
         const teaArt = response.tea_art;
 
+        // 権限チェック - is_ownerがfalseの場合はアクセス拒否
+        if (!teaArt.is_owner) {
+          console.warn('他のユーザーのティー編集ページへのアクセスが試行されました');
+          navigate(`/tea-arts/${id}`, {
+            state: { 
+              message: "他のユーザーのティーは編集できません",
+              messageType: "error"
+            }
+          });
+          return;
+        }
+
         setImageUrl(teaArt.image_url || "");
 
         // 取得したデータでformDataを初期化
