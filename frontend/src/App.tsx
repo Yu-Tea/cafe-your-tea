@@ -5,6 +5,12 @@ import Footer from "./shared/components/Footer";
 import HomePage from "./pages/home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
+
+import About from "./pages/about/About";
+import Teams from "./pages/teams/Teams";
+import Privacy from "./pages/privacy/Privacy";
+import Contact from "./pages/contact/Contact";
+
 import UserPage from "./pages/userPages/UserPage";
 import UserEditPage from "./pages/userPages/UserEditPage";
 
@@ -26,6 +32,11 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/teams" element={<Teams />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/contact" element={<Contact />} />
+
             <Route path="/users/:id" element={<UserPage />} />
             <Route path="/users/:id/edit" element={<UserEditPage />} />
             <Route path="/tea-arts" element={<TeaArtsListPage />} />

@@ -1,5 +1,6 @@
 import { FaCoffee, FaFrog } from "react-icons/fa";
 import { BiSolidFoodMenu } from "react-icons/bi";
+import { IoMdMenu } from "react-icons/io";
 import {
   FaUserPlus,
   FaRightToBracket,
@@ -38,83 +39,64 @@ export default function Header() {
   };
 
   return (
-    <div className="drawer text-base-200 z-20">
+    <div className="drawer drawer-end text-base-200 z-20">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         {/* PC時のナビバー */}
         <div className="navbar bg-primary w-full px-0.5 py-4">
+          {/* ロゴ */}
+          <div className="mx-2 sm:mx-4 block flex-1">
+            <Link to="/">
+              <img
+                src="/logo.svg"
+                alt="Cafe Your Tea"
+                className="max-w-[250px] hover:opacity-90 sm:max-w-[340px]"
+              />
+            </Link>
+          </div>
+
           {/* ハンバーガーメニュー */}
-          <div className="flex-none lg:hidden">
+          <div className="flex-none lg:hidden mr-3">
             <label
               htmlFor="my-drawer-3"
               aria-label="open sidebar"
-              className="btn btn-square btn-ghost"
+              className="btn btn-square btn-outline"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="text-base-200 inline-block h-6 w-6 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                ></path>
-              </svg>
+              <IoMdMenu size={35} />
             </label>
           </div>
-          {/* ロゴ */}
-          <div className="ml-4 block flex-1" >
-            <Link to="/"><img
-              src="/logo.svg"
-              alt="Cafe Your Tea"
-              className="max-w-[240px] sm:max-w-[340px] hover:opacity-90"
-            /></Link>
-          </div>
-          {/* PC時ナビゲーション */}
-          <div className="mr-4 hidden flex-none items-center justify-center lg:flex">
-            <ul className="menu menu-horizontal josefin-sans text-3xl">
-              {/* 共通ページ部分 */}
-              <li>
-                <Link to="#">
-                  <FaFrog />
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link to="/tea-arts">
-                  <BiSolidFoodMenu />
-                  Menu
-                </Link>
-              </li>
 
+          {/* PC時ナビゲーション */}
+          <div className="mx-4 hidden flex-none items-center justify-center lg:flex">
+            <div className="josefin-sans mr-5.5 flex space-x-5.5 text-3xl pt-0.5">
+              <Link to="/about" className="hover:text-[#d9e2c0] flex">
+                <FaFrog />
+                <span className="ml-1 pt-0.5">About</span>
+              </Link>
+              <Link to="/tea-arts" className="hover:text-[#d9e2c0] flex">
+                <BiSolidFoodMenu />
+                <span className="ml-0.5 pt-0.5">Menu</span>
+              </Link>
               {/* ログイン後のみ追加表示 */}
               {isLoggedIn && (
-                <>
-                  <li>
-                    <Link to="/tea-arts/create">
-                      <FaCoffee />
-                      Tea Art
-                    </Link>
-                  </li>
-                </>
+                <Link
+                  to="/tea-arts/create"
+                  className="hover:text-[#d9e2c0] flex"
+                >
+                  <FaCoffee />
+                  <span className="ml-1 pt-0.5">Tea Art</span>
+                </Link>
               )}
-            </ul>
+            </div>
 
             {/* ログイン後のGナビ */}
             {isLoggedIn ? (
-              <div className="flex">
+              <div className="flex space-x-3">
                 <Link to={`/users/${user?.id}`}>
-                  <Button
-                    variant="header-btn"
-                    className="text-accent mr-4 flex"
-                  >
-                    <span className="mr-2">
-                      <FaFaceSmileBeam />
-                    </span>
-                    My Page
+                  <Button variant="header-btn" className="text-accent flex">
+                    <FaFaceSmileBeam />
+
+                    <span className="ml-1 pt-0.5">My Page</span>
                   </Button>
                 </Link>
                 <Button
@@ -122,32 +104,24 @@ export default function Header() {
                   className="text-primary flex"
                   onClick={handleLogout}
                 >
-                  <span className="mr-2">
-                    <FaRightFromBracket />
-                  </span>
-                  Logout
+                  <FaRightFromBracket />
+
+                  <span className="ml-1 pt-0.5">Logout</span>
                 </Button>
               </div>
             ) : (
               // ログイン前のGナビ
-              <div className="flex">
+              <div className="flex space-x-3">
                 <Link to="/signup">
-                  <Button
-                    variant="header-btn"
-                    className="text-accent mr-4 flex"
-                  >
-                    <span className="mt-0.5 mr-2">
-                      <FaUserPlus />
-                    </span>
-                    Sign Up
+                  <Button variant="header-btn" className="text-accent flex">
+                    <FaUserPlus />
+                    <span className="ml-1 pt-0.5">Sign Up</span>
                   </Button>
                 </Link>
                 <Link to="/login">
                   <Button variant="header-btn" className="text-primary flex">
-                    <span className="mt-0.5 mr-2">
-                      <FaRightToBracket />
-                    </span>
-                    Login
+                    <FaRightToBracket />
+                    <span className="ml-1 pt-0.5">Login</span>
                   </Button>
                 </Link>
               </div>
