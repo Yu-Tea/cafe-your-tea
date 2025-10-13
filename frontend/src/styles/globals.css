@@ -41,6 +41,7 @@
   --text-2xl: 1.35rem;
   --text-3xl: 1.6rem;
   --text-4xl: 1.85rem;
+  --text-5xl: 2.10rem;
 }
 
 :root:has(input.theme-controller[value="cafe"]:checked),

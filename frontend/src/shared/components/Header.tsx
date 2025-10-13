@@ -45,18 +45,18 @@ export default function Header() {
         {/* PC時のナビバー */}
         <div className="navbar bg-primary w-full px-0.5 py-4">
           {/* ロゴ */}
-          <div className="mx-2 sm:mx-4 block flex-1">
+          <div className="mx-2 block flex-1 sm:mx-4">
             <Link to="/">
               <img
-                src="/logo.svg"
+                src="/logo.png"
                 alt="Cafe Your Tea"
-                className="max-w-[250px] hover:opacity-85 sm:max-w-[340px]"
+                className="max-w-[280px] hover:opacity-85 sm:max-w-[340px]"
               />
             </Link>
           </div>
 
           {/* ハンバーガーメニュー */}
-          <div className="flex-none lg:hidden mr-3">
+          <div className="mr-3 flex-none lg:hidden">
             <label
               htmlFor="my-drawer-3"
               aria-label="open sidebar"
@@ -67,13 +67,13 @@ export default function Header() {
           </div>
 
           {/* PC時ナビゲーション */}
-          <div className="mx-4 hidden flex-none items-center justify-center lg:flex">
-            <div className="josefin-sans mr-5.5 flex space-x-5.5 text-3xl pt-0.5">
-              <Link to="/about" className="hover:text-[#d9e2c0] flex">
+          <div className="mx-4 hidden flex-none place-items-center lg:flex">
+            <div className="josefin-sans mr-5.5 flex space-x-5.5 pt-1 text-3xl">
+              <Link to="/about" className="flex hover:text-[#d9e2c0]">
                 <FaFrog />
                 <span className="ml-1 pt-0.5">About</span>
               </Link>
-              <Link to="/tea-arts" className="hover:text-[#d9e2c0] flex">
+              <Link to="/tea-arts" className="flex hover:text-[#d9e2c0]">
                 <BiSolidFoodMenu />
                 <span className="ml-0.5 pt-0.5">Menu</span>
               </Link>
@@ -81,7 +81,7 @@ export default function Header() {
               {isLoggedIn && (
                 <Link
                   to="/tea-arts/create"
-                  className="hover:text-[#d9e2c0] flex"
+                  className="flex hover:text-[#d9e2c0]"
                 >
                   <FaCoffee />
                   <span className="ml-1 pt-0.5">Tea Art</span>
@@ -89,11 +89,14 @@ export default function Header() {
               )}
             </div>
 
-            {/* ログイン後のGナビ */}
+            {/* ログイン後のボタン */}
             {isLoggedIn ? (
               <div className="flex space-x-3">
                 <Link to={`/users/${user?.id}`}>
-                  <Button variant="header-btn" className="text-accent flex">
+                  <Button
+                    variant="header-btn"
+                    className="text-accent flex place-items-center"
+                  >
                     <FaFaceSmileBeam />
 
                     <span className="ml-1 pt-0.5">My Page</span>
@@ -101,7 +104,7 @@ export default function Header() {
                 </Link>
                 <Button
                   variant="header-btn"
-                  className="text-primary flex"
+                  className="text-primary flex place-items-center"
                   onClick={handleLogout}
                 >
                   <FaRightFromBracket />
@@ -110,16 +113,22 @@ export default function Header() {
                 </Button>
               </div>
             ) : (
-              // ログイン前のGナビ
+              // ログイン前のボタン
               <div className="flex space-x-3">
                 <Link to="/signup">
-                  <Button variant="header-btn" className="text-accent flex">
+                  <Button
+                    variant="header-btn"
+                    className="text-accent flex place-items-center"
+                  >
                     <FaUserPlus />
                     <span className="ml-1 pt-0.5">Sign Up</span>
                   </Button>
                 </Link>
                 <Link to="/login">
-                  <Button variant="header-btn" className="text-primary flex">
+                  <Button
+                    variant="header-btn"
+                    className="text-primary flex place-items-center"
+                  >
                     <FaRightToBracket />
                     <span className="ml-1 pt-0.5">Login</span>
                   </Button>
@@ -131,22 +140,90 @@ export default function Header() {
         </div>
       </div>
 
-      {/* SP時のサイドバー（MVP後に正式に調整） */}
+      {/* SP時のサイドバー */}
       <div className="drawer-side">
         <label
           htmlFor="my-drawer-3"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-primary josefin-sans min-h-full w-80 p-4 text-3xl font-normal">
-          {/* Sidebar content here */}
-          <li>
-            <a>About</a>
-          </li>
-          <li>
-            <a>Menu</a>
-          </li>
-        </ul>
+        <div className="menu bg-primary flex min-h-full w-60 flex-col place-content-between px-6 py-20">
+          <ul className="josefin-sans space-y-4 text-5xl font-normal">
+            {/* Sidebar content here */}
+            <li>
+              <Link to="/about" className="flex hover:text-[#d9e2c0]">
+                <FaFrog />
+                <span className="ml-1 pt-0.5">About</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/tea-arts" className="flex hover:text-[#d9e2c0]">
+                <BiSolidFoodMenu />
+                <span className="ml-0.5 pt-0.5">Menu</span>
+              </Link>
+            </li>
+            {/* ログイン後のみ追加表示 */}
+            {isLoggedIn && (
+              <li>
+                <Link
+                  to="/tea-arts/create"
+                  className="flex hover:text-[#d9e2c0]"
+                >
+                  <FaCoffee />
+                  <span className="ml-1 pt-0.5">Tea Art</span>
+                </Link>
+              </li>
+            )}
+          </ul>
+
+          {/* ログイン後のボタン */}
+          <div className="w-full">
+            {isLoggedIn ? (
+              <>
+                <Link to={`/users/${user?.id}`}>
+                  <Button
+                    variant="header-btn"
+                    className="text-accent btn-wide mb-4 flex items-center justify-center text-3xl"
+                  >
+                    <FaFaceSmileBeam />
+                    <span className="ml-1 pt-0.5">My Page</span>
+                  </Button>
+                </Link>
+                <Button
+                  variant="header-btn"
+                  className="text-primary btn-wide flex items-center justify-center text-3xl"
+                  onClick={handleLogout}
+                >
+                  <FaRightFromBracket />
+                  <span className="ml-1 pt-0.5">Logout</span>
+                </Button>
+              </>
+            ) : (
+              // ログイン前のボタン
+              <>
+                <Link to="/signup">
+                  <Button
+                    variant="header-btn"
+                    className="text-accent btn-wide mb-4 flex items-center justify-center text-3xl"
+                  >
+                    <FaUserPlus />
+                    <span className="ml-1 pt-0.5">Sign Up</span>
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button
+                    variant="header-btn"
+                    className="text-primary btn-wide flex items-center justify-center text-3xl"
+                  >
+                    <FaRightToBracket />
+                    <span className="ml-1 pt-0.5">Login</span>
+                  </Button>
+                </Link>
+              </>
+            )}
+          </div>
+          {/* ログイン前後で切り替えるGナビここまで */}
+        </div>
       </div>
     </div>
   );
