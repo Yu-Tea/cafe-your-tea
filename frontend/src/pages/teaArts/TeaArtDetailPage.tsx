@@ -12,7 +12,6 @@ import SeasonText from "./components/SeasonText";
 import StatusDisplay from "../../shared/components/StatusDisplay";
 import Order from "./components/Order";
 import Comments from "./components/Comments";
-import { FaUserCircle } from "react-icons/fa";
 
 const TeaArtDetailPage = () => {
   const [teaArt, setTeaArt] = useState<TeaArt | null>(null);
