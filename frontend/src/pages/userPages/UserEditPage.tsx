@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Title } from "../../shared/components/Title";
 import { InputField } from "../../shared/components/InputField";
 import { TextAreaField } from "../../shared/components/TextAreaField";
-import { Link, useNavigate } from "react-router-dom";
-import { updateUserProfile } from "../../api/auth";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { updateUserProfile, getUser } from "../../api/userApi";
 import { useAuth } from "../../shared/contexts/AuthContext";
+import StatusDisplay from "../../shared/components/StatusDisplay";
 
 // フォームデータの型定義
 interface MyPageFormData {
@@ -15,14 +16,58 @@ interface MyPageFormData {
 
 const UserEditPage = () => {
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  const { id } = useParams<{ id: string }>();
+  const { user: currentUser, refetch } = useAuth();
   const [formData, setFormData] = useState<MyPageFormData>({
-    name: user?.name || "",
-    bio: user?.bio || "",
-    avatar_preset: user?.avatar_preset || 1,
+    name: currentUser?.name || "",
+    bio: currentUser?.bio || "",
+    avatar_preset: currentUser?.avatar_preset || 1,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true); // ページ読み込み状態
   const [errors, setErrors] = useState<string[]>([]);
+
+  // ページ初期化処理
+  useEffect(() => {
+    const initializePage = async () => {
+      try {
+        // 編集対象のユーザー情報を取得
+        const userData = await getUser(Number(id));
+
+        // 権限チェック - is_ownerがfalseの場合はアクセス拒否
+        if (!userData.is_owner) {
+          console.warn("他のユーザーの編集ページへのアクセスが試行されました");
+          navigate(`/users/${id}`, {
+            state: {
+              message: "他のユーザーのプロフィールは編集できません",
+              messageType: "error",
+            },
+          });
+          return;
+        }
+
+        // 権限がある場合は編集フォームを初期化
+        setFormData({
+          name: userData.name || "",
+          bio: userData.bio || "",
+          avatar_preset: userData.avatar_preset || 1,
+        });
+      } catch (error: any) {
+        console.error("ユーザー情報の取得に失敗:", error);
+        setErrors(["ユーザー情報の取得に失敗しました"]);
+        navigate("/users");
+      } finally {
+        setIsPageLoading(false);
+      }
+    };
+
+    initializePage();
+  }, [id, currentUser, navigate]);
+
+  // ローディング中の表示
+  if (isPageLoading) {
+    return <StatusDisplay type="loading" />;
+  }
 
   // 入力値変更用
   const handleChange = (
@@ -54,22 +99,16 @@ const UserEditPage = () => {
     setErrors([]);
 
     try {
-      const result = await updateUserProfile(formData);
+      await updateUserProfile(formData);
 
-      if (result.success && result.user) {
-        setUser(result.user); // 認証状態を更新
-        navigate(`/users/${user?.id}`, {
-          state: { message: "プロフィールを更新しました！" },
-        });
-      } else {
-        setErrors(
-          Array.isArray(result.error)
-            ? result.error
-            : [result.error || "更新に失敗しました"]
-        );
-      }
-    } catch (error) {
-      setErrors(["予期しないエラーが発生しました"]);
+      // AuthContext の状態を更新（最新のユーザー情報を取得）
+      await refetch();
+
+      navigate(`/users/${currentUser?.id}`, {
+        state: { message: "プロフィールを更新しました！" },
+      });
+    } catch (error: any) {
+      console.error("プロフィール更新エラー:", error);
     } finally {
       setIsLoading(false);
     }
@@ -82,7 +121,7 @@ const UserEditPage = () => {
           <Title title="Profile Edit" subtitle="プロフィール編集" />
           <div>閲覧者に公開されるプロフィール情報を編集できます。</div>
 
-          {/* 🆕 エラーメッセージ表示 */}
+          {/* エラーメッセージ表示 */}
           {errors.length > 0 && (
             <div className="alert alert-error">
               <ul className="list-inside list-disc">

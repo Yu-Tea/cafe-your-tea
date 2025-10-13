@@ -20,7 +20,6 @@ class Api::V1::TeaArtsController < ApplicationController
     @tea_art = TeaArt.find(params[:id])
     render json: {
       tea_art: tea_art_detail_json(@tea_art),
-      can_edit: current_user&.id == @tea_art.user_id
     }
   end
 

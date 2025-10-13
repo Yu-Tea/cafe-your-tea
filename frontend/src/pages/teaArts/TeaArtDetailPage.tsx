@@ -4,7 +4,7 @@ import { getTeaArt } from "../../api/teaArtApi";
 import { Comment } from "../../types/comment";
 import type { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
-import { FaPenFancy } from "react-icons/fa";
+import { FaPenFancy, FaUser } from "react-icons/fa";
 import { TeaDeleteButton } from "./components/TeaDeleteButton";
 import TwitterButton from "./components/TwitterButton";
 import TagButtonList from "./components/TagButtonList";
@@ -12,6 +12,7 @@ import SeasonText from "./components/SeasonText";
 import StatusDisplay from "../../shared/components/StatusDisplay";
 import Order from "./components/Order";
 import Comments from "./components/Comments";
+import { FaUserCircle } from "react-icons/fa";
 
 const TeaArtDetailPage = () => {
   const [teaArt, setTeaArt] = useState<TeaArt | null>(null);
@@ -108,17 +109,21 @@ const TeaArtDetailPage = () => {
                 </>
                 {/* 温度表記の切り替えここまで */}
               </div>
+
+              {/* タイトル */}
               <div className="border-secondary mt-1 mb-2 border-b-1 pb-3 text-4xl font-bold tracking-wider">
                 {teaArt.title}
               </div>
-              <div className="text-right">
-                <Link
-                  to={`/users/${teaArt.user.id}`}
-                  className="link link-hover text-accent textarea-md font-bold"
-                >
-                  ティー制作者：{teaArt.user.name}
-                </Link>
-              </div>
+
+              {/* 制作者 */}
+              <Link
+                to={`/users/${teaArt.user.id}`}
+                className="link link-hover text-accent textarea-md flex items-center justify-end font-bold"
+              >
+                <FaUser className="mr-1" />
+                ティー制作者：{teaArt.user.name}
+              </Link>
+
               <div className="mt-4 whitespace-pre-wrap">
                 {teaArt.description}
               </div>

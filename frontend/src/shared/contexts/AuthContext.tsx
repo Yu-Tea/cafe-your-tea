@@ -42,12 +42,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = async () => {
     try {
-      console.log('🔄 /me API呼び出し開始...');
+      console.log('/me API呼び出し開始...');
       
       setLoading(true);
       const { data } = await apiClient.get<AuthResponse>('/me');
       
-      console.log('✅ /me APIレスポンス:', data);
+      console.log('/me APIレスポンス:', data);
       
       if (data.logged_in) {
         const newUser = {
@@ -59,13 +59,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         };
         
         setUser(newUser);
-        console.log('✅ ユーザー状態更新完了:', newUser);
+        console.log('ユーザー状態更新完了:', newUser);
       } else {
         setUser(null);
-        console.log('❌ ログイン状態ではありません');
+        console.log('ログイン状態ではありません');
       }
     } catch (error) {
-      console.error('❌ 認証状態更新エラー:', error);
+      console.error('認証状態更新エラー:', error);
       setUser(null);
     } finally {
       setLoading(false);
@@ -76,9 +76,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       await apiClient.post('/logout');
       setUser(null);
-      console.log('✅ ログアウト状態更新完了');
+      console.log('ログアウト状態更新完了');
     } catch (error) {
-      console.error('❌ ログアウトエラー:', error);
+      console.error('ログアウトエラー:', error);
       setUser(null);
     }
   };
