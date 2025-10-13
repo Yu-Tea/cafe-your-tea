@@ -42,7 +42,7 @@ export default function Header() {
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         {/* PC時のナビバー */}
-        <div className="navbar bg-primary w-full px-3 pt-4">
+        <div className="navbar bg-primary w-full px-0.5 py-4">
           {/* ハンバーガーメニュー */}
           <div className="flex-none lg:hidden">
             <label
@@ -65,9 +65,13 @@ export default function Header() {
               </svg>
             </label>
           </div>
-          {/* タイトル */}
-          <div className="josefin-sans mx-2 block flex-1 px-2 text-4xl font-semibold sm:text-5xl">
-            <Link to="/">Cafe Your Tea</Link>
+          {/* ロゴ */}
+          <div className="ml-4 block flex-1" >
+            <Link to="/"><img
+              src="/logo.svg"
+              alt="Cafe Your Tea"
+              className="max-w-[240px] sm:max-w-[340px] hover:opacity-90"
+            /></Link>
           </div>
           {/* PC時ナビゲーション */}
           <div className="mr-4 hidden flex-none items-center justify-center lg:flex">
