@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./shared/contexts/AuthContext";
+import { useScrollToTop } from "./shared/hooks/useScrollToTop";
 import ProtectedRoute from "./shared/components/ProtectedRoute";
 import Header from "./shared/components/Header";
 import Footer from "./shared/components/Footer";
@@ -24,11 +25,12 @@ import TeaArtsByTagPage from "./pages/teaArts/TeaArtsByTagPage";
 import NotFoundPage from "./pages/errors/NotFoundPage";
 
 function App() {
+  useScrollToTop();
   return (
     <AuthProvider>
       <div className="flex min-h-screen flex-col">
         <Header />
-        <div className="flex flex-1 flex-col">
+        <div className="mt-18 flex flex-1 flex-col">
           <Routes>
             {/* 公開ルート */}
             <Route path="/" element={<HomePage />} />
