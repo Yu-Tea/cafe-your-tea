@@ -1,3 +1,5 @@
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import { FaCoffee, FaFrog } from "react-icons/fa";
 import { BiSolidFoodMenu } from "react-icons/bi";
 import { IoMdMenu } from "react-icons/io";
@@ -8,13 +10,22 @@ import {
   FaRightFromBracket,
 } from "react-icons/fa6";
 import { useAuth } from "../../shared/contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 import { performLogout } from "../../api/auth";
 
 export default function Header() {
   const { isLoggedIn, logout: authLogout, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const drawerToggleRef = useRef<HTMLInputElement>(null);
+
+  // ページ遷移時にサイドバーを閉じる
+  useEffect(() => {
+    if (drawerToggleRef.current) {
+      drawerToggleRef.current.checked = false;
+    }
+  }, [location.pathname]);
+
   // ログアウト処理のハンドラー
   const handleLogout = async () => {
     try {
@@ -39,11 +50,16 @@ export default function Header() {
   };
 
   return (
-    <div className="drawer drawer-end text-base-200 z-20">
-      <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
+    <div className="drawer drawer-end text-base-200 fixed z-20">
+      <input
+        id="my-drawer-3"
+        type="checkbox"
+        className="drawer-toggle"
+        ref={drawerToggleRef}
+      />
       <div className="drawer-content flex flex-col">
         {/* PC時のナビバー */}
-        <div className="navbar bg-primary w-full px-0.5 py-4">
+        <div className="navbar bg-primary w-full px-0.5 pt-5 pb-4">
           {/* ロゴ */}
           <div className="mx-2 block flex-1 sm:mx-4">
             <Link to="/">
@@ -69,6 +85,7 @@ export default function Header() {
           {/* PC時ナビゲーション */}
           <div className="mx-4 hidden flex-none place-items-center lg:flex">
             <div className="josefin-sans mr-5.5 flex space-x-5.5 pt-1 text-3xl">
+              {/* 常時表示するリンク先 */}
               <Link to="/about" className="flex hover:text-[#d9e2c0]">
                 <FaFrog />
                 <span className="ml-1 pt-0.5">About</span>
@@ -77,7 +94,8 @@ export default function Header() {
                 <BiSolidFoodMenu />
                 <span className="ml-0.5 pt-0.5">Menu</span>
               </Link>
-              {/* ログイン後のみ追加表示 */}
+
+              {/* ログイン後のみTeaArtを追加表示 */}
               {isLoggedIn && (
                 <Link
                   to="/tea-arts/create"
@@ -140,6 +158,30 @@ export default function Header() {
         </div>
       </div>
 
+      {/* PC・TAB時の波部分 */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1280 15"
+        className="hidden w-full sm:block"
+      >
+        <path
+          d="M -40 0 Q 0 30 40 0 Q 80 30 120 0 Q 160 30 200 0 Q 240 30 280 0 Q 320 30 360 0 Q 400 30 440 0 Q 480 30 520 0 Q 560 30 600 0 Q 640 30 680 0 Q 720 30 760 0 Q 800 30 840 0 Q 880 30 920 0 Q 960 30 1000 0 Q 1040 30 1080 0 Q 1120 30 1160 0 Q 1200 30 1240 0 Q 1280 30 1320 0 L 1280 0 L 0 0 Z"
+          fill="#6f9169"
+        ></path>
+      </svg>
+
+      {/* SP時の波部分 */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 640 15"
+        className="w-full sm:hidden"
+      >
+        <path
+          d="M -40 0 Q 0 30 40 0 Q 80 30 120 0 Q 160 30 200 0 Q 240 30 280 0 Q 320 30 360 0 Q 400 30 440 0 Q 480 30 520 0 Q 560 30 600 0 Q 640 30 680 0 L 640 0 L 0 0 Z"
+          fill="#6f9169"
+        ></path>
+      </svg>
+
       {/* SP時のサイドバー */}
       <div className="drawer-side">
         <label
@@ -149,7 +191,7 @@ export default function Header() {
         ></label>
         <div className="menu bg-primary flex min-h-full w-60 flex-col place-content-between px-6 py-20">
           <ul className="josefin-sans space-y-4 text-5xl font-normal">
-            {/* Sidebar content here */}
+            {/* 常時表示するリンク先 */}
             <li>
               <Link to="/about" className="flex hover:text-[#d9e2c0]">
                 <FaFrog />
@@ -162,7 +204,8 @@ export default function Header() {
                 <span className="ml-0.5 pt-0.5">Menu</span>
               </Link>
             </li>
-            {/* ログイン後のみ追加表示 */}
+
+            {/* ログイン後のみTeaArtを追加表示 */}
             {isLoggedIn && (
               <li>
                 <Link
