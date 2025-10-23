@@ -1,8 +1,7 @@
 @import "tailwindcss";
+/* @import "tw-animate-css"; */
 
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
+@custom-variant dark (&:is(.dark *));
 
 @plugin "daisyui";
 @plugin "daisyui/theme" {
@@ -41,8 +40,10 @@
   --text-2xl: 1.35rem;
   --text-3xl: 1.6rem;
   --text-4xl: 1.85rem;
-  --text-5xl: 2.10rem;
+  --text-5xl: 2.1rem;
 }
+
+@plugin "tailwindcss-animate";
 
 :root:has(input.theme-controller[value="cafe"]:checked),
 [data-theme="cafe"] {
@@ -76,15 +77,84 @@ h1 {
   margin-top: 1.2rem;
 }
 
-h2{
-  font-size: 1.0rem;
+h2 {
+  font-size: 1rem;
   font-weight: bold;
-  margin-top: 2.0rem;
+  margin-top: 2rem;
 }
 
 @media (max-width: 640px) {
   h1 {
     font-size: 3.2rem;
     line-height: 3.4rem;
+  }
+}
+
+@theme inline {
+  /* DaisyUIのcafeテーマの色をshadcn/ui用にマッピング */
+  --color-background: #fdfcfb; /* base-100 */
+  --color-foreground: #645647; /* base-content */
+  --color-card: #fdfcfb; /* base-100 */
+  --color-card-foreground: #645647; /* base-content */
+  --color-popover: #fdfcfb; /* base-100 */
+  --color-popover-foreground: #645647; /* base-content */
+  --color-primary: #6f9169; /* primary */
+  --color-primary-foreground: #fdfcfb; /* primary-content */
+  --color-secondary: #887367; /* secondary */
+  --color-secondary-foreground: #fdfcfb; /* secondary-content */
+  --color-muted: #eee5d9; /* base-300 */
+  --color-muted-foreground: #645647; /* base-content */
+  --color-accent: #c0848c; /* accent */
+  --color-accent-foreground: #fdfcfb; /* accent-content */
+  --color-destructive: #bf695c; /* error */
+  --color-border: #eee5d9; /* base-300 */
+  --color-input: #f6f1ea; /* base-200 */
+  --color-ring: #6f9169; /* primary */
+
+  /* チャート色 */
+  --color-chart-1: #6f9169;
+  --color-chart-2: #887367;
+  --color-chart-3: #c0848c;
+  --color-chart-4: #91ad6a;
+  --color-chart-5: #c4863a;
+
+  /* サイドバー色 */
+  --color-sidebar: #f6f1ea; /* base-200 */
+  --color-sidebar-foreground: #645647; /* base-content */
+  --color-sidebar-primary: #6f9169; /* primary */
+  --color-sidebar-primary-foreground: #fdfcfb; /* primary-content */
+  --color-sidebar-accent: #c0848c; /* accent */
+  --color-sidebar-accent-foreground: #fdfcfb; /* accent-content */
+  --color-sidebar-border: #eee5d9; /* base-300 */
+  --color-sidebar-ring: #6f9169; /* primary */
+}
+
+/* トーストのカスタマイズ */
+[data-sonner-toaster] {
+  --normal-bg: #f6f1ea !important;
+  --normal-border: #f6f1ea !important;
+  --normal-text: #645647 !important;
+
+  --success-bg: #91ad6a !important;
+  --success-border: #f6f1ea !important;
+  --success-text: #f6f1ea !important;
+
+  --error-bg: #bf695c !important;
+  --error-border: #f6f1ea !important;
+  --error-text: #f6f1ea !important;
+
+  --info-bg: #72a0a9 !important;
+  --info-border: #f6f1ea !important;
+  --info-text: #f6f1ea !important;
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

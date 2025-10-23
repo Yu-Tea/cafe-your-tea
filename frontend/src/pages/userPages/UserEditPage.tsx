@@ -5,6 +5,7 @@ import { TextAreaField } from "../../shared/components/TextAreaField";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { updateUserProfile, getUser } from "../../api/userApi";
 import { useAuth } from "../../shared/contexts/AuthContext";
+import { toast } from "sonner";
 import StatusDisplay from "../../shared/components/StatusDisplay";
 
 // フォームデータの型定義
@@ -104,9 +105,8 @@ const UserEditPage = () => {
       // AuthContext の状態を更新（最新のユーザー情報を取得）
       await refetch();
 
-      navigate(`/users/${currentUser?.id}`, {
-        state: { message: "プロフィールを更新しました！" },
-      });
+      navigate(`/users/${currentUser?.id}`);
+      toast.success("プロフィールを編集しました");
     } catch (error: any) {
       console.error("プロフィール更新エラー:", error);
     } finally {

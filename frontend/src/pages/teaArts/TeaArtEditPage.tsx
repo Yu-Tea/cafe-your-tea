@@ -7,6 +7,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getTeaArt, updateTeaArt } from "../../api/teaArtApi";
 import TagCheckboxList from "./components/TagCheckboxList";
 import { TeaArtFormData } from "../../types/teaArt";
+import { toast } from "sonner";
 import {
   SEASONS,
   TEMPERATURES,
@@ -120,6 +121,7 @@ const TeaArtEditPage = () => {
 
       await updateTeaArt(Number(id), requestData);
       navigate(`/tea-arts/${id}`); // メニュー詳細ページへ
+      toast.success("ティーを編集しました");
     } catch (error) {
       console.error("茶アート作成エラー:", error);
       throw error;

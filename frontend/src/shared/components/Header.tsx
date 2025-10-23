@@ -12,6 +12,7 @@ import {
 import { useAuth } from "../../shared/contexts/AuthContext";
 import { Button } from "./Button";
 import { performLogout } from "../../api/auth";
+import { toast } from "sonner";
 
 export default function Header() {
   const { isLoggedIn, logout: authLogout, user } = useAuth();
@@ -37,6 +38,10 @@ export default function Header() {
         authLogout();
         // ホームページに遷移
         navigate("/");
+        if (drawerToggleRef.current) {
+          drawerToggleRef.current.checked = false;
+        }
+        toast.success("ログアウトしました");
       } else {
         // エラーが発生してもフロントエンドの状態はクリア
         authLogout();

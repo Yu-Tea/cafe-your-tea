@@ -5,6 +5,7 @@ import { apiClient } from "../../utils/axios";
 import { useAuth } from "../../shared/contexts/AuthContext";
 import { Title } from "../../shared/components/Title";
 import { InputField } from "../../shared/components/InputField";
+import { toast } from "sonner";
 
 // フォームデータの型定義
 interface SignupFormData {
@@ -64,9 +65,8 @@ export default function SignUp() {
       if (response.status === 200 && response.data) {
         await updateAuthState();
         // 登録完了時は自動ログインしてTOPページにリダイレクト
-        navigate("/", {
-          state: { message: "ユーザー登録が完了しました！" },
-        });
+        navigate("/");
+        toast.success("ユーザー登録が完了しました！");
       }
     } catch (error: any) {
       if (error.response?.data?.errors) {

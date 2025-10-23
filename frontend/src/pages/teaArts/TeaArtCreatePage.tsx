@@ -9,6 +9,7 @@ import { TeaArtFormData } from "../../types/teaArt";
 import { SEASONS, TEMPERATURES } from "../../types/teaArt";
 import TagCheckboxList from "./components/TagCheckboxList";
 import TeaArtDraw, { TeaArtDrawRef } from "./components/TeaArtDraw";
+import { toast } from "sonner";
 
 const TeaArtCreatePage = () => {
   const navigate = useNavigate();
@@ -81,6 +82,7 @@ const TeaArtCreatePage = () => {
 
       await createTeaArt(requestData);
       navigate("/tea-arts"); // Menu一覧ページにリダイレクト
+      toast.success("ティーを登録しました");
     } catch (error) {
       console.error("茶アート作成エラー:", error);
       throw error;
