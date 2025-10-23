@@ -110,14 +110,14 @@ h2 {
   --color-border: #eee5d9; /* base-300 */
   --color-input: #f6f1ea; /* base-200 */
   --color-ring: #6f9169; /* primary */
-  
+
   /* チャート色 */
   --color-chart-1: #6f9169;
   --color-chart-2: #887367;
   --color-chart-3: #c0848c;
   --color-chart-4: #91ad6a;
   --color-chart-5: #c4863a;
-  
+
   /* サイドバー色 */
   --color-sidebar: #f6f1ea; /* base-200 */
   --color-sidebar-foreground: #645647; /* base-content */
@@ -128,6 +128,27 @@ h2 {
   --color-sidebar-border: #eee5d9; /* base-300 */
   --color-sidebar-ring: #6f9169; /* primary */
 }
+
+/* トーストのカスタマイズ */
+[data-sonner-toaster] {
+  --normal-bg: #f6f1ea !important;
+  --normal-border: #f6f1ea !important;
+  --normal-text: #645647 !important;
+
+  --success-bg: #91ad6a !important;
+  --success-border: #f6f1ea !important;
+  --success-text: #f6f1ea !important;
+
+  --error-bg: #bf695c !important;
+  --error-border: #f6f1ea !important;
+  --error-text: #f6f1ea !important;
+
+  --info-bg: #72a0a9 !important;
+  --info-border: #f6f1ea !important;
+  --info-text: #f6f1ea !important;
+}
+
+
 
 @layer base {
   * {

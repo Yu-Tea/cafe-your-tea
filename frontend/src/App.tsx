@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./shared/contexts/AuthContext";
 import { useScrollToTop } from "./shared/hooks/useScrollToTop";
+import { Toaster } from "@/components/ui/sonner";
 import ProtectedRoute from "./shared/components/ProtectedRoute";
 import Header from "./shared/components/Header";
 import Footer from "./shared/components/Footer";
@@ -31,6 +32,12 @@ function App() {
       <div className="flex min-h-screen flex-col">
         <Header />
         <div className="mt-18 flex flex-1 flex-col">
+          <Toaster
+            richColors
+            toastOptions={{
+              className: "flex",
+            }}
+          />
           <Routes>
             {/* 公開ルート */}
             <Route path="/" element={<HomePage />} />

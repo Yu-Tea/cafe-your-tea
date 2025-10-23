@@ -5,6 +5,7 @@ import { apiClient } from "../../utils/axios";
 import { useAuth } from "../../shared/contexts/AuthContext";
 import { Title } from "../../shared/components/Title";
 import { InputField } from "../../shared/components/InputField";
+import { toast } from "sonner";
 
 interface LoginFormData {
   email: string;
@@ -60,9 +61,8 @@ export default function Login() {
         await login();
 
         // ログイン成功時はTOPページにリダイレクト
-        navigate("/", {
-          state: { message: "ログインしました！" },
-        });
+        navigate("/");
+        toast.success("ログインしました");
       }
     } catch (error: any) {
       if (error.response?.data?.status) {
