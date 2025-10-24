@@ -60,6 +60,11 @@
   line-height: 1;
 }
 
+.zen-maru-gothic {
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-style: normal;
+}
+
 body {
   background-color: #f6f1ea;
   font-family: var(--font-family);
