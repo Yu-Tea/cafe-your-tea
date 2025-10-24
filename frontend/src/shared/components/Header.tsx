@@ -88,8 +88,8 @@ export default function Header() {
           </div>
 
           {/* PC時ナビゲーション */}
-          <div className="mx-4 hidden flex-none place-items-center lg:flex">
-            <div className="josefin-sans mr-5.5 flex space-x-5.5 pt-1 text-3xl">
+          <div className="mx-3 hidden flex-none place-items-center lg:flex">
+            <div className="josefin-sans mr-4 flex space-x-4 pt-1 text-3xl">
               {/* 常時表示するリンク先 */}
               <Link to="/about" className="flex hover:text-[#d9e2c0]">
                 <FaFrog />

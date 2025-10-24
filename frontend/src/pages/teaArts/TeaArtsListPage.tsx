@@ -67,7 +67,7 @@ const TeaArtsListPage = () => {
 
   return (
     <div className="container mx-auto py-10 text-center">
-      <div className="flex items-center justify-center px-10">
+      <div className="flex items-center justify-center px-6 sm:px-10">
         <div className="flex max-w-7xl flex-col items-center gap-y-8">
           <Title title="Menu" subtitle="メニュー" />
           {/* 検索用 */}

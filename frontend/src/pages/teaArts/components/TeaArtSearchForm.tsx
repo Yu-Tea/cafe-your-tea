@@ -63,75 +63,73 @@ export const TeaArtSearchForm = ({
     formData.season || formData.tagName || formData.searchQuery;
 
   return (
-    <div className="text-secondary mb-6 flex items-center justify-center space-x-2">
-      <span className="josefin-sans text-neutral pt-1 text-4xl font-light tracking-wider">
-        Search
-      </span>
+    <div className="text-secondary bg-base-300 flex w-full flex-col items-center justify-center space-y-3 rounded-lg px-4 py-4 sm:mb-2 sm:flex-row sm:space-y-0 sm:space-x-1.5 lg:w-auto">
+      <div className="flex w-full sm:w-auto space-x-1.5">
+        {/* 季節選択 */}
+        <select
+          value={formData.season}
+          onChange={(e) => handleChange("season", e.target.value)}
+          className="select select-neutral w-2/5 sm:w-28"
+        >
+          <option value="">提供季節</option>
+          <option value="All">通年</option>
+          <option value="Spring">春</option>
+          <option value="Summer">夏</option>
+          <option value="Autumn">秋</option>
+          <option value="Winter">冬</option>
+        </select>
 
-      {/* 季節選択 */}
-      <select
-        value={formData.season}
-        onChange={(e) => handleChange("season", e.target.value)}
-        className="select select-neutral w-28"
-      >
-        <option value="">提供季節</option>
-        <option value="All">通年</option>
-        <option value="Spring">春</option>
-        <option value="Summer">夏</option>
-        <option value="Autumn">秋</option>
-        <option value="Winter">冬</option>
-      </select>
-
-      {/* タグ選択 */}
-      <select
-        value={formData.tagName}
-        onChange={(e) => handleChange("tagName", e.target.value)}
-        className="select select-neutral w-44"
-        disabled={isLoading}
-      >
-        <option value=""># メニュータグ</option>
-        {tags.map((tag) => (
-          <option key={tag.id} value={tag.name}>
-            {tag.name}
-          </option>
-        ))}
-      </select>
+        {/* タグ選択 */}
+        <select
+          value={formData.tagName}
+          onChange={(e) => handleChange("tagName", e.target.value)}
+          className="select select-neutral w-3/5 sm:w-44"
+          disabled={isLoading}
+        >
+          <option value=""># メニュータグ</option>
+          {tags.map((tag) => (
+            <option key={tag.id} value={tag.name}>
+              {tag.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {/* 検索入力フォーム */}
-      <label className="input input-neutral flex items-center">
-        <svg
-          className="h-[1em] opacity-50"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-        >
-          <g
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            strokeWidth="2.5"
-            fill="none"
-            stroke="currentColor"
+      <div className="flex w-full space-x-1.5">
+        <label className="input input-neutral flex items-center">
+          <svg
+            className="h-[1em] opacity-50"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
           >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </g>
-        </svg>
-        <input
-          type="text"
-          value={formData.searchQuery}
-          onChange={(e) => handleChange("searchQuery", e.target.value)}
-          placeholder="メニュー名または制作者名で検索"
-          className="w-56 grow"
-        />
-      </label>
+            <g
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              strokeWidth="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </g>
+          </svg>
+          <input
+            type="text"
+            value={formData.searchQuery}
+            onChange={(e) => handleChange("searchQuery", e.target.value)}
+            placeholder="メニュー名または制作者名で検索"
+            className="w-54 grow"
+          />
+        </label>
 
-      {/* リセットボタン */}
-      <div className="flex h-10 w-11 items-center justify-center">
-        {hasSearchConditions && (
+        {/* リセットボタン */}
+        <div className="flex h-10 w-11 items-center justify-center">
           <button
             type="button"
             onClick={handleReset}
-            className="btn btn-ghost btn-square"
-            
+            className="btn btn-square btn-outline btn-secondary rounded"
+            disabled={!hasSearchConditions}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +146,7 @@ export const TeaArtSearchForm = ({
               />
             </svg>
           </button>
-        )}
+        </div>
       </div>
     </div>
   );
