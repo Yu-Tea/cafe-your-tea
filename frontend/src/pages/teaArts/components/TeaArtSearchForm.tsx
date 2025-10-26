@@ -11,11 +11,13 @@ interface SearchFormData {
 interface TeaArtSearchFormProps {
   onSearch: (searchData: SearchFormData) => void;
   onReset: () => void;
+  hasResults?: boolean | null; // null = 未絞り込み, true = 絞り込みありかつ結果あり, false = 絞り込みありかつ結果なし
 }
 
 export const TeaArtSearchForm = ({
   onSearch,
   onReset,
+  hasResults = null, // デフォルトは未絞り込み
 }: TeaArtSearchFormProps) => {
   const [formData, setFormData] = useState<SearchFormData>({
     season: "",
@@ -62,14 +64,32 @@ export const TeaArtSearchForm = ({
   const hasSearchConditions =
     formData.season || formData.tagName || formData.searchQuery;
 
+  // ケロチャのセリフ
+  const titleText = (() => {
+    if (hasResults === null) return "ティーを探すならここに入力してね！";
+    return hasResults
+      ? "こんなティーがあるよ！"
+      : "その条件のティーはまだないみたい…";
+  })();
+
+  // ケロチャの画像
+  const imageSrc = (() => {
+    if (hasResults === null) return "images/kero_menu_01.png";
+    return hasResults ? "images/kero_menu_02.png" : "images/kero_menu_03.png";
+  })();
+
   return (
     <div className="flex flex-col items-center">
-      <div className="relative top-6 flex justify-center">
-        <span className="text-primary/90 zen-maru-gothic mt-1 font-bold sm:mt-2">
-          ティーを探すならボクに任せて〜！
-        </span>
-        <img src="images/kero_menu_01.png" className="mr-3 w-[120px] sm:mr-8" />
+
+      {/* ケロチャ */}
+      <div className="relative top-6 flex w-full justify-center">
+        <div className="text-secondary/80 zen-maru-gothic mt-1 mr-1 w-full max-w-[340px] ml-5 sm:ml-0 text-left sm:text-right font-bold sm:mt-2">
+          {titleText}
+        </div>
+        <img src={imageSrc} className="mr-3 w-[120px] sm:mr-8" />
       </div>
+
+      {/* 検索バー部分 */}
       <div className="text-secondary bg-base-300 z-10 flex w-full flex-col items-center justify-center space-y-3 rounded-lg px-4 py-4 sm:mb-2 sm:flex-row sm:space-y-0 sm:space-x-1.5 lg:w-auto">
         <div className="flex w-full space-x-1.5 sm:w-auto">
           {/* 季節選択 */}
