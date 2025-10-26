@@ -84,7 +84,7 @@ const TeaArtCreatePage = () => {
       navigate("/tea-arts"); // Menu一覧ページにリダイレクト
       toast.success("ティーを登録しました");
     } catch (error) {
-      console.error("茶アート作成エラー:", error);
+      console.error("ティー登録エラー:", error);
       throw error;
     } finally {
       setIsLoading(false);
