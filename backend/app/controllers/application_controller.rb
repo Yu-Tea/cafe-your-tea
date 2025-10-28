@@ -1,13 +1,9 @@
 class ApplicationController < ActionController::API
   include ActionController::Cookies
   include Rails.application.routes.url_helpers
-  include ActionController::RequestForgeryProtection
 
-  # CSRF対策（テスト環境では無効）
-  protect_from_forgery with: :exception, unless: -> { Rails.env.test? }
-
-  # 全リクエストで認証状態とCSRFトークンを設定
-  before_action :set_current_user, :set_csrf_token
+  # 全リクエストで認証状態
+  before_action :set_current_user
 
   # APIエラーハンドリング
   rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
@@ -39,11 +35,6 @@ class ApplicationController < ActionController::API
     return unless @current_user.nil?
 
     render json: { error: 'ログインが必要です' }, status: :unauthorized
-  end
-
-  # CSRFトークンをヘッダーに設定
-  def set_csrf_token
-    response.set_header("X-CSRF-Token", form_authenticity_token)
   end
 
   protected

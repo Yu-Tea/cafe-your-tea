@@ -37,7 +37,6 @@ class GoogleAuthService
 
       # Userモデルを調整
       user = User.find_or_initialize_by(email: payload["email"])
-      user.name = payload["name"]
       user.google_uid = payload["sub"]
       user.password ||= SecureRandom.hex(10)
 

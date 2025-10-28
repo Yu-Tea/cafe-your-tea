@@ -5,16 +5,11 @@ import { AuthContext } from "../contexts/AuthContext";
 import { apiClient } from "../../utils/axios";
 import type { GoogleLoginResponse } from "../../types/auth";
 import { Button } from "./Button";
+import { toast } from "sonner";
 
 const GoogleLoginButton = () => {
   const navigate = useNavigate();
-  const userContext = use(AuthContext);
-
-  if (!userContext) {
-    throw new Error("GoogleLoginButton must be used within UserProvider");
-  }
-
-  const { setUser } = userContext;
+  const { setUser } = use(AuthContext);
 
   const login = useGoogleLogin({
     flow: "auth-code",
@@ -30,23 +25,18 @@ const GoogleLoginButton = () => {
             code: authCode,
           }
         );
-
-        console.log("🍵 ログイン成功:", response.data);
         setUser(response.data);
-
         // TOPページに遷移
         navigate("/");
+        toast.success("ログインしました！");
 
       } catch (err: any) {
-        console.error("❌ ログイン失敗:", err);
-
         const errorMessage =
           err.response?.data?.error || "ログインに失敗しました";
         alert(`ログインエラー\n${errorMessage}`);
       }
     },
     onError: (error) => {
-      console.error("❌ Google認証エラー:", error);
       alert("Google認証に失敗しました");
     },
   });

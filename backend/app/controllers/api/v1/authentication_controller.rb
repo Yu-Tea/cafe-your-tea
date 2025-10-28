@@ -1,6 +1,4 @@
 class Api::V1::AuthenticationController < ApplicationController
-  # CSRF保護をスキップ（API用）
-  skip_before_action :verify_authenticity_token
 
   # メールアドレス＋パスワードのログイン
   def login
