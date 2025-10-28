@@ -1,5 +1,5 @@
 import { apiClient } from "../utils/axios";
-import type { AuthResponse } from "../types/user";
+import type { AuthResponse } from "../types/auth";
 
 // バックエンドのレスポンス構造に合わせた型定義
 interface LogoutResponse {

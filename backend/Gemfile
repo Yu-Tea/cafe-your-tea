@@ -39,7 +39,8 @@ gem 'rails-i18n'
 
 gem 'bcrypt'
 gem 'jwt'
-gem 'omniauth-google-oauth2'
+gem 'googleauth'
+gem 'httparty'
 
 gem 'carrierwave'
 gem 'cloudinary', '~> 1.25'

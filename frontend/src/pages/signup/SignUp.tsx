@@ -85,19 +85,6 @@ export default function SignUp() {
     }
   };
 
-  // Googleログインの処理
-  const handleGoogleLoginSuccess = (authCode: string) => {
-    console.log("認可コード受け取り:", authCode);
-
-    // 後でバックエンドAPIに送信する処理を追加、まずはコンソールで確認
-    alert(`認可コード取得成功！\nコード: ${authCode.substring(0, 20)}...`);
-  };
-
-  const handleGoogleLoginError = (error: any) => {
-    console.error("Google認証エラー:", error);
-    alert("Google認証に失敗しました");
-  };
-
   return (
     <div className="container mx-auto py-10">
       <div className="flex items-center justify-center px-10">
@@ -106,10 +93,7 @@ export default function SignUp() {
 
           <div>
             {/* Google認証ボタン */}
-            <GoogleLoginButton
-              onSuccess={handleGoogleLoginSuccess}
-              onError={handleGoogleLoginError}
-            />
+            <GoogleLoginButton />
             <p className="text-secondary mt-2 text-center text-sm">
               Googleで登録はこちらから
             </p>
