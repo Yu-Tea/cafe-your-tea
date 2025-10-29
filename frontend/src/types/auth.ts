@@ -8,8 +8,9 @@ export interface AuthResponse {
 }
 
 export interface GoogleLoginResponse {
-	status: string;
-	name: string;
-	email: string;
-	google_account: boolean;
+  id: number;
+  name: string;
+  email: string;
+  bio: string;
+  avatar_preset: number;
 }
