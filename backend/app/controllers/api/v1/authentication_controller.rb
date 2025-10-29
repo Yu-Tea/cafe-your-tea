@@ -21,30 +21,40 @@ class Api::V1::AuthenticationController < ApplicationController
 
   # Googleログイン
   def google_login
-  Rails.logger.info "=== Google Login Debug Start ==="
-  Rails.logger.info "GOOGLE_CLIENT_ID present: #{ENV['GOOGLE_CLIENT_ID'].present?}"
-  Rails.logger.info "GOOGLE_CLIENT_SECRET present: #{ENV['GOOGLE_CLIENT_SECRET'].present?}"
-  Rails.logger.info "FRONTEND_ORIGIN: #{ENV['FRONTEND_ORIGIN']}"
-  Rails.logger.info "Request Origin: #{request.headers['Origin']}"
-  Rails.logger.info "Received code: #{params[:code]}"
-  Rails.logger.info "================================"
-
+    Rails.logger.info "=== Google Login Debug Start ==="
+    Rails.logger.info "GOOGLE_CLIENT_ID present: #{ENV['GOOGLE_CLIENT_ID'].present?}"
+    Rails.logger.info "GOOGLE_CLIENT_SECRET present: #{ENV['GOOGLE_CLIENT_SECRET'].present?}"
+    Rails.logger.info "FRONTEND_ORIGIN: #{ENV['FRONTEND_ORIGIN']}"
+    Rails.logger.info "Request Origin: #{request.headers['Origin']}"
+    Rails.logger.info "Received code: #{params[:code]}"
+    Rails.logger.info "================================"
+    
     auth_code = params[:code]
     return render json: { error: "認証コードが見つかりません" }, status: :bad_request if auth_code.blank?
-
-    response = GoogleAuthService.new(auth_code).authenticate!
     
-    if response[:success]
-      user = response[:success]
-      token = TokenGenerator.encode(user.id)
-      cookies[:jwt] = jwt_cookie_options(token)
-
-      render json: { 
-        name: user.name, 
-        email: user.email, 
-      }, status: :ok
-    else
-      render json: { error: response[:error] }, status: response[:status] || :unprocessable_entity
+    begin
+      Rails.logger.info "Calling GoogleAuthService..."
+      response = GoogleAuthService.new(auth_code).authenticate!
+      Rails.logger.info "GoogleAuthService response: #{response}"
+      
+      if response[:success]
+        user = response[:success]
+        token = TokenGenerator.encode(user.id)
+        cookies[:jwt] = jwt_cookie_options(token)
+      
+        render json: { 
+          name: user.name, 
+          email: user.email, 
+        }, status: :ok
+      else
+        Rails.logger.error "GoogleAuthService failed: #{response[:error]}"
+        render json: { error: response[:error] }, status: response[:status] || :unprocessable_entity
+      end
+    rescue => e
+      Rails.logger.error "GoogleAuthService Error: #{e.message}"
+      Rails.logger.error "Error Class: #{e.class}"
+      Rails.logger.error "Backtrace: #{e.backtrace.first(10)}"
+      render json: { error: e.message }, status: :unprocessable_entity
     end
   end
 
