@@ -174,11 +174,9 @@ class Api::V1::TeaArtsController < ApplicationController
     processor = TeaArtImageProcessor.new(nil, tea_art.title) # base64は不要なのでnil
     processor.process_ogp_update(tea_art)
   rescue StandardError => e
-    Rails.logger.error "OGP画像生成エラー: #{e.message}"
-    Rails.logger.error e.backtrace.join("\n")
   end
 
-  # 🔥 コントローラー専用の削除処理
+  # コントローラー専用の削除処理
   def delete_old_ogp_image(url)
     return unless url.present?
 

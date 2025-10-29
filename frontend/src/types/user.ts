@@ -7,16 +7,9 @@ export interface User {
   is_owner?: boolean;
 }
 
-export interface AuthResponse {
-  logged_in: boolean;
-  id?: number;
-  name?: string;
-  email?: string;
-  bio?: string;
-  avatar_preset?: number;
-}
 
-// 🆕 プロフィール更新用の型定義
+
+// プロフィール更新用
 export interface UpdateProfileRequest {
   name: string;
   bio: string;

@@ -14,7 +14,6 @@ apiClient.interceptors.response.use(
   (error: any) => {
     // 401エラーは認証確認の正常フローなのでログ出力しない
     if (error.response?.status === 401) {
-      // 必要に応じて認証エラー用の処理を追加
       return Promise.reject(error);
     }
 

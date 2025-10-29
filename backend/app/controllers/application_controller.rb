@@ -2,6 +2,7 @@ class ApplicationController < ActionController::API
   include ActionController::Cookies
   include Rails.application.routes.url_helpers
 
+  # 全リクエストで認証状態
   before_action :set_current_user
 
   # APIエラーハンドリング
@@ -29,6 +30,7 @@ class ApplicationController < ActionController::API
 
   attr_reader :current_user
 
+  # 認証必須チェック
   def authenticate_user!
     return unless @current_user.nil?
 

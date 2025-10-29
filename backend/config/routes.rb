@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'login', to: 'authentication#login'
       post 'logout', to: 'authentication#logout'
+      post "google_login", to: "authentication#google_login"
       get 'me', to: 'authentication#me'
 
       resources :users, only: %i[create show]

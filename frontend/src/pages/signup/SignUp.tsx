@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import { Button } from "../../shared/components/Button";
 import { apiClient } from "../../utils/axios";
 import { useAuth } from "../../shared/contexts/AuthContext";
 import { Title } from "../../shared/components/Title";
 import { InputField } from "../../shared/components/InputField";
 import { toast } from "sonner";
+import GoogleLoginButton from "@/shared/components/GoogleLoginButton";
 
 // フォームデータの型定義
 interface SignupFormData {
@@ -88,27 +88,17 @@ export default function SignUp() {
   return (
     <div className="container mx-auto py-10">
       <div className="flex items-center justify-center px-10">
-        <div className="flex w-full max-w-sm flex-col gap-y-5">
+        <div className="flex w-full max-w-sm flex-col gap-y-2">
           <Title title="Sign Up" subtitle="新規登録" />
 
-          {/* Google認証は後で追加 */}
-          {/* <div>
-            <Link to="#">
-              <Button variant="google-btn" className="text-primary flex">
-                <img
-                  src="https://www.svgrepo.com/show/475656/google-color.svg"
-                  alt="google logo"
-                  className="mb-0.5 h-5 w-5"
-                  loading="lazy"
-                />
-                Login with Google
-              </Button>
-            </Link>
+          <div>
+            {/* Google認証ボタン */}
+            <GoogleLoginButton />
             <p className="text-secondary mt-2 text-center text-sm">
               Googleで登録はこちらから
             </p>
           </div>
-          <div className="divider josefin-sans text-secondary">OR</div> */}
+          <div className="divider josefin-sans text-secondary">OR</div>
 
           {/* アラートメッセージ */}
           {errors.length > 0 && (
@@ -122,15 +112,15 @@ export default function SignUp() {
           )}
 
           {/* フォーム */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-y-2">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-y-1">
             <InputField
               label="Name"
               type="text"
               name="name"
-              maxLength={10}
+              maxLength={15}
               value={formData.name}
               onChange={handleChange}
-              placeholder="お名前 ※10文字以内"
+              placeholder="お名前 ※15文字以内"
               required
               disabled={isLoading}
             />
