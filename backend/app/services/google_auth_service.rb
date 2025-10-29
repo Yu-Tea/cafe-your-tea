@@ -8,27 +8,31 @@ class GoogleAuthService
 
   def authenticate!
     begin
+      Rails.logger.info "GoogleAuthService: Starting authentication..."
+      Rails.logger.info "GoogleAuthService: CLIENT_ID present: #{ENV['GOOGLE_CLIENT_ID'].present?}"
+      Rails.logger.info "GoogleAuthService: CLIENT_SECRET present: #{ENV['GOOGLE_CLIENT_SECRET'].present?}"
 
       # HTTPリクエスト実行
       response = HTTParty.post("https://oauth2.googleapis.com/token",
         headers: { "Content-Type" => "application/x-www-form-urlencoded" },
         body: {
           code: @auth_code,
-          client_id: Rails.application.credentials.google[:client_id],
-          client_secret: Rails.application.credentials.google[:client_secret],
-          redirect_uri: Rails.env.production? ? 
-            Rails.application.credentials.frontend_origin : 
-            "http://localhost:5173",
+          client_id: ENV['GOOGLE_CLIENT_ID'],
+          client_secret: ENV['GOOGLE_CLIENT_SECRET'],
+          redirect_uri: ENV['FRONTEND_ORIGIN'],  
           grant_type: "authorization_code"
         }
       )
+
+      Rails.logger.info "GoogleAuthService: Google API response status: #{response.code}"
+      Rails.logger.info "GoogleAuthService: Google API response body: #{response.body}"
 
       return { error: "無効なアクセストークンです", status: :unprocessable_entity } unless response.success?
 
       id_token = response.parsed_response["id_token"]
       payload = Google::Auth::IDTokens.verify_oidc(
         id_token,
-        aud: Rails.application.credentials.google[:client_id]
+        aud: ENV['GOOGLE_CLIENT_ID']
       )
 
       unless payload
