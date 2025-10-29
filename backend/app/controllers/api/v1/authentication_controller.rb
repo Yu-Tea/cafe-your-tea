@@ -21,6 +21,14 @@ class Api::V1::AuthenticationController < ApplicationController
 
   # Googleログイン
   def google_login
+  Rails.logger.info "=== Google Login Debug Start ==="
+  Rails.logger.info "GOOGLE_CLIENT_ID present: #{ENV['GOOGLE_CLIENT_ID'].present?}"
+  Rails.logger.info "GOOGLE_CLIENT_SECRET present: #{ENV['GOOGLE_CLIENT_SECRET'].present?}"
+  Rails.logger.info "FRONTEND_ORIGIN: #{ENV['FRONTEND_ORIGIN']}"
+  Rails.logger.info "Request Origin: #{request.headers['Origin']}"
+  Rails.logger.info "Received code: #{params[:code]}"
+  Rails.logger.info "================================"
+
     auth_code = params[:code]
     return render json: { error: "認証コードが見つかりません" }, status: :bad_request if auth_code.blank?
 
@@ -34,7 +42,6 @@ class Api::V1::AuthenticationController < ApplicationController
       render json: { 
         name: user.name, 
         email: user.email, 
-        google_account: user.google_uid 
       }, status: :ok
     else
       render json: { error: response[:error] }, status: response[:status] || :unprocessable_entity
