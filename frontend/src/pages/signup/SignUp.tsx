@@ -88,7 +88,7 @@ export default function SignUp() {
   return (
     <div className="container mx-auto py-10">
       <div className="flex items-center justify-center px-10">
-        <div className="flex w-full max-w-sm flex-col gap-y-5">
+        <div className="flex w-full max-w-sm flex-col gap-y-2">
           <Title title="Sign Up" subtitle="新規登録" />
 
           <div>
@@ -112,15 +112,15 @@ export default function SignUp() {
           )}
 
           {/* フォーム */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-y-2">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-y-1">
             <InputField
               label="Name"
               type="text"
               name="name"
-              maxLength={10}
+              maxLength={15}
               value={formData.name}
               onChange={handleChange}
-              placeholder="お名前 ※10文字以内"
+              placeholder="お名前 ※15文字以内"
               required
               disabled={isLoading}
             />

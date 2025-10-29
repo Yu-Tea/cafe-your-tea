@@ -170,13 +170,13 @@ const UserEditPage = () => {
               label="Name"
               type="text"
               name="name"
-              maxLength={10}
+              maxLength={15}
               value={formData.name}
               onChange={handleChange}
               placeholder="お名前"
               required
               disabled={isLoading}
-              note="※10文字以内"
+              note="※15文字以内"
             />
 
             <TextAreaField

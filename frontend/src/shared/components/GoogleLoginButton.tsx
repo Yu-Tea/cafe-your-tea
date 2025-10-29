@@ -1,7 +1,7 @@
 import { use } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext,useAuth } from "../contexts/AuthContext";
 import { apiClient } from "../../utils/axios";
 import type { GoogleLoginResponse } from "../../types/auth";
 import { Button } from "./Button";
@@ -9,7 +9,13 @@ import { toast } from "sonner";
 
 const GoogleLoginButton = () => {
   const navigate = useNavigate();
-  const { setUser } = use(AuthContext);
+  const authContext = use(AuthContext);
+  const { login: updateAuthState } = useAuth();
+
+  if (!authContext) {
+    throw new Error("GoogleLoginButton must be used within AuthProvider");
+  }
+  const { setUser } = authContext;
 
   const login = useGoogleLogin({
     flow: "auth-code",
@@ -26,17 +32,17 @@ const GoogleLoginButton = () => {
           }
         );
         setUser(response.data);
+        await updateAuthState();
         // TOPページに遷移
         navigate("/");
         toast.success("ログインしました！");
-
       } catch (err: any) {
         const errorMessage =
           err.response?.data?.error || "ログインに失敗しました";
         alert(`ログインエラー\n${errorMessage}`);
       }
     },
-    onError: (error) => {
+    onError: () => {
       alert("Google認証に失敗しました");
     },
   });
@@ -44,7 +50,7 @@ const GoogleLoginButton = () => {
   return (
     <Button
       variant="google-btn"
-      className="text-primary flex"
+      className="text-primary flex mt-5"
       onClick={() => login()}
     >
       <img

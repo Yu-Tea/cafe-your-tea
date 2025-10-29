@@ -35,10 +35,22 @@ class GoogleAuthService
         return { error: "無効なIDトークンです", status: :unauthorized }
       end
 
-      # Userモデルを調整
-      user = User.find_or_initialize_by(email: payload["email"])
-      user.google_uid = payload["sub"]
-      user.password ||= SecureRandom.hex(10)
+      user = User.find_or_initialize_by(google_uid: payload["sub"])
+      # Google認証ユーザーの場合は必要な情報のみ設定
+      if user.new_record?
+
+        # 名前の文字数制限対応
+        google_name = payload["name"] || payload["email"].split("@").first
+        truncated_name = truncate_name(google_name)
+
+        user.assign_attributes(
+          email: payload["email"],
+          name: truncated_name, # 15文字以内に調整
+        )
+      else
+        # 既存ユーザーの場合はメールアドレスのみ更新
+        user.email = payload["email"]
+      end
 
       if user.save
         { success: user }
@@ -50,6 +62,20 @@ class GoogleAuthService
       { error: "IDトークン検証エラー: #{e.message}", status: :unauthorized }
     rescue StandardError => e
       { error: "予期せぬエラー: #{e.message}", status: :internal_server_error }
+    end
+  end
+
+  private
+
+  # 名前を15文字以内に調整するメソッド
+  def truncate_name(name)
+    return "ユーザー" if name.blank?
+
+    if name.length <= 15
+      name
+    else
+      # 15文字でカット
+      name[0, 15]
     end
   end
 end
