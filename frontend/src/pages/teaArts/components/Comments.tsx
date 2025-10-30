@@ -172,169 +172,167 @@ const Comments = ({
   }
 
   return (
-    <div className="container mx-auto">
-      <div className="flex flex-col items-center justify-center gap-y-6 px-5">
-        <Title title="Comments" subtitle="ティーを飲んだ方のご感想" />
+    <div className="flex flex-col items-center justify-center space-y-6 px-5 sm:px-10">
+      <Title title="Comments" subtitle="ティーを飲んだ方のご感想" />
 
-        {/* コメント一覧 */}
-        <div className="border-neutral/40 w-full max-w-3xl rounded-xl border-1 px-1 py-4 sm:pr-3 sm:pl-6">
-          {comments.length === 0 ? (
-            <div className="py-8 text-center">
-              <p>
-                まだコメントがありません。
-                <br />
-                最初のコメントを投稿してみませんか？
-              </p>
-            </div>
-          ) : (
-            <>
-              {/* スクロール可能エリア */}
-              <div
-                id="comments-scrollable-div"
-                className="max-h-96 overflow-y-auto pr-2"
-                style={{
-                  scrollbarWidth: "thin",
-                }}
+      {/* コメント一覧 */}
+      <div className="border-neutral/40 w-full max-w-3xl rounded-xl border-1 px-1 py-4 sm:pr-3 sm:pl-6">
+        {comments.length === 0 ? (
+          <div className="py-8 text-center">
+            <p>
+              まだコメントがありません。
+              <br />
+              最初のコメントを投稿してみませんか？
+            </p>
+          </div>
+        ) : (
+          <>
+            {/* スクロール可能エリア */}
+            <div
+              id="comments-scrollable-div"
+              className="max-h-96 overflow-y-auto pr-2"
+              style={{
+                scrollbarWidth: "thin",
+              }}
+            >
+              <InfiniteScroll
+                dataLength={comments.length}
+                next={loadMoreComments}
+                hasMore={hasMore}
+                loader={
+                  <div className="flex items-center justify-center py-4">
+                    <span className="loading loading-spinner loading-sm text-primary"></span>
+                    <span className="ml-2 text-sm">読み込み中...</span>
+                  </div>
+                }
+                // 一番最後まで到達したときの表示
+                endMessage={
+                  <div className="border-neutral/50 mt-6 border-t pt-4 text-center">
+                    <p className="text-neutral josefin-sans text-lg font-light">
+                      All Comments Loaded
+                    </p>
+                  </div>
+                }
+                scrollableTarget="comments-scrollable-div"
+                className="space-y-2"
               >
-                <InfiniteScroll
-                  dataLength={comments.length}
-                  next={loadMoreComments}
-                  hasMore={hasMore}
-                  loader={
-                    <div className="flex items-center justify-center py-4">
-                      <span className="loading loading-spinner loading-sm text-primary"></span>
-                      <span className="ml-2 text-sm">読み込み中...</span>
-                    </div>
-                  }
-                  // 一番最後まで到達したときの表示
-                  endMessage={
-                    <div className="border-neutral/50 mt-6 border-t pt-4 text-center">
-                      <p className="text-neutral josefin-sans text-lg font-light">
-                        All Comments Loaded
-                      </p>
-                    </div>
-                  }
-                  scrollableTarget="comments-scrollable-div"
-                  className="space-y-2"
-                >
-                  {comments.map((comment, index) => (
-                    <div key={`${comment.id}-${index}`}>
-                      <div className="chat chat-start">
-                        {/* アバター画像 */}
-                        <div className="chat-image avatar">
-                          <div className="w-10">
-                            <Avatar avatarPreset={comment.avatar_preset} />
-                          </div>
+                {comments.map((comment, index) => (
+                  <div key={`${comment.id}-${index}`}>
+                    <div className="chat chat-start">
+                      {/* アバター画像 */}
+                      <div className="chat-image avatar">
+                        <div className="w-10">
+                          <Avatar avatarPreset={comment.avatar_preset} />
                         </div>
-                        {/* 名前 */}
-                        <div className="chat-header text-secondary">
-                          {comment.user_name}さん
-                          <time className="ml-1 opacity-50">
-                            {comment.created_at}
-                          </time>
-                          {/* 自分のコメントのみ編集・削除ボタン追加部分 */}
-                          {comment.is_owner && (
-                            <div className="ml-0.5 flex items-center gap-0.5">
-                              {editingCommentId !== comment.id && (
-                                <>
-                                  <button
-                                    onClick={() => handleEditStart(comment)}
-                                    disabled={deletingCommentId === comment.id}
-                                    className="btn btn-link btn-xs text-accent hover:text-neutral px-0.5"
-                                    title="編集"
-                                  >
-                                    <FaPenFancy size={15} />
-                                  </button>
-                                  <button
-                                    onClick={() => handleDelete(comment)}
-                                    className="btn btn-link btn-xs text-secondary hover:text-neutral px-0.5"
-                                    title="削除"
-                                  >
-                                    <FaTrash size={13} />
-                                  </button>
-                                </>
-                              )}
+                      </div>
+                      {/* 名前 */}
+                      <div className="chat-header text-secondary">
+                        {comment.user_name}さん
+                        <time className="ml-1 opacity-50">
+                          {comment.created_at}
+                        </time>
+                        {/* 自分のコメントのみ編集・削除ボタン追加部分 */}
+                        {comment.is_owner && (
+                          <div className="ml-0.5 flex items-center gap-0.5">
+                            {editingCommentId !== comment.id && (
+                              <>
+                                <button
+                                  onClick={() => handleEditStart(comment)}
+                                  disabled={deletingCommentId === comment.id}
+                                  className="btn btn-link btn-xs text-accent hover:text-neutral px-0.5"
+                                  title="編集"
+                                >
+                                  <FaPenFancy size={15} />
+                                </button>
+                                <button
+                                  onClick={() => handleDelete(comment)}
+                                  className="btn btn-link btn-xs text-secondary hover:text-neutral px-0.5"
+                                  title="削除"
+                                >
+                                  <FaTrash size={13} />
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* コメント文章 */}
+                      <div className="chat-bubble mr-2 max-w-full px-4 py-4 text-sm whitespace-pre-wrap">
+                        {comment.body}
+                      </div>
+                    </div>
+                    {/* 編集用テキストエリア（編集中のコメントのみ表示） */}
+                    {editingCommentId === comment.id && (
+                      <div className="mt-2 w-full">
+                        <div className="space-y-1">
+                          <TextAreaField
+                            label="Comment Edit"
+                            name="body"
+                            value={editingText}
+                            maxLength={150}
+                            onChange={(e) => setEditingText(e.target.value)}
+                            placeholder="コメントを編集..."
+                            rows={4}
+                            disabled={updating}
+                          />
+
+                          <div className="flex items-center justify-between text-xs">
+                            {/* 更新中のローディング */}
+                            {updating && (
+                              <span className="text-primary flex items-center">
+                                <span className="loading loading-spinner loading-xs mr-1"></span>
+                                更新中...
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex justify-end space-x-2">
+                            <button
+                              onClick={() => handleEditSave(comment.id)}
+                              disabled={updating || !editingText.trim()}
+                              className="btn btn-primary btn-sm"
+                              title="保存"
+                            >
+                              保存
+                            </button>
+                            <button
+                              onClick={handleEditCancel}
+                              disabled={updating}
+                              className="btn btn-outline btn-secondary btn-sm"
+                              title="キャンセル"
+                            >
+                              キャンセル
+                            </button>
+                          </div>
+                          {/* エラーメッセージ */}
+                          {editError && (
+                            <div className="alert alert-error py-2 text-xs">
+                              <span>{editError}</span>
+                            </div>
+                          )}
+                          {/* 🔥 削除エラーメッセージの表示 */}
+                          {deleteError && (
+                            <div className="mt-2 w-full max-w-md">
+                              <div className="alert alert-error py-2 text-xs">
+                                <span>{deleteError}</span>
+                                <button
+                                  onClick={() => setDeleteError(null)}
+                                  className="btn btn-xs btn-ghost"
+                                >
+                                  ×
+                                </button>
+                              </div>
                             </div>
                           )}
                         </div>
-
-                        {/* コメント文章 */}
-                        <div className="chat-bubble mr-2 max-w-full px-4 py-4 text-sm whitespace-pre-wrap">
-                          {comment.body}
-                        </div>
                       </div>
-                      {/* 編集用テキストエリア（編集中のコメントのみ表示） */}
-                      {editingCommentId === comment.id && (
-                        <div className="mt-2 w-full">
-                          <div className="space-y-1">
-                            <TextAreaField
-                              label="Comment Edit"
-                              name="body"
-                              value={editingText}
-                              maxLength={150}
-                              onChange={(e) => setEditingText(e.target.value)}
-                              placeholder="コメントを編集..."
-                              rows={4}
-                              disabled={updating}
-                            />
-
-                            <div className="flex items-center justify-between text-xs">
-                              {/* 更新中のローディング */}
-                              {updating && (
-                                <span className="text-primary flex items-center">
-                                  <span className="loading loading-spinner loading-xs mr-1"></span>
-                                  更新中...
-                                </span>
-                              )}
-                            </div>
-                            <div className="flex justify-end space-x-2">
-                              <button
-                                onClick={() => handleEditSave(comment.id)}
-                                disabled={updating || !editingText.trim()}
-                                className="btn btn-primary btn-sm"
-                                title="保存"
-                              >
-                                保存
-                              </button>
-                              <button
-                                onClick={handleEditCancel}
-                                disabled={updating}
-                                className="btn btn-outline btn-secondary btn-sm"
-                                title="キャンセル"
-                              >
-                                キャンセル
-                              </button>
-                            </div>
-                            {/* エラーメッセージ */}
-                            {editError && (
-                              <div className="alert alert-error py-2 text-xs">
-                                <span>{editError}</span>
-                              </div>
-                            )}
-                            {/* 🔥 削除エラーメッセージの表示 */}
-                            {deleteError && (
-                              <div className="mt-2 w-full max-w-md">
-                                <div className="alert alert-error py-2 text-xs">
-                                  <span>{deleteError}</span>
-                                  <button
-                                    onClick={() => setDeleteError(null)}
-                                    className="btn btn-xs btn-ghost"
-                                  >
-                                    ×
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </InfiniteScroll>
-              </div>
-            </>
-          )}
-        </div>
+                    )}
+                  </div>
+                ))}
+              </InfiniteScroll>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

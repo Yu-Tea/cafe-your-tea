@@ -17,7 +17,7 @@ export default function HomePage() {
         <div className="flex w-full flex-col justify-center sm:flex-row">
           <div className="flex gap-x-20">
             <div className="relative z-10 hidden sm:block sm:w-3/4">
-              <div className="bg-base-100 mb-4 rounded-xl px-10 py-8">
+              <div className="bg-base-100 my-4 rounded-xl px-10 py-8 zen-maru-gothic font-bold text-lg text-secondary">
                 いらっしゃいませ〜！Cafe Your Teaへようこそ！
                 <br />
                 ボクは、このカフェの店員のケロチャだよ。

@@ -71,30 +71,28 @@ const TeaArtsListPage = () => {
   }
 
   return (
-    <div className="py-10 text-center">
-      <div className="flex items-center justify-center px-6 sm:px-10">
-        <div className="flex max-w-7xl flex-col items-center gap-y-8">
-          <Title title="Menu" subtitle="メニュー" />
+    <div className="flex justify-center p-5 sm:p-10">
+      <div className="max-w-7xl space-y-8">
+        <Title title="Menu" subtitle="メニュー" />
 
-          {/* 説明文 */}
-          <div className="text-left sm:text-center">
-            こちらではカフェで取り扱っているティーを一覧でご紹介しております。
-            <br />
-            ティーはすべてこのカフェに訪れたお客様が考案したものとなります。是非、気になるティーをお探しください。
-          </div>
-
-          {/* 検索用 */}
-          <TeaArtSearchForm
-            onSearch={setSearchConditions}
-            onReset={() =>
-              setSearchConditions({ season: "", tagName: "", searchQuery: "" })
-            }
-            hasResults={isFiltered ? filteredTeaArts.length > 0 : null}
-          />
-
-          {/* メニュー一覧 */}
-          <TeaArtGrid teaArts={filteredTeaArts} />
+        {/* 説明文 */}
+        <div className="text-left sm:text-center">
+          こちらではカフェで取り扱っているティーを一覧でご紹介しております。
+          <br />
+          ティーはすべてこのカフェに訪れたお客様が考案したものとなります。是非、気になるティーをお探しください。
         </div>
+
+        {/* 検索用 */}
+        <TeaArtSearchForm
+          onSearch={setSearchConditions}
+          onReset={() =>
+            setSearchConditions({ season: "", tagName: "", searchQuery: "" })
+          }
+          hasResults={isFiltered ? filteredTeaArts.length > 0 : null}
+        />
+
+        {/* メニュー一覧 */}
+        <TeaArtGrid teaArts={filteredTeaArts} />
       </div>
     </div>
   );

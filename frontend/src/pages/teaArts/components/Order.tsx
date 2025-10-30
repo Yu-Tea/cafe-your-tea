@@ -57,9 +57,9 @@ const Order = ({ teaArt, onCommentCreated }: OrderProps) => {
         />
       )}
 
-      <div className="flex w-full items-end justify-center bg-[url(../images/order_bg.png)] bg-contain bg-center bg-repeat-x">
+      <div className="flex w-full items-end justify-center bg-[url(/images/order_bg.png)] bg-cover bg-right-bottom bg-repeat-x sm:bg-contain sm:bg-center">
         <div className="w-full max-w-3xl">
-          <div className="flex flex-col gap-6 px-3 sm:h-80 sm:flex-row">
+          <div className="flex flex-col gap-6 px-5 sm:h-80 sm:flex-row">
             <div className="flex-1">
               <OrderBubble
                 orderStep={orderStep}

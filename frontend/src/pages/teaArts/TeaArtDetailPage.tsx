@@ -68,92 +68,89 @@ const TeaArtDetailPage = () => {
 
   return (
     <>
-      <div className="container mx-auto py-10 text-center">
-        <div className="flex items-center justify-center px-10">
-          <div className="flex w-full max-w-[600px] flex-col items-center gap-y-10">
-            <Title title="Menu Details" subtitle="メニュー詳細" />
-            {/* 画像 */}
-            <div className="border-secondary/20 relative aspect-[3/2] w-full overflow-hidden rounded-xl border-1">
-              <img
-                src={teaArt.image_url}
-                alt={teaArt.title}
-                className="absolute h-full w-full object-cover"
-              />
-              <img
-                src="../images/bg_table_big.png"
-                alt="テーブル"
-                className="h-full w-full object-cover"
-              />
+      {/* ティー情報 */}
+      <div className="flex justify-center p-5 sm:p-10">
+        <div className="w-full max-w-[600px] space-y-10">
+          <Title title="Menu Details" subtitle="メニュー詳細" />
+          {/* 画像 */}
+          <div className="border-secondary/20 relative aspect-[3/2] w-full overflow-hidden rounded-xl border-1">
+            <img
+              src={teaArt.image_url}
+              alt={teaArt.title}
+              className="absolute h-full w-full object-cover"
+            />
+            <img
+              src="../images/bg_table_big.png"
+              alt="テーブル"
+              className="h-full w-full object-cover"
+            />
+          </div>
+
+          {/* ティー説明 */}
+          <div className="w-full text-left">
+            <div className="mb-3 flex items-center space-x-1">
+              {/* 季節 */}
+              <SeasonText teaArt={teaArt} className="mr-2 pt-1 text-2xl" />
+              {/* 温度表記の切り替え */}
+              <>
+                {(teaArt.temperature === "hot" ||
+                  teaArt.temperature === "both") && (
+                  <span className="badge badge-soft badge-error josefin-sans bg-error/20 pt-1">
+                    HOT
+                  </span>
+                )}
+                {(teaArt.temperature === "ice" ||
+                  teaArt.temperature === "both") && (
+                  <span className="badge badge-soft badge-info josefin-sans bg-info/20 pt-1">
+                    ICE
+                  </span>
+                )}
+              </>
+              {/* 温度表記の切り替えここまで */}
             </div>
 
-            {/* ティー説明 */}
-            <div className="w-full text-left">
-              <div className="mb-3 flex items-center space-x-1">
-                {/* 季節 */}
-                <SeasonText teaArt={teaArt} className="mr-2 pt-1 text-2xl" />
-                {/* 温度表記の切り替え */}
-                <>
-                  {(teaArt.temperature === "hot" ||
-                    teaArt.temperature === "both") && (
-                    <span className="badge badge-soft badge-error josefin-sans bg-error/20 pt-1">
-                      HOT
-                    </span>
-                  )}
-                  {(teaArt.temperature === "ice" ||
-                    teaArt.temperature === "both") && (
-                    <span className="badge badge-soft badge-info josefin-sans bg-info/20 pt-1">
-                      ICE
-                    </span>
-                  )}
-                </>
-                {/* 温度表記の切り替えここまで */}
-              </div>
-
-              {/* タイトル */}
-              <div className="border-secondary mt-1 mb-2 border-b-1 pb-3 text-4xl font-bold tracking-wider">
-                {teaArt.title}
-              </div>
-
-              {/* 制作者 */}
-              <Link
-                to={`/users/${teaArt.user.id}`}
-                className="link link-hover text-accent textarea-md flex items-center justify-end font-bold"
-              >
-                <FaUser className="mr-1" />
-                ティー制作者：{teaArt.user.name}
-              </Link>
-
-              <div className="mt-4 whitespace-pre-wrap">
-                {teaArt.description}
-              </div>
-
-              {/* タグ */}
-              <TagButtonList teaArt={teaArt} className={`mt-5 space-x-4`} />
-
-              {/* 自作メニューのみ表示のボタン3つ */}
-              {teaArt.is_owner && (
-                <div className="mt-5 w-full space-x-2 text-right">
-                  <TwitterButton
-                    teaArtId={teaArt.id}
-                    teaArtTitle={teaArt.title}
-                    className={`btn-accent gap-0.5 px-5`}
-                  />
-                  <Link
-                    to={`/tea-arts/${teaArt.id}/edit`}
-                    className="btn btn-neutral px-5 font-normal"
-                  >
-                    <FaPenFancy />
-                    編集
-                  </Link>
-                  <TeaDeleteButton
-                    teaArtId={teaArt.id}
-                    teaArtTitle={teaArt.title}
-                    className={`btn-neutral btn-outline px-5`}
-                    redirectAfterDelete={true}
-                  />
-                </div>
-              )}
+            {/* タイトル */}
+            <div className="border-secondary mt-1 mb-2 border-b-1 pb-3 text-4xl font-bold tracking-wider">
+              {teaArt.title}
             </div>
+
+            {/* 制作者 */}
+            <Link
+              to={`/users/${teaArt.user.id}`}
+              className="link link-hover text-accent textarea-md flex items-center sm:justify-end font-bold"
+            >
+              <FaUser className="mr-1" />
+              ティー制作者：{teaArt.user.name}
+            </Link>
+
+            <div className="mt-4 whitespace-pre-wrap">{teaArt.description}</div>
+
+            {/* タグ */}
+            <TagButtonList teaArt={teaArt} className={`mt-5 space-x-4`} />
+
+            {/* 自作メニューのみ表示のボタン3つ */}
+            {teaArt.is_owner && (
+              <div className="mt-5 w-full space-x-2 text-center sm:text-right">
+                <TwitterButton
+                  teaArtId={teaArt.id}
+                  teaArtTitle={teaArt.title}
+                  className={`btn-accent gap-0.5 px-5`}
+                />
+                <Link
+                  to={`/tea-arts/${teaArt.id}/edit`}
+                  className="btn btn-neutral px-5 font-normal"
+                >
+                  <FaPenFancy />
+                  編集
+                </Link>
+                <TeaDeleteButton
+                  teaArtId={teaArt.id}
+                  teaArtTitle={teaArt.title}
+                  className={`btn-neutral btn-outline px-5`}
+                  redirectAfterDelete={true}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -169,7 +166,7 @@ const TeaArtDetailPage = () => {
       />
 
       {/* 戻るボタン */}
-      <div className="mt-15 mb-5 text-center">
+      <div className="mt-10 mb-5 text-center">
         <Link to="/tea-arts" className="btn btn-outline btn-primary">
           ← メニューの一覧に戻る
         </Link>

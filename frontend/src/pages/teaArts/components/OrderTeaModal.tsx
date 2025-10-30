@@ -7,9 +7,9 @@ interface OrderTeaModalProps {
 
 const OrderTeaModal = ({ onDrink, teaImageUrl }: OrderTeaModalProps) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-600/90">
-      <div className="mx-4 max-w-md p-8 text-center">
-        <div className="mb-6">
+    <div className="text-base-100 fixed inset-0 z-50 flex items-center justify-center bg-stone-600/90">
+      <div className="mx-4 max-w-md space-y-6 p-8 text-center font-bold">
+        <div className="">
           {/* ティー画像 */}
           <img
             src={teaImageUrl}
@@ -18,20 +18,15 @@ const OrderTeaModal = ({ onDrink, teaImageUrl }: OrderTeaModalProps) => {
           />
         </div>
         {/* テキスト */}
-        <h3 className="text-base-100 mb-4 text-xl font-bold">
-          ティーが完成したよ！
-        </h3>
-        <p className="text-base-100 mb-6">
+        <h3 className="mb-2 text-xl">ティーが完成したよ！</h3>
+        <p className="zen-maru-gothic text-lg">
           心を込めて作ったよ。
           <br />
           どうぞお召し上がりくださいケロ〜！
         </p>
 
         {/* ボタン */}
-        <button
-          onClick={onDrink}
-          className="btn btn-success btn-lg font-normal"
-        >
+        <button onClick={onDrink} className="btn btn-success btn-lg">
           <FaCoffee />
           ティーを飲む
         </button>

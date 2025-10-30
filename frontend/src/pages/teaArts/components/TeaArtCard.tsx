@@ -1,5 +1,4 @@
 import React from "react";
-// import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { TeaArt } from "../../../types/teaArt";
 import { FaPenFancy } from "react-icons/fa";
@@ -38,14 +37,14 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
           className="absolute h-full w-full object-cover"
         />
         <img
-          src="../images/bg_table_small.png"
+          src="/images/bg_table_small.png"
           alt="テーブル"
           className="h-full w-full object-cover"
         />
       </div>
       {/* テキスト */}
-      <SeasonText teaArt={teaArt} className={`mt-4 mb-0.5 text-lg`} />
-      <h3 className="text-secondary mb-1 font-bold">{teaArt.title}</h3>
+      <SeasonText teaArt={teaArt} className={`mt-4 mb-0.5 text-lg text-center`} />
+      <h3 className="text-secondary mb-1 font-bold text-center">{teaArt.title}</h3>
       <TagButtonList teaArt={teaArt} className={`space-x-2 text-sm`} />
 
       {/* 自作かどうかで表示変更する範囲ここから */}

@@ -55,16 +55,14 @@ const Contact = () => {
   // 送信完了画面
   if (isSubmitted) {
     return (
-      <div className="py-10">
-        <div className="flex justify-center px-10 py-10">
-          <div className="w-full max-w-xl text-center">
-            <Title title="Thank You!" subtitle="送信完了" />
+      <div className="flex justify-center p-5 sm:p-10">
+        <div className="w-full max-w-xl space-y-10">
+          <Title title="Thank You!" subtitle="送信完了" />
 
-            <div className="mt-10">
-              送信が完了しました。
-              <br />
-              お問い合わせいただきありがとうございます。
-            </div>
+          <div className="text-center">
+            送信が完了しました。
+            <br />
+            お問い合わせいただきありがとうございます。
           </div>
         </div>
       </div>
@@ -73,11 +71,11 @@ const Contact = () => {
 
   return (
     <div className="flex justify-center p-5 sm:p-10">
-      <div className="w-full max-w-xl">
+      <div className="w-full max-w-xl space-y-6">
         <Title title="Contact" subtitle="お問い合わせ" />
 
         {/* フォーム */}
-        <form onSubmit={handleSubmit} className="mt-6 flex flex-col">
+        <form onSubmit={handleSubmit} className="flex flex-col">
           <InputField
             label="Name"
             type="text"
