@@ -248,7 +248,7 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
   }, [backgroundColor, getArtAsBase64, onArtComplete]);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-7 px-5 sm:flex-row">
+    <div className="flex flex-col items-center justify-center gap-7 sm:flex-row">
       {/* 描画エリア */}
       <div
         className="cup-bg border-neutral relative flex aspect-square items-center justify-center border bg-[url(../images/cup_img_big.png)] bg-center"
