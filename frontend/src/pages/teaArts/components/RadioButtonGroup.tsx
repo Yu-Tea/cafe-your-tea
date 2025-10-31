@@ -30,7 +30,7 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
   return (
     <div className={`form-control ${className}`}>
       <label className="text-secondary">{label}</label>
-      <div className={`mt-1 grid grid-cols-2 gap-3 ${gridClassName}`}>
+      <div className={`mt-2 grid grid-cols-2 gap-3 ${gridClassName}`}>
         {options.map((option) => (
           <label
             key={option.id}

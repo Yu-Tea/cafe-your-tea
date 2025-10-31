@@ -21,8 +21,8 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
         return (
           <>
             {/* 初期表示 */}
-            <div>
-              注文してくれたら、ボクがこのティーを作るケロ〜。
+            <div className="zen-maru-gothic text-secondary font-bold">
+              注文してくれたら、ボクがティーを作るケロ〜。
               <br />
               Xへの投稿や感想コメントも受け付けてるよ！
             </div>
@@ -35,7 +35,7 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
 
       case "preparing":
         return (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center zen-maru-gothic text-secondary font-bold">
             {/* 1秒表示で自動的にモーダル追加 */}
             <span className="loading loading-spinner loading-md text-primary mr-3"></span>
             じゃあ作るよ〜！
@@ -44,7 +44,7 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
 
       case "serving":
         return (
-          <div>
+          <div  className="zen-maru-gothic text-secondary font-bold">
             {/* モーダル表示時 */}
             心を込めて作ったよ。
             <br />
@@ -56,10 +56,10 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
         return (
           <>
             {/* X投稿＆感想コメント募集 */}
-            <div className="mb-4">
+            <div className="mb-4 zen-maru-gothic text-secondary font-bold">
               美味しかった〜？
               <br />
-              Xへの投稿や感想コメントもよろしくね〜！
+              Xへの投稿や感想コメントもよろしくね！
             </div>
             {teaArt && (
               <TwitterButton
@@ -82,7 +82,7 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
         return (
           <>
             {/* X投稿＆感想コメント募集 */}
-            <div className="mb-4">
+            <div className="mb-4 zen-maru-gothic text-secondary font-bold">
               わ〜い感想ありがと〜！
               <br />
               Xへの投稿もよろしくね〜！
@@ -105,7 +105,7 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
   };
 
   return (
-    <div className="bg-base-100 border-neutral/80 rounded-xl border-2 px-4 py-6 text-center">
+    <div className="bg-base-100 border-neutral/80 rounded-xl border-2 px-2 py-6 text-center">
       {renderContent()}
     </div>
   );

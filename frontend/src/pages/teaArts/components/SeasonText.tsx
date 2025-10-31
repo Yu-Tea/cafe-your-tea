@@ -6,7 +6,7 @@ interface SeasonTextProps {
 }
 
 const SeasonText = ({ teaArt, className = "" }: SeasonTextProps) => {
-  // ✅ 季節に応じた色クラスを返す関数
+  // 季節に応じたテキスト色
   const getSeasonColorClass = (season: string): string => {
     switch (season) {
       case "Spring":
@@ -18,7 +18,7 @@ const SeasonText = ({ teaArt, className = "" }: SeasonTextProps) => {
       case "Winter":
         return "text-info/80"; // 水色
       default:
-        return "text-secondary/80"; // デフォルト色
+        return "text-secondary/80"; // デフォルト色（茶色）
     }
   };
   return (

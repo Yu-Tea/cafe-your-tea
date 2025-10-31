@@ -71,7 +71,7 @@ export default function Header() {
               <img
                 src="/logo.png"
                 alt="Cafe Your Tea"
-                className="max-w-[280px] hover:opacity-85 sm:max-w-[340px]"
+                className="max-w-[280px] hover:opacity-85 sm:max-w-[300px] xl:max-w-[340px]"
               />
             </Link>
           </div>
