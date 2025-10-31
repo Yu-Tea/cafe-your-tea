@@ -86,102 +86,100 @@ export default function SignUp() {
   };
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="flex items-center justify-center px-10">
-        <div className="flex w-full max-w-sm flex-col gap-y-2">
-          <Title title="Sign Up" subtitle="新規登録" />
+    <div className="flex justify-center p-5 sm:p-10">
+      <div className="w-full max-w-sm space-y-2">
+        <Title title="Sign Up" subtitle="新規登録" />
 
-          <div>
-            {/* Google認証ボタン */}
-            <GoogleLoginButton />
-            <p className="text-secondary mt-2 text-center text-sm">
-              Googleで登録はこちらから
-            </p>
+        <div>
+          {/* Google認証ボタン */}
+          <GoogleLoginButton />
+          <p className="text-secondary mt-2 text-center text-sm">
+            Googleで登録はこちらから
+          </p>
+        </div>
+        <div className="divider josefin-sans text-secondary">OR</div>
+
+        {/* アラートメッセージ */}
+        {errors.length > 0 && (
+          <div className="alert alert-error">
+            <ul>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
           </div>
-          <div className="divider josefin-sans text-secondary">OR</div>
+        )}
 
-          {/* アラートメッセージ */}
-          {errors.length > 0 && (
-            <div className="alert alert-error">
-              <ul>
-                {errors.map((error, index) => (
-                  <li key={index}>{error}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+        {/* フォーム */}
+        <form onSubmit={handleSubmit} className="flex flex-col">
+          <InputField
+            label="Name"
+            type="text"
+            name="name"
+            maxLength={15}
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="お名前 ※15文字以内"
+            required
+            disabled={isLoading}
+          />
 
-          {/* フォーム */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-y-1">
-            <InputField
-              label="Name"
-              type="text"
-              name="name"
-              maxLength={15}
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="お名前 ※15文字以内"
-              required
-              disabled={isLoading}
-            />
+          <InputField
+            label="Email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="メールアドレス"
+            required
+            disabled={isLoading}
+          />
 
-            <InputField
-              label="Email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="メールアドレス"
-              required
-              disabled={isLoading}
-            />
+          <InputField
+            label="Password"
+            type="password"
+            name="password"
+            minLength={6}
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="パスワード ※6文字以上"
+            required
+            disabled={isLoading}
+          />
 
-            <InputField
-              label="Password"
-              type="password"
-              name="password"
-              minLength={6}
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="パスワード ※6文字以上"
-              required
-              disabled={isLoading}
-            />
+          <InputField
+            label="Password Confirmation"
+            type="password"
+            name="password_confirmation"
+            minLength={6}
+            value={formData.password_confirmation}
+            onChange={handleChange}
+            placeholder="パスワード確認"
+            required
+            disabled={isLoading}
+          />
 
-            <InputField
-              label="Password Confirmation"
-              type="password"
-              name="password_confirmation"
-              minLength={6}
-              value={formData.password_confirmation}
-              onChange={handleChange}
-              placeholder="パスワード確認"
-              required
-              disabled={isLoading}
-            />
-
-            <div className="text-center">
-              <button
-                type="submit"
-                className="btn btn-primary px-8 text-base font-normal"
-                disabled={isLoading}
-              >
-                {isLoading ? "登録中..." : "登録する"}
-              </button>
-            </div>
-          </form>
-
-          {/* loginページへの案内 */}
           <div className="text-center">
-            すでにアカウントをお持ちの方は
-            <Link
-              to="/login"
-              className="text-primary hover:text-secondary underline"
+            <button
+              type="submit"
+              className="btn btn-primary px-8 text-base font-normal"
+              disabled={isLoading}
             >
-              ログイン
-            </Link>
-            へ
+              {isLoading ? "登録中..." : "登録する"}
+            </button>
           </div>
+        </form>
+
+        {/* loginページへの案内 */}
+        <div className="text-center text-sm">
+          すでにアカウントをお持ちの方は
+          <Link
+            to="/login"
+            className="text-primary hover:text-secondary underline"
+          >
+            ログイン
+          </Link>
+          へ
         </div>
       </div>
     </div>

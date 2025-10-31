@@ -26,7 +26,7 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
 
   return (
     <div
-      className="bg-base-100 border-base-300 flex translate-y-1.5 cursor-pointer flex-col border-1 p-4 shadow-stone-400/20 transition duration-300 hover:translate-y-1 hover:shadow-lg"
+      className="bg-base-100 border-base-300 flex translate-y-1.5 cursor-pointer flex-col border-1 p-4 shadow-stone-400/20 transition duration-300 hover:translate-y-1 hover:shadow-lg sm:max-w-[308px]"
       onClick={handleCardClick}
     >
       {/* 画像 */}

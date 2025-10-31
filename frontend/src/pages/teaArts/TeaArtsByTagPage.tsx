@@ -66,7 +66,7 @@ const TeaArtsByTagPage = () => {
         )}
 
         {/* アクションボタン */}
-        <div className="mt-8 flex justify-center">
+        <div className="mt-15 text-center">
           <Link to="/tea-arts" className="btn btn-outline btn-primary">
             ← メニューの一覧に戻る
           </Link>

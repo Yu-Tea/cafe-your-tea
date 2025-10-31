@@ -47,13 +47,7 @@ const TeaArtDetailPage = () => {
   }
 
   if (error || !teaArt) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="alert alert-error">
-          <span>{error || "作品が見つかりませんでした"}</span>
-        </div>
-      </div>
-    );
+    return <StatusDisplay type="empty" message="ティーが見つかりませんでした" />;
   }
 
   // コメント作成時のコールバック

@@ -80,9 +80,8 @@ export default function Login() {
   };
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="flex items-center justify-center px-10">
-        <div className="flex w-full max-w-sm flex-col gap-y-2">
+    <div className="flex justify-center p-5 sm:p-10">
+      <div className="w-full max-w-sm space-y-2">
           <Title title="Login" subtitle="ログイン" />
 
           <div>
@@ -109,7 +108,7 @@ export default function Login() {
           )}
 
           {/* フォーム */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-y-1">
+          <form onSubmit={handleSubmit} className="flex flex-col">
             <InputField
               label="Email"
               type="email"
@@ -143,7 +142,7 @@ export default function Login() {
           </form>
 
           {/* signupページへの案内 */}
-          <div className="text-center">
+          <div className="text-center text-sm">
             アカウントをお持ちでない方は
             <Link
               to="/signup"
@@ -154,7 +153,7 @@ export default function Login() {
             へ
           </div>
         </div>
-      </div>
+      
     </div>
   );
 }

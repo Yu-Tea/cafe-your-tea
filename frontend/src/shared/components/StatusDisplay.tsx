@@ -41,9 +41,7 @@ const StatusDisplay = ({ type, message }: StatusDisplayProps) => {
   if (type === "empty") {
     return (
       <div className="flex h-full min-h-0 flex-1 flex-col items-center justify-center">
-        <div className="alert alert-info mx-auto max-w-md">
-          <span>{displayMessage}</span>
-        </div>
+        <span>{displayMessage}</span>
       </div>
     );
   }

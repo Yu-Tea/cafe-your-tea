@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Title } from "../../shared/components/Title";
 import { InputField } from "../../shared/components/InputField";
 import { TextAreaField } from "../../shared/components/TextAreaField";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { updateUserProfile, getUser } from "../../api/userApi";
 import { useAuth } from "../../shared/contexts/AuthContext";
 import { toast } from "sonner";
@@ -115,100 +115,93 @@ const UserEditPage = () => {
   };
 
   return (
-    <div className="container mx-auto py-10 text-center">
-      <div className="flex items-center justify-center px-10">
-        <div className="flex w-full max-w-2xl flex-col gap-y-10">
-          <Title title="Profile Edit" subtitle="プロフィール編集" />
-          <div>閲覧者に公開されるプロフィール情報を編集できます。</div>
-
-          {/* エラーメッセージ表示 */}
-          {errors.length > 0 && (
-            <div className="alert alert-error">
-              <ul className="list-inside list-disc">
-                {errors.map((error, index) => (
-                  <li key={index}>{error}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* プロフィール編集 */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-y-3">
-            {/* 画像選択 */}
-            <div className="mb-6 flex flex-col gap-y-3">
-              <label className="label josefin-sans text-secondary text-left text-2xl font-light">
-                Avatar Image
-              </label>
-              <div className="flex items-center justify-center gap-x-8">
-                {[1, 2, 3, 4, 5].map((avatarNum) => (
-                  <div
-                    key={avatarNum}
-                    className="flex flex-col items-center gap-y-2"
-                  >
-                    <img
-                      src={`/images/avatar_user${avatarNum}.png`}
-                      alt={`アバター${avatarNum}`}
-                      className="cursor-pointer"
-                      onClick={() => handleAvatarChange(avatarNum)}
-                    />
-                    <input
-                      type="radio"
-                      name="avatar_preset"
-                      value={avatarNum}
-                      checked={formData.avatar_preset === avatarNum}
-                      onChange={() => handleAvatarChange(avatarNum)}
-                      className="radio radio-primary"
-                      disabled={isLoading}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 入力フォーム */}
-            <InputField
-              label="Name"
-              type="text"
-              name="name"
-              maxLength={15}
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="お名前"
-              required
-              disabled={isLoading}
-              note="※15文字以内"
-            />
-
-            <TextAreaField
-              label="Profile"
-              name="bio"
-              maxLength={200}
-              value={formData.bio}
-              onChange={handleChange}
-              placeholder="自己紹介文"
-              required
-              disabled={isLoading}
-            />
-
-            {/* ボタン群（更新・キャンセル） */}
-            <div className="mt-5 flex justify-center gap-x-6">
-              <button
-                type="submit"
-                className="btn btn-primary px-8 text-base font-normal"
-                disabled={isLoading}
-              >
-                {isLoading ? "更新中..." : "更新する"}
-              </button>
-
-              <Link
-                to="/mypage"
-                className="btn btn-outline px-8 text-base font-normal"
-              >
-                キャンセル
-              </Link>
-            </div>
-          </form>
+    <div className="flex justify-center p-5 sm:p-10">
+      <div className="w-full max-w-2xl space-y-8">
+        <Title title="Profile Edit" subtitle="プロフィール編集" />
+        <div className="text-center">
+          閲覧者に公開されるプロフィール情報を編集できます。
         </div>
+
+        {/* エラーメッセージ表示 */}
+        {errors.length > 0 && (
+          <div className="alert alert-error">
+            <ul className="list-inside list-disc">
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* プロフィール編集 */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-y-3">
+          {/* 画像選択 */}
+          <div className="mb-6 flex flex-col gap-y-3">
+            <label className="label josefin-sans text-secondary text-left text-2xl font-light">
+              Avatar Image
+            </label>
+            <div className="flex items-center justify-center gap-x-3 sm:gap-x-8">
+              {[1, 2, 3, 4, 5].map((avatarNum) => (
+                <div
+                  key={avatarNum}
+                  className="flex flex-col items-center gap-y-2"
+                >
+                  <img
+                    src={`/images/avatar_user${avatarNum}.png`}
+                    alt={`アバター${avatarNum}`}
+                    className="cursor-pointer"
+                    onClick={() => handleAvatarChange(avatarNum)}
+                  />
+                  <input
+                    type="radio"
+                    name="avatar_preset"
+                    value={avatarNum}
+                    checked={formData.avatar_preset === avatarNum}
+                    onChange={() => handleAvatarChange(avatarNum)}
+                    className="radio radio-primary"
+                    disabled={isLoading}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 入力フォーム */}
+          <InputField
+            label="Name"
+            type="text"
+            name="name"
+            maxLength={15}
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="お名前"
+            required
+            disabled={isLoading}
+            note="※15文字以内"
+          />
+
+          <TextAreaField
+            label="Profile"
+            name="bio"
+            maxLength={200}
+            value={formData.bio}
+            onChange={handleChange}
+            placeholder="自己紹介文"
+            required
+            disabled={isLoading}
+          />
+
+          {/* ボタン群（更新・キャンセル） */}
+          <div className="mt-5 text-center">
+            <button
+              type="submit"
+              className="btn btn-primary px-8 text-base font-normal"
+              disabled={isLoading}
+            >
+              {isLoading ? "更新中..." : "更新する"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -44,7 +44,7 @@ const UserPage = () => {
   }
 
   if (!userDetail)
-    return <div className="mt-20 text-center">ユーザーが見つかりません</div>;
+  return <StatusDisplay type="empty" message="ユーザーが見つかりませんでした" />;
 
   return (
     <div className="flex flex-col items-center justify-center space-y-8 p-5 sm:p-10">
@@ -82,7 +82,7 @@ const UserPage = () => {
 
       {/* ティーギャラリー */}
 
-      <div className="mt-20 max-w-7xl space-y-8">
+      <div className="mt-10 max-w-7xl space-y-8">
         <Title
           title="Tea Gallery"
           subtitle={`${userDetail?.name}さんのティー`}
