@@ -10,6 +10,7 @@ import { SEASONS, TEMPERATURES } from "../../types/teaArt";
 import TagCheckboxList from "./components/TagCheckboxList";
 import TeaArtDraw, { TeaArtDrawRef } from "./components/TeaArtDraw";
 import { toast } from "sonner";
+import LoadingAnime from "./components/LoadingAnime";
 
 const TeaArtCreatePage = () => {
   const navigate = useNavigate();
@@ -93,14 +94,7 @@ const TeaArtCreatePage = () => {
 
   // ローディング状態
   if (isLoading) {
-    return (
-      <div className="flex h-full min-h-0 flex-1 flex-col items-center justify-center">
-        <span className="font-bold">
-          ティーをメニューに登録中だよ。しばらく待っててね！
-        </span>
-        <span className="loading loading-ring text-neutral loading-xl mt-10"></span>
-      </div>
-    );
+    return <LoadingAnime type="create" />;
   }
 
   return (
