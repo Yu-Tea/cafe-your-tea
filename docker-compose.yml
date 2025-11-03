@@ -1,11 +1,14 @@
 version: "3"
 services:
   db:
-    image: postgres
+    image: postgres:15
+    platform: linux/arm64/v8
     restart: always
     environment:
       TZ: Asia/Tokyo
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: app_development
+      POSTGRES_USER: postgres
     volumes:
       - postgresql_data:/var/lib/postgresql/data
     ports:
@@ -16,6 +19,7 @@ services:
       timeout: 5s
       retries: 5
   back:
+    platform: linux/arm64/v8
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -34,6 +38,7 @@ services:
     tty: true
     stdin_open: true
   front:
+    platform: linux/arm64/v8
     build:
       context: ./frontend/
       dockerfile: Dockerfile

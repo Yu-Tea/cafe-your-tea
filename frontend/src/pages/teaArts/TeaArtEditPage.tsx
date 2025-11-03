@@ -16,6 +16,7 @@ import {
   getTemperatureValue,
   Tag,
 } from "../../types/teaArt";
+import LoadingAnime from "./components/LoadingAnime";
 
 const TeaArtEditPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -140,19 +141,14 @@ const TeaArtEditPage = () => {
 
   // 「変更するボタン」押した後の処理中の画面
   if (isLoading) {
-    return (
-      <div className="flex h-full min-h-0 flex-1 flex-col items-center justify-center">
-        <span className="font-bold">更新中だよ。しばらく待っててね！</span>
-        <span className="loading loading-ring text-neutral loading-xl mt-10"></span>
-      </div>
-    );
+    return <LoadingAnime type="update" />;
   }
 
   return (
     <div className="flex flex-col items-center space-y-10 p-5 sm:p-10">
       <Title title="Tea Art Edit" subtitle="ティーアートの編集" />
       <div className="text-left">
-        ティーの情報の編集が行えます。（※画像は修正できません。）
+        ティーの情報の編集ができます。（※画像は修正できません。）
       </div>
 
       {/* 画像 */}
@@ -166,7 +162,10 @@ const TeaArtEditPage = () => {
       </div>
 
       {/* フォーム */}
-      <form onSubmit={handleSubmit} className="mt-5 w-full max-w-3xl space-y-10">
+      <form
+        onSubmit={handleSubmit}
+        className="mt-5 w-full max-w-3xl space-y-10"
+      >
         {/* タイトル */}
         <div className="mb-5">
           <InputField

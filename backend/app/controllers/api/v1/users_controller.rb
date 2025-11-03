@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i[update]
   
   # ユーザー新規作成
   def create
