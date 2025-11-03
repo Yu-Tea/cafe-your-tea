@@ -1,8 +1,8 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaCoffee, FaFrog } from "react-icons/fa";
 import { BiSolidFoodMenu } from "react-icons/bi";
-import { IoMdMenu } from "react-icons/io";
+import { IoMdMenu, IoMdClose } from "react-icons/io";
 import {
   FaUserPlus,
   FaRightToBracket,
@@ -18,13 +18,21 @@ export default function Header() {
   const { isLoggedIn, logout: authLogout, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const drawerToggleRef = useRef<HTMLInputElement>(null);
+
+  // ハンバーガーメニューボタンの開閉を処理
+  const handleDrawerToggle = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
 
   // ページ遷移時にサイドバーを閉じる
   useEffect(() => {
     if (drawerToggleRef.current) {
       drawerToggleRef.current.checked = false;
     }
+    // ハンバーガーメニューアイコンの状態もリセット
+    setIsDrawerOpen(false);
   }, [location.pathname]);
 
   // ログアウト処理のハンドラー
@@ -77,13 +85,22 @@ export default function Header() {
           </div>
 
           {/* ハンバーガーメニュー */}
-          <div className="mr-3 flex-none lg:hidden">
+          <div className="z-50 mr-3 flex-none lg:hidden">
             <label
               htmlFor="my-drawer-3"
               aria-label="open sidebar"
-              className="btn btn-square btn-outline"
+              className="btn btn-square btn-outline swap swap-rotate"
+              onClick={handleDrawerToggle}
             >
-              <IoMdMenu size={35} />
+              {/* checkboxの状態をisDrawerOpenと連動 */}
+              <input
+                type="checkbox"
+                checked={isDrawerOpen}
+                onChange={() => {}}
+              />
+
+              <IoMdMenu size={35} className="swap-off fill-current" />
+              <IoMdClose size={35} className="swap-on fill-current" />
             </label>
           </div>
 
