@@ -13,7 +13,7 @@ class ResendService
     response = self.class.post('/emails', {
       headers: @headers,
       body: {
-        from: ENV['RESEND_FROM_EMAIL'] || 'noreply@cafe-yt-back.onrender.com',
+        from: ENV['RESEND_FROM_EMAIL'] || 'onboarding@resend.dev',
         to: [to],
         subject: subject,
         html: html
