@@ -8,6 +8,8 @@ import Footer from "./shared/components/Footer";
 import HomePage from "./pages/home";
 import Login from "./pages/login/Login";
 import SignUp from "./pages/signup/SignUp";
+import PasswordResetRequest from './pages/password/PasswordResetRequest';
+import PasswordResetForm from './pages/password/PasswordResetForm';
 
 import About from "./pages/about/About";
 import Teams from "./pages/teams/Teams";
@@ -43,6 +45,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/password-reset" element={<PasswordResetRequest />} />
+            <Route path="/password-reset/:token" element={<PasswordResetForm />} />
             <Route path="/about" element={<About />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/privacy" element={<Privacy />} />

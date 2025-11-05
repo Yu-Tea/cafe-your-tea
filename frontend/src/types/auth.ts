@@ -14,3 +14,11 @@ export interface GoogleLoginResponse {
   bio: string;
   avatar_preset: number;
 }
+
+export interface PasswordResetRequest {
+  email: string;
+}
+
+export interface PasswordResetResponse {
+  message: string;
+}
