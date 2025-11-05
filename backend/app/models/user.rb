@@ -22,6 +22,61 @@ class User < ApplicationRecord
     google_uid.present?
   end
 
+  # ================== パスワードリセット機能 ==================
+  
+  # パスワードリセット用のトークン生成
+  def generate_password_reset_token!
+    self.reset_password_token = SecureRandom.urlsafe_base64(32)
+    self.reset_password_sent_at = Time.current
+    save!
+  end
+
+  # トークンの有効性チェック（24時間以内）
+  def password_reset_token_valid?
+    reset_password_sent_at && reset_password_sent_at > 24.hours.ago
+  end
+
+  # リセット処理のクリア
+  def clear_password_reset_token!
+    self.reset_password_token = nil
+    self.reset_password_sent_at = nil
+    save!
+  end
+
+  # トークンでユーザーを検索
+  def self.find_by_reset_token(token)
+    find_by(reset_password_token: token)
+  end
+
+  # パスワードリセット時の特別なバリデーション
+  def reset_password!(new_password, new_password_confirmation)
+    # Google認証ユーザーはパスワードリセット不可
+    return false if google_user?
+    
+    # パスワードの更新
+    self.password = new_password
+    self.password_confirmation = new_password_confirmation
+    
+    # バリデーション（パスワードリセット時は強制的にチェック）
+    if new_password.blank?
+      errors.add(:password, 'を入力してください')
+      return false
+    end
+    
+    if new_password != new_password_confirmation
+      errors.add(:password_confirmation, 'とパスワードが一致しません')
+      return false
+    end
+    
+    # 保存してトークンクリア
+    if save
+      clear_password_reset_token!
+      true
+    else
+      false
+    end
+  end
+
   private
 
   def set_defaults

@@ -1,5 +1,9 @@
 import { apiClient } from "../utils/axios";
-import type { AuthResponse } from "../types/auth";
+import type {
+  AuthResponse,
+  PasswordResetRequest,
+  PasswordResetResponse,
+} from "../types/auth";
 
 // バックエンドのレスポンス構造に合わせた型定義
 interface LogoutResponse {
@@ -29,7 +33,7 @@ export const authApi = {
   }) => apiClient.post("/users", { user: userData }),
 };
 
-// ログアウト用（JWTCookie対応版）
+// ログアウト用
 export const performLogout = async (): Promise<boolean> => {
   try {
     // バックエンドにログアウトリクエスト
@@ -56,4 +60,40 @@ export const performLogout = async (): Promise<boolean> => {
 
     return false;
   }
+};
+
+// パスワードリセット申請
+export const requestPasswordReset = async (
+  email: string
+): Promise<PasswordResetResponse> => {
+  const response = await apiClient.post<PasswordResetResponse>(
+    "/password_resets",
+    {
+      email,
+    } as PasswordResetRequest
+  );
+  return response.data;
+};
+
+// トークンの有効性確認
+export const validateResetToken = async (
+  token: string
+): Promise<{ valid: boolean; email?: string; message?: string }> => {
+  const response = await apiClient.get(`/password_resets/${token}`);
+  return response.data;
+};
+
+// パスワード更新
+export const updatePassword = async (
+  token: string,
+  password: string,
+  passwordConfirmation: string
+): Promise<{ message: string }> => {
+  const response = await apiClient.patch(`/password_resets/${token}`, {
+    user: {
+      password,
+      password_confirmation: passwordConfirmation,
+    },
+  });
+  return response.data;
 };

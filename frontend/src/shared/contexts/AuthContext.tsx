@@ -6,19 +6,18 @@ import React, {
   ReactNode,
 } from "react";
 import { apiClient } from "../../utils/axios";
-import type { User } from "../../types/user";
+import type { UserMe } from "../../types/user";
 import type { AuthResponse } from "../../types/auth";
 
 interface AuthContextType {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: UserMe | null;
+  setUser: (user: UserMe | null) => void;
   isLoggedIn: boolean;
   loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
   refetch: () => Promise<void>;
 }
-
 
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
@@ -27,7 +26,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserMe | null>(null);
   const [loading, setLoading] = useState(true);
 
   const checkAuth = async () => {
@@ -38,7 +37,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setUser({
           id: data.id!,
           name: data.name!,
-          email: data.email!,
           bio: data.bio!,
           avatar_preset: data.avatar_preset!,
         });
@@ -65,7 +63,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         const newUser = {
           id: data.id!,
           name: data.name!,
-          email: data.email!,
           bio: data.bio!,
           avatar_preset: data.avatar_preset!,
         };

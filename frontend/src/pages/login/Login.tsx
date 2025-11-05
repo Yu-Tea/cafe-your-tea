@@ -82,67 +82,78 @@ export default function Login() {
   return (
     <div className="flex justify-center p-5 sm:p-10">
       <div className="w-full max-w-sm space-y-2">
-          <Title title="Login" subtitle="ログイン" />
+        <Title title="Login" subtitle="ログイン" />
 
-          <div>
-            {/* Google認証ボタン */}
-            <GoogleLoginButton />
-            <p className="text-secondary mt-2 text-center text-sm">
-              Googleでログインはこちらから
-            </p>
+        <div>
+          {/* Google認証ボタン */}
+          <GoogleLoginButton />
+          <p className="text-secondary mt-2 text-center text-sm">
+            Googleでログインはこちらから
+          </p>
+        </div>
+        <div className="divider josefin-sans text-secondary">OR</div>
+
+        {/* アラートメッセージ */}
+        {successMessage && (
+          <div className="alert alert-success">{successMessage}</div>
+        )}
+        {errors.length > 0 && (
+          <div className="alert alert-error">
+            <ul>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
           </div>
-          <div className="divider josefin-sans text-secondary">OR</div>
+        )}
 
-          {/* アラートメッセージ */}
-          {successMessage && (
-            <div className="alert alert-success">{successMessage}</div>
-          )}
-          {errors.length > 0 && (
-            <div className="alert alert-error">
-              <ul>
-                {errors.map((error, index) => (
-                  <li key={index}>{error}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* フォーム */}
-          <form onSubmit={handleSubmit} className="flex flex-col">
-            <InputField
-              label="Email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="メールアドレス"
-              required
+        {/* フォーム */}
+        <form onSubmit={handleSubmit} className="flex flex-col">
+          <InputField
+            label="Email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="メールアドレス"
+            required
+            disabled={isLoading}
+          />
+          <InputField
+            label="Password"
+            type="password"
+            name="password"
+            minLength={6}
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="パスワード"
+            required
+            disabled={isLoading}
+          />
+          <div className="text-center">
+            <button
+              type="submit"
+              className="btn btn-primary px-8 text-base font-normal"
               disabled={isLoading}
-            />
-            <InputField
-              label="Password"
-              type="password"
-              name="password"
-              minLength={6}
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="パスワード"
-              required
-              disabled={isLoading}
-            />
-            <div className="text-center">
-              <button
-                type="submit"
-                className="btn btn-primary px-8 text-base font-normal"
-                disabled={isLoading}
-              >
-                {isLoading ? "ログイン中..." : "ログイン"}
-              </button>
-            </div>
-          </form>
+            >
+              {isLoading ? "ログイン中..." : "ログイン"}
+            </button>
+          </div>
+        </form>
 
-          {/* signupページへの案内 */}
-          <div className="text-center text-sm">
+        {/* signupページへの案内 */}
+        <div className="space-y-1.5 text-center text-sm mt-4">
+          <p>
+            パスワードをお忘れの方は
+            <Link
+              to="/password-reset"
+              className="text-primary hover:text-secondary underline"
+            >
+              こちら
+            </Link>
+            へ
+          </p>
+          <p>
             アカウントをお持ちでない方は
             <Link
               to="/signup"
@@ -151,9 +162,9 @@ export default function Login() {
               新規登録
             </Link>
             へ
-          </div>
+          </p>
         </div>
-      
+      </div>
     </div>
   );
 }

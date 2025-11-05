@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
-  root to: 'health_check#index'
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 
   # ティー詳細ページ動的OGP用
   get '/ogp/tea_arts/:id', to: 'ogp#tea_art', as: :ogp_tea_art
@@ -14,6 +16,8 @@ Rails.application.routes.draw do
       get 'me', to: 'authentication#me'
 
       resources :users, only: %i[create show]
+      resource :user, only: [:update]
+
       resources :tea_arts, only: %i[index show create update destroy] do
         collection do
           get :search_by_tag  # タグ検索専用
@@ -28,7 +32,10 @@ Rails.application.routes.draw do
       # 個別コメント操作（編集・削除・詳細）
       resources :comments, only: %i[update destroy]
 
-      resource :user, only: [:update]
+      # パスワードリセット用
+      post 'password_resets', to: 'password_resets#create'
+      get 'password_resets/:token', to: 'password_resets#show'
+      patch 'password_resets/:token', to: 'password_resets#update'
     end
   end
 end

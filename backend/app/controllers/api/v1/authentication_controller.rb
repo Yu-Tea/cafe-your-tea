@@ -32,7 +32,7 @@ class Api::V1::AuthenticationController < ApplicationController
         token = TokenGenerator.encode(user.id)
         cookies[:jwt] = jwt_cookie_options(token)
 
-        render json: { 
+        render json: {
           name: user.name, 
           email: user.email, 
         }, status: :ok
@@ -58,7 +58,6 @@ class Api::V1::AuthenticationController < ApplicationController
         logged_in: true,
         id: @current_user.id,
         name: @current_user.name,
-        email: @current_user.email,
         bio: @current_user.bio,
         avatar_preset: @current_user.avatar_preset
       }, status: :ok
