@@ -1,4 +1,5 @@
 import { FaXTwitter } from "react-icons/fa6";
+import { Button } from "@/shared/components/Button";
 
 interface TwitterButtonProps {
   teaArtId: number;
@@ -35,14 +36,15 @@ const TwitterButton = ({
   };
 
   return (
-    <button
+    <Button
+      variant="st-btn"
       type="button"
       onClick={handleShareToX}
-      className={`btn font-normal ${className}`}
+      className={`${className}`}
     >
       <FaXTwitter />
       で共有
-    </button>
+    </Button>
   );
 };
 

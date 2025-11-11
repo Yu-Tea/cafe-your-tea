@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { Title } from "../../shared/components/Title";
-import { InputField } from "../../shared/components/InputField";
-import { TextAreaField } from "../../shared/components/TextAreaField";
 import { useNavigate, useParams } from "react-router-dom";
-import { updateUserProfile, getUser } from "../../api/userApi";
-import { useAuth } from "../../shared/contexts/AuthContext";
 import { toast } from "sonner";
-import StatusDisplay from "../../shared/components/StatusDisplay";
+import { updateUserProfile, getUser } from "@/api/userApi";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { Title } from "@/shared/components/Title";
+import { InputField } from "@/shared/components/InputField";
+import { TextAreaField } from "@/shared/components/TextAreaField";
+import { Button } from "@/shared/components/Button";
+import StatusDisplay from "@/shared/components/StatusDisplay";
 
 // フォームデータの型定義
 interface MyPageFormData {
@@ -193,13 +194,14 @@ const UserEditPage = () => {
 
           {/* ボタン群（更新・キャンセル） */}
           <div className="mt-5 text-center">
-            <button
+            <Button
+              variant="st-btn"
               type="submit"
-              className="btn btn-primary px-8 text-base font-normal"
+              className="btn-primary px-8 text-base"
               disabled={isLoading}
             >
               {isLoading ? "更新中..." : "更新する"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { apiClient } from "../../utils/axios";
-import { useAuth } from "../../shared/contexts/AuthContext";
-import { Title } from "../../shared/components/Title";
-import { InputField } from "../../shared/components/InputField";
 import { toast } from "sonner";
+import { apiClient } from "@/utils/axios";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { Title } from "@/shared/components/Title";
+import { InputField } from "@/shared/components/InputField";
+import { Button } from "@/shared/components/Button";
 import GoogleLoginButton from "@/shared/components/GoogleLoginButton";
 
 // フォームデータの型定義
@@ -160,13 +161,14 @@ export default function SignUp() {
           />
 
           <div className="text-center">
-            <button
+            <Button
+              variant="st-btn"
               type="submit"
-              className="btn btn-primary px-8 text-base font-normal"
+              className="btn-primary px-8 text-base"
               disabled={isLoading}
             >
               {isLoading ? "登録中..." : "登録する"}
-            </button>
+            </Button>
           </div>
         </form>
 

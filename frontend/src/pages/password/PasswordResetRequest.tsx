@@ -1,9 +1,10 @@
 import { useState, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { requestPasswordReset } from "../../api/auth";
-import { Title } from "../../shared/components/Title";
-import { InputField } from "../../shared/components/InputField";
 import { toast } from "sonner";
+import { requestPasswordReset } from "@/api/auth";
+import { Title } from "@/shared/components/Title";
+import { InputField } from "@/shared/components/InputField";
+import { Button } from "@/shared/components/Button";
 
 const PasswordResetRequest = () => {
   const [email, setEmail] = useState<string>("");
@@ -56,7 +57,7 @@ const PasswordResetRequest = () => {
   return (
     <div className="flex flex-col items-center justify-center p-5 sm:p-10">
       <Title title="Password Reset" subtitle="パスワードリセット" />
-      <p className="my-8 text-left sm:text-center text-sm">
+      <p className="my-8 text-left text-sm sm:text-center">
         登録されているメールアドレスを入力してください。パスワードリセット用のリンクをお送りします。
         <br />
         ※Google認証で登録された方は、「Googleでログイン」をご利用ください。
@@ -76,13 +77,14 @@ const PasswordResetRequest = () => {
           />
 
           <div className="text-center">
-            <button
+            <Button
+              variant="st-btn"
               type="submit"
               className="btn btn-primary px-8 text-base font-normal"
               disabled={isLoading}
             >
               {isLoading ? "送信中..." : "送信"}
-            </button>
+            </Button>
           </div>
         </form>
 

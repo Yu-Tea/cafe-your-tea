@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
-import { Title } from "../../shared/components/Title";
-import { InputField } from "../../shared/components/InputField";
-import { TextAreaField } from "../../shared/components/TextAreaField";
-import { RadioButtonGroup } from "./components/RadioButtonGroup";
 import { useParams, useNavigate } from "react-router-dom";
-import { getTeaArt, updateTeaArt } from "../../api/teaArtApi";
-import TagCheckboxList from "./components/TagCheckboxList";
-import StatusDisplay from "../../shared/components/StatusDisplay";
-import { TeaArtFormData } from "../../types/teaArt";
 import { toast } from "sonner";
+import { getTeaArt, updateTeaArt } from "@/api/teaArtApi";
 import {
+  TeaArtFormData,
   SEASONS,
   TEMPERATURES,
   getSeasonValue,
   getTemperatureValue,
   Tag,
-} from "../../types/teaArt";
+} from "@/types/teaArt";
+import { Title } from "@/shared/components/Title";
+import { InputField } from "@/shared/components/InputField";
+import { TextAreaField } from "@/shared/components/TextAreaField";
+import { Button } from "@/shared/components/Button";
+import { RadioButtonGroup } from "./components/RadioButtonGroup";
+import StatusDisplay from "@/shared/components/StatusDisplay";
+import TagCheckboxList from "./components/TagCheckboxList";
 import LoadingAnime from "./components/LoadingAnime";
 
 const TeaArtEditPage = () => {
@@ -155,7 +156,7 @@ const TeaArtEditPage = () => {
       <div className="border-secondary/20 relative aspect-[3/2] w-full max-w-[600px] overflow-hidden rounded-xl border-1">
         <img src={imageUrl} className="absolute h-full w-full object-cover" />
         <img
-          src="../../images/bg_table_big.png"
+          src="@/images/bg_table_big.png"
           alt="テーブル"
           className="h-full w-full object-cover"
         />
@@ -222,13 +223,14 @@ const TeaArtEditPage = () => {
 
         {/* ボタン */}
         <div className="mt-10 text-center">
-          <button
+          <Button
+            variant="st-btn"
             type="submit"
-            className="btn btn-primary px-8 text-base font-normal"
+            className="btn-primary px-8 text-base"
             disabled={isLoading}
           >
             {isLoading ? "変更中..." : "変更する"}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

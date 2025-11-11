@@ -1,15 +1,15 @@
 import { useState, useRef } from "react";
-import { Title } from "../../shared/components/Title";
-import { InputField } from "../../shared/components/InputField";
-import { TextAreaField } from "../../shared/components/TextAreaField";
-import { RadioButtonGroup } from "./components/RadioButtonGroup";
 import { useNavigate } from "react-router-dom";
-import { createTeaArt } from "../../api/teaArtApi";
-import { TeaArtFormData } from "../../types/teaArt";
-import { SEASONS, TEMPERATURES } from "../../types/teaArt";
-import TagCheckboxList from "./components/TagCheckboxList";
-import TeaArtDraw, { TeaArtDrawRef } from "./components/TeaArtDraw";
 import { toast } from "sonner";
+import { createTeaArt } from "@/api/teaArtApi";
+import { TeaArtFormData, SEASONS, TEMPERATURES } from "@/types/teaArt";
+import { RadioButtonGroup } from "./components/RadioButtonGroup";
+import TeaArtDraw, { TeaArtDrawRef } from "./components/TeaArtDraw";
+import { Title } from "@/shared/components/Title";
+import { TextAreaField } from "@/shared/components/TextAreaField";
+import { InputField } from "@/shared/components/InputField";
+import { Button } from "@/shared/components/Button";
+import TagCheckboxList from "./components/TagCheckboxList";
 import LoadingAnime from "./components/LoadingAnime";
 
 const TeaArtCreatePage = () => {
@@ -177,13 +177,14 @@ const TeaArtCreatePage = () => {
 
         {/* ボタン */}
         <div className="mt-10 text-center">
-          <button
+          <Button
+            variant="st-btn"
             type="submit"
-            className="btn btn-primary px-8 text-base font-normal"
+            className="btn-primary px-8 text-base"
             disabled={isLoading || !hasArtContent}
           >
             {isLoading ? "作成中..." : "作成する"}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

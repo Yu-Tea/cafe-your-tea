@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Title } from "../../shared/components/Title";
-import { InputField } from "../../shared/components/InputField";
+import { Title } from "@/shared/components/Title";
+import { InputField } from "@/shared/components/InputField";
+import { Button } from "@/shared/components/Button";
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -118,13 +119,14 @@ const Contact = () => {
           />
 
           <div className="text-center">
-            <button
+            <Button
+              variant="st-btn"
               type="submit"
-              className="btn btn-primary mt-6 px-8 text-base font-normal"
+              className="btn-primary mt-6 px-8 text-base"
               disabled={isSubmitting}
             >
               {isSubmitting ? "送信中..." : "送信"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

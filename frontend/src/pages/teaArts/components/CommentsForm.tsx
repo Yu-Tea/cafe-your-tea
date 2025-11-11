@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useAuth } from "../../../shared/contexts/AuthContext";
 import { IoIosSend } from "react-icons/io";
 import { createComment } from "../../../api/commentApi";
-import type { CreateCommentRequest, Comment } from "../../../types/comment";
+import { CreateCommentRequest, Comment } from "../../../types/comment";
+import { useAuth } from "../../../shared/contexts/AuthContext";
 import { TextAreaField } from "../../../shared/components/TextAreaField";
+import { Button } from "../../../shared/components/Button";
 
 interface CommentsFormProps {
   teaArtId: number;
@@ -142,10 +143,11 @@ const CommentsForm = ({ teaArtId, onCommentCreated }: CommentsFormProps) => {
 
             {/* 送信ボタン */}
             <div className="mt-3 flex justify-end">
-              <button
+              <Button
+                variant="st-btn"
                 type="submit"
                 disabled={!comment.trim() || isSubmitting}
-                className="btn btn-primary px-5 font-normal"
+                className="btn-primary px-5"
               >
                 {isSubmitting ? (
                   <>
@@ -158,7 +160,7 @@ const CommentsForm = ({ teaArtId, onCommentCreated }: CommentsFormProps) => {
                     感想を送る
                   </>
                 )}
-              </button>
+              </Button>
             </div>
           </div>
         </form>

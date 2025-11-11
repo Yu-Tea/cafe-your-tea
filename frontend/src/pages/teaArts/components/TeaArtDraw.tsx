@@ -3,6 +3,8 @@ import { Stage, Layer, Line, Circle } from "react-konva";
 import { SketchPicker } from "react-color";
 import { FaUndo, FaRedo, FaTrashAlt } from "react-icons/fa";
 import Konva from "konva";
+import { motion } from "motion/react";
+import { Button } from "../../../shared/components/Button";
 
 interface DrawLine {
   points: number[];
@@ -251,7 +253,7 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
     <div className="flex flex-col items-center justify-center gap-7 sm:flex-row">
       {/* 描画エリア */}
       <div
-        className="cup-bg border-neutral relative flex aspect-square items-center justify-center border bg-[url(../images/cup_img_big.png)] bg-center"
+        className="cup-bg border-neutral relative flex aspect-square cursor-crosshair items-center justify-center border bg-[url(../images/cup_img_big.png)] bg-center"
         style={{ width: containerSize, height: containerSize }}
       >
         <div
@@ -313,7 +315,10 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
 
           <div className="grid w-full grid-cols-2 gap-1">
             {penColors.map((pen) => (
-              <div
+              <motion.div
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 key={pen.color}
                 className="hover:bg-primary/10 flex cursor-pointer items-center gap-1 p-2 transition-colors"
                 onClick={() => setSelectedPenColor(pen.color)}
@@ -338,7 +343,7 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
                 >
                   {pen.name}ペン
                 </span>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -367,9 +372,12 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
             <span className="josefin-sans text-3xl">Tea Color</span>
             <span>ーお茶の色ー</span>
           </div>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
             onClick={() => setShowColorPicker(!showColorPicker)}
-            className="size-10 cursor-pointer rounded-full"
+            className="border-base-200 ml-2 size-11 cursor-pointer rounded-full border-2"
             style={{
               backgroundColor: backgroundColor,
             }}
@@ -404,31 +412,34 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
 
         {/* 操作ボタン */}
         <div className="flex gap-x-2">
-          <button
+          <Button
+            variant="st-btn"
             onClick={handleUndo}
             disabled={historyStep === 0}
-            className="btn btn-primary font-normal"
+            className="btn-primary"
           >
             <FaUndo />
             戻る
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="st-btn"
             onClick={handleRedo}
             disabled={historyStep === history.length - 1}
-            className="btn btn-secondary font-normal"
+            className="btn-secondary"
           >
             <FaRedo />
             進む
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="st-btn"
             onClick={handleClear}
-            className="btn btn-accent btn-outline font-normal"
+            className="btn-accent btn-outline"
           >
             <FaTrashAlt />
             全部消す
-          </button>
+          </Button>
         </div>
       </div>
 
