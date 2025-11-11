@@ -1,5 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import { motion } from "motion/react";
 import { FaCoffee, FaFrog } from "react-icons/fa";
 import { BiSolidFoodMenu } from "react-icons/bi";
 import { IoMdMenu, IoMdClose } from "react-icons/io";
@@ -63,7 +64,12 @@ export default function Header() {
   };
 
   return (
-    <div className="drawer drawer-end text-base-200 fixed z-20">
+    <motion.div
+      initial={{ y: -100, opacity: 0 }}
+      transition={{ duration: 0.8, type: "spring" }}
+      animate={{ y: 0, opacity: 1 }}
+      className="drawer drawer-end text-base-200 fixed z-20"
+    >
       <input
         id="my-drawer-3"
         type="checkbox"
@@ -108,23 +114,27 @@ export default function Header() {
           <div className="mx-3 hidden flex-none place-items-center lg:flex">
             <div className="josefin-sans mr-4 flex space-x-4 pt-1 text-3xl">
               {/* 常時表示するリンク先 */}
-              <Link to="/about" className="flex hover:text-[#d9e2c0]">
-                <FaFrog />
-                <span className="ml-1 pt-0.5">About</span>
+              <Link to="/about">
+                <Button variant="nav-btn">
+                  <FaFrog />
+                  <span className="ml-1 pt-0.5">About</span>
+                </Button>
               </Link>
-              <Link to="/tea-arts" className="flex hover:text-[#d9e2c0]">
-                <BiSolidFoodMenu />
-                <span className="ml-0.5 pt-0.5">Menu</span>
+
+              <Link to="/tea-arts">
+                <Button variant="nav-btn">
+                  <BiSolidFoodMenu />
+                  <span className="ml-0.5 pt-0.5">Menu</span>
+                </Button>
               </Link>
 
               {/* ログイン後のみTeaArtを追加表示 */}
               {isLoggedIn && (
-                <Link
-                  to="/tea-arts/create"
-                  className="flex hover:text-[#d9e2c0]"
-                >
-                  <FaCoffee />
-                  <span className="ml-1 pt-0.5">Tea Art</span>
+                <Link to="/tea-arts/create">
+                  <Button variant="nav-btn">
+                    <FaCoffee />
+                    <span className="ml-1 pt-0.5">Tea Art</span>
+                  </Button>
                 </Link>
               )}
             </div>
@@ -183,24 +193,30 @@ export default function Header() {
       {/* PC・TAB時の波部分 */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1280 15"
-        className="hidden w-full sm:block"
+        viewBox="0 0 1280 16"
+        className="relative -top-[1px] hidden w-full sm:block"
       >
         <path
           d="M -40 0 Q 0 30 40 0 Q 80 30 120 0 Q 160 30 200 0 Q 240 30 280 0 Q 320 30 360 0 Q 400 30 440 0 Q 480 30 520 0 Q 560 30 600 0 Q 640 30 680 0 Q 720 30 760 0 Q 800 30 840 0 Q 880 30 920 0 Q 960 30 1000 0 Q 1040 30 1080 0 Q 1120 30 1160 0 Q 1200 30 1240 0 Q 1280 30 1320 0 L 1280 0 L 0 0 Z"
           fill="#6f9169"
+          stroke="#6f9169"
+          stroke-width="1"
+          stroke-linejoin="round"
         ></path>
       </svg>
 
       {/* SP時の波部分 */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 640 15"
-        className="w-full sm:hidden"
+        viewBox="0 0 640 16"
+        className="relative -top-[1px] w-full sm:hidden"
       >
         <path
           d="M -40 0 Q 0 30 40 0 Q 80 30 120 0 Q 160 30 200 0 Q 240 30 280 0 Q 320 30 360 0 Q 400 30 440 0 Q 480 30 520 0 Q 560 30 600 0 Q 640 30 680 0 L 640 0 L 0 0 Z"
           fill="#6f9169"
+          stroke="#6f9169"
+          stroke-width="1"
+          stroke-linejoin="round"
         ></path>
       </svg>
 
@@ -290,6 +306,6 @@ export default function Header() {
           {/* ログイン前後で切り替えるGナビここまで */}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

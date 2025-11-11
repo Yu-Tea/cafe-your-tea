@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { FaPenFancy, FaUser } from "react-icons/fa";
 import { getTeaArt } from "../../api/teaArtApi";
 import { Comment } from "../../types/comment";
-import type { TeaArt } from "../../types/teaArt";
+import { TeaArt } from "../../types/teaArt";
 import { Title } from "../../shared/components/Title";
-import { FaPenFancy, FaUser } from "react-icons/fa";
+import { Button } from "../../shared/components/Button";
 import { TeaDeleteButton } from "./components/TeaDeleteButton";
 import TwitterButton from "./components/TwitterButton";
 import TagButtonList from "./components/TagButtonList";
 import SeasonText from "./components/SeasonText";
-import StatusDisplay from "../../shared/components/StatusDisplay";
 import Order from "./components/Order";
 import Comments from "./components/Comments";
+import StatusDisplay from "../../shared/components/StatusDisplay";
 
 const TeaArtDetailPage = () => {
   const [teaArt, setTeaArt] = useState<TeaArt | null>(null);
@@ -47,7 +48,9 @@ const TeaArtDetailPage = () => {
   }
 
   if (error || !teaArt) {
-    return <StatusDisplay type="empty" message="ティーが見つかりませんでした" />;
+    return (
+      <StatusDisplay type="empty" message="ティーが見つかりませんでした" />
+    );
   }
 
   // コメント作成時のコールバック
@@ -111,7 +114,7 @@ const TeaArtDetailPage = () => {
             {/* 制作者 */}
             <Link
               to={`/users/${teaArt.user.id}`}
-              className="link link-hover text-accent textarea-md flex items-center sm:justify-end font-bold"
+              className="link link-hover text-accent textarea-md flex items-center font-bold sm:justify-end"
             >
               <FaUser className="mr-1" />
               ティー制作者：{teaArt.user.name}
@@ -132,10 +135,11 @@ const TeaArtDetailPage = () => {
                 />
                 <Link
                   to={`/tea-arts/${teaArt.id}/edit`}
-                  className="btn btn-neutral px-5 font-normal"
                 >
+                  <Button variant="btn" className="btn-neutral px-5">
                   <FaPenFancy />
                   編集
+                  </Button>
                 </Link>
                 <TeaDeleteButton
                   teaArtId={teaArt.id}
@@ -161,8 +165,10 @@ const TeaArtDetailPage = () => {
 
       {/* 戻るボタン */}
       <div className="mt-10 mb-5 text-center">
-        <Link to="/tea-arts" className="btn btn-outline btn-primary">
-          ← メニューの一覧に戻る
+        <Link to="/tea-arts">
+          <Button variant="btn" className="btn-outline btn-primary">
+            ← メニューの一覧に戻る
+          </Button>
         </Link>
       </div>
     </>

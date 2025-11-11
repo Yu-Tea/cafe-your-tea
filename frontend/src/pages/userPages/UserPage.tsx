@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { getUser } from "../../api/userApi";
+import { getTeaArts } from "../../api/teaArtApi";
+import { User } from "../../types/user";
+import { TeaArt } from "../../types/teaArt";
+import { useAuth } from "../../shared/contexts/AuthContext";
 import { Avatar } from "../../shared/components/Avatar";
 import { Title } from "../../shared/components/Title";
-import { Link } from "react-router-dom";
-import { getUser } from "../../api/userApi";
-import { User } from "../../types/user";
+import { Button } from "../../shared/components/Button";
 import TeaArtGrid from "../teaArts/components/TeaArtGrid";
-import type { TeaArt } from "../../types/teaArt";
-import { getTeaArts } from "../../api/teaArtApi";
-import { useAuth } from "../../shared/contexts/AuthContext";
 import StatusDisplay from "../../shared/components/StatusDisplay";
 
 const UserPage = () => {
@@ -44,7 +44,9 @@ const UserPage = () => {
   }
 
   if (!userDetail)
-  return <StatusDisplay type="empty" message="ユーザーが見つかりませんでした" />;
+    return (
+      <StatusDisplay type="empty" message="ユーザーが見つかりませんでした" />
+    );
 
   return (
     <div className="flex flex-col items-center justify-center space-y-8 p-5 sm:p-10">
@@ -71,11 +73,10 @@ const UserPage = () => {
       {/* マイページのときのみ編集ボタン */}
       {userDetail.is_owner && (
         <div className="text-center">
-          <Link
-            to={`/users/${userDetail?.id}/edit`}
-            className="btn btn-accent font-normal"
-          >
-            プロフィールを編集
+          <Link to={`/users/${userDetail?.id}/edit`}>
+            <Button variant="btn" className="btn-accent">
+              プロフィールを編集
+            </Button>
           </Link>
         </div>
       )}
