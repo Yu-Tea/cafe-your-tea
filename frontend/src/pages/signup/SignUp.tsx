@@ -162,7 +162,7 @@ export default function SignUp() {
 
           <div className="text-center">
             <Button
-            variant="btn"
+              variant="st-btn"
               type="submit"
               className="btn-primary px-8 text-base"
               disabled={isLoading}

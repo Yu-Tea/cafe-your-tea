@@ -78,7 +78,7 @@ const PasswordResetRequest = () => {
 
           <div className="text-center">
             <Button
-              variant="btn"
+              variant="st-btn"
               type="submit"
               className="btn btn-primary px-8 text-base font-normal"
               disabled={isLoading}

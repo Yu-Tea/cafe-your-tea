@@ -195,9 +195,9 @@ const UserEditPage = () => {
           {/* ボタン群（更新・キャンセル） */}
           <div className="mt-5 text-center">
             <Button
-              variant="btn"
+              variant="st-btn"
               type="submit"
-              className=" btn-primary px-8 text-base "
+              className="btn-primary px-8 text-base"
               disabled={isLoading}
             >
               {isLoading ? "更新中..." : "更新する"}

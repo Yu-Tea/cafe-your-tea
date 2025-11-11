@@ -120,12 +120,12 @@ const PasswordResetForm = () => {
         <p className="my-8 text-center">リンクが無効または期限切れです。</p>
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link to="/password-reset">
-            <Button variant="btn" className="btn-outline btn-primary">
+            <Button variant="st-btn" className="btn-outline btn-primary">
               リセットを再申請
             </Button>
           </Link>
           <Link to="/login">
-            <Button variant="btn" className="btn-outline btn-secondary">
+            <Button variant="st-btn" className="btn-outline btn-secondary">
               ログインページ
             </Button>
           </Link>
@@ -170,7 +170,7 @@ const PasswordResetForm = () => {
 
           <div className="text-center">
             <Button
-              variant="btn"
+              variant="st-btn"
               type="submit"
               className="btn-primary text-base"
             >

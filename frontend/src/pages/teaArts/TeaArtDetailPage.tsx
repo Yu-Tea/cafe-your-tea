@@ -128,14 +128,14 @@ const TeaArtDetailPage = () => {
 
             {/* 自作メニューのみ表示のボタン3つ */}
             {teaArt.is_owner && (
-              <div className="mt-5 w-full space-x-2 flex justify-center sm:justify-end">
+              <div className="mt-5 flex w-full justify-center space-x-2 sm:justify-end">
                 <TwitterButton
                   teaArtId={teaArt.id}
                   teaArtTitle={teaArt.title}
                   className={`btn-accent gap-0.5 px-5`}
                 />
                 <Link to={`/tea-arts/${teaArt.id}/edit`}>
-                  <Button variant="btn" className="btn-neutral px-5">
+                  <Button variant="st-btn" className="btn-neutral px-5">
                     <FaPenFancy />
                     編集
                   </Button>
@@ -171,7 +171,7 @@ const TeaArtDetailPage = () => {
       {/* 戻るボタン */}
       <div className="mt-10 mb-5 text-center">
         <Link to="/tea-arts">
-          <Button variant="btn" className="btn-outline btn-primary">
+          <Button variant="st-btn" className="btn-outline btn-primary">
             ← メニューの一覧に戻る
           </Button>
         </Link>

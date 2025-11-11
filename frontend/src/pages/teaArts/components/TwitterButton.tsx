@@ -37,7 +37,7 @@ const TwitterButton = ({
 
   return (
     <Button
-      variant="btn"
+      variant="st-btn"
       type="button"
       onClick={handleShareToX}
       className={`${className}`}

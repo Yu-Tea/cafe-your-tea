@@ -120,7 +120,7 @@ const Contact = () => {
 
           <div className="text-center">
             <Button
-              variant="btn"
+              variant="st-btn"
               type="submit"
               className="btn-primary mt-6 px-8 text-base"
               disabled={isSubmitting}

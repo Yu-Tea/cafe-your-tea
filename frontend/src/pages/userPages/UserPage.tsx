@@ -74,7 +74,7 @@ const UserPage = () => {
       {userDetail.is_owner && (
         <div className="text-center">
           <Link to={`/users/${userDetail?.id}/edit`}>
-            <Button variant="btn" className="btn-accent">
+            <Button variant="st-btn" className="btn-accent">
               プロフィールを編集
             </Button>
           </Link>

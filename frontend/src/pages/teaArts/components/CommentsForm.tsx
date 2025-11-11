@@ -144,10 +144,10 @@ const CommentsForm = ({ teaArtId, onCommentCreated }: CommentsFormProps) => {
             {/* 送信ボタン */}
             <div className="mt-3 flex justify-end">
               <Button
-              variant="btn"
+                variant="st-btn"
                 type="submit"
                 disabled={!comment.trim() || isSubmitting}
-                className=" btn-primary px-5"
+                className="btn-primary px-5"
               >
                 {isSubmitting ? (
                   <>

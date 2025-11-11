@@ -28,7 +28,7 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
               Xへの投稿や感想コメントも受け付けてるよ！
             </div>
             <Button
-              variant="btn"
+              variant="st-btn"
               onClick={onOrder}
               className="btn-success mt-5 px-6"
             >
