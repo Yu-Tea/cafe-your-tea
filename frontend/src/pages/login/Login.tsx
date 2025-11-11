@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { apiClient } from "../../utils/axios";
-import { useAuth } from "../../shared/contexts/AuthContext";
-import { Title } from "../../shared/components/Title";
-import { InputField } from "../../shared/components/InputField";
 import { toast } from "sonner";
+import { apiClient } from "@/utils/axios";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { Title } from "@/shared/components/Title";
+import { InputField } from "@/shared/components/InputField";
+import { Button } from "@/shared/components/Button";
 import GoogleLoginButton from "@/shared/components/GoogleLoginButton";
 
 interface LoginFormData {
@@ -131,18 +132,19 @@ export default function Login() {
             disabled={isLoading}
           />
           <div className="text-center">
-            <button
+            <Button
+              variant="btn"
               type="submit"
-              className="btn btn-primary px-8 text-base font-normal"
+              className="btn-primary px-8 text-base"
               disabled={isLoading}
             >
               {isLoading ? "ログイン中..." : "ログイン"}
-            </button>
+            </Button>
           </div>
         </form>
 
         {/* signupページへの案内 */}
-        <div className="space-y-1.5 text-center text-sm mt-4">
+        <div className="mt-4 space-y-1.5 text-center text-sm">
           <p>
             パスワードをお忘れの方は
             <Link

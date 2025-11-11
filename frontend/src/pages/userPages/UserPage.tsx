@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getUser } from "../../api/userApi";
-import { getTeaArts } from "../../api/teaArtApi";
-import { User } from "../../types/user";
-import { TeaArt } from "../../types/teaArt";
-import { useAuth } from "../../shared/contexts/AuthContext";
-import { Avatar } from "../../shared/components/Avatar";
-import { Title } from "../../shared/components/Title";
-import { Button } from "../../shared/components/Button";
-import TeaArtGrid from "../teaArts/components/TeaArtGrid";
-import StatusDisplay from "../../shared/components/StatusDisplay";
+import { getUser } from "@/api/userApi";
+import { getTeaArts } from "@/api/teaArtApi";
+import { User } from "@/types/user";
+import { TeaArt } from "@/types/teaArt";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { Avatar } from "@/shared/components/Avatar";
+import { Title } from "@/shared/components/Title";
+import { Button } from "@/shared/components/Button";
+import TeaArtGrid from "@/pages/teaArts/components/TeaArtGrid";
+import StatusDisplay from "@/shared/components/StatusDisplay";
 
 const UserPage = () => {
   const [userDetail, setUserDetail] = useState<User | null>(null);

@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import type { TeaArt } from "../../../types/teaArt";
+import { motion } from "motion/react";
 import { FaPenFancy } from "react-icons/fa";
+import type { TeaArt } from "@/types/teaArt";
 import { TeaDeleteButton } from "./TeaDeleteButton";
 import TagButtonList from "./TagButtonList";
 import SeasonText from "./SeasonText";
@@ -25,8 +26,11 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
   };
 
   return (
-    <div
-      className="bg-base-100 border-base-300 flex translate-y-1.5 cursor-pointer flex-col border-1 p-4 shadow-stone-400/20 transition duration-300 hover:translate-y-1 hover:shadow-lg sm:max-w-[308px]"
+    <motion.div
+      whileHover={{ y: -3 }}
+      whileTap={{ y: 2 }}
+      transition={{ duration: 0.2 }}
+      className="bg-base-100 border-base-300 flex translate-y-1.5 cursor-pointer flex-col border-1 p-4 shadow-stone-400/20 transition-shadow hover:shadow-lg sm:max-w-[308px]"
       onClick={handleCardClick}
     >
       {/* 画像 */}
@@ -43,8 +47,13 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
         />
       </div>
       {/* テキスト */}
-      <SeasonText teaArt={teaArt} className={`mt-4 mb-0.5 text-lg text-center`} />
-      <h3 className="text-secondary mb-1 font-bold text-center">{teaArt.title}</h3>
+      <SeasonText
+        teaArt={teaArt}
+        className={`mt-4 mb-0.5 text-center text-lg`}
+      />
+      <h3 className="text-secondary mb-1 text-center font-bold">
+        {teaArt.title}
+      </h3>
       <TagButtonList teaArt={teaArt} className={`space-x-2 text-sm`} />
 
       {/* 自作かどうかで表示変更する範囲ここから */}
@@ -80,7 +89,7 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
         )}
       </div>
       {/* 自作かどうかで表示変更する範囲ここまで */}
-    </div>
+    </motion.div>
   );
 };
 

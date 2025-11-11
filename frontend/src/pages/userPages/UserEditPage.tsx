@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import { updateUserProfile, getUser } from "../../api/userApi";
-import { useAuth } from "../../shared/contexts/AuthContext";
-import { Title } from "../../shared/components/Title";
-import { InputField } from "../../shared/components/InputField";
-import { TextAreaField } from "../../shared/components/TextAreaField";
-import { Button } from "../../shared/components/Button";
-import StatusDisplay from "../../shared/components/StatusDisplay";
+import { updateUserProfile, getUser } from "@/api/userApi";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { Title } from "@/shared/components/Title";
+import { InputField } from "@/shared/components/InputField";
+import { TextAreaField } from "@/shared/components/TextAreaField";
+import { Button } from "@/shared/components/Button";
+import StatusDisplay from "@/shared/components/StatusDisplay";
 
 // フォームデータの型定義
 interface MyPageFormData {

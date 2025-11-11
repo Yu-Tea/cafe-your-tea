@@ -1,6 +1,7 @@
 import { FaCommentDots } from "react-icons/fa6";
 import { FaArrowAltCircleDown } from "react-icons/fa";
 import TwitterButton from "./TwitterButton";
+import { Button } from "../../../shared/components/Button";
 
 interface OrderBubbleProps {
   orderStep: "initial" | "preparing" | "serving" | "completed" | "comment_send";
@@ -26,16 +27,20 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
               <br />
               Xへの投稿や感想コメントも受け付けてるよ！
             </div>
-            <button onClick={onOrder} className="btn btn-success mt-5 px-6">
+            <Button
+              variant="btn"
+              onClick={onOrder}
+              className="btn-success mt-5 px-6"
+            >
               <FaCommentDots />
               注文する！
-            </button>
+            </Button>
           </>
         );
 
       case "preparing":
         return (
-          <div className="flex items-center justify-center zen-maru-gothic text-secondary font-bold">
+          <div className="zen-maru-gothic text-secondary flex items-center justify-center font-bold">
             {/* 1秒表示で自動的にモーダル追加 */}
             <span className="loading loading-spinner loading-md text-primary mr-3"></span>
             じゃあ作るよ〜！
@@ -44,7 +49,7 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
 
       case "serving":
         return (
-          <div  className="zen-maru-gothic text-secondary font-bold">
+          <div className="zen-maru-gothic text-secondary font-bold">
             {/* モーダル表示時 */}
             心を込めて作ったよ。
             <br />
@@ -56,7 +61,7 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
         return (
           <>
             {/* X投稿＆感想コメント募集 */}
-            <div className="mb-4 zen-maru-gothic text-secondary font-bold">
+            <div className="zen-maru-gothic text-secondary mb-4 font-bold">
               美味しかった〜？
               <br />
               Xへの投稿や感想コメントもよろしくね！
@@ -82,7 +87,7 @@ const OrderBubble = ({ orderStep, onOrder, teaArt }: OrderBubbleProps) => {
         return (
           <>
             {/* X投稿＆感想コメント募集 */}
-            <div className="mb-4 zen-maru-gothic text-secondary font-bold">
+            <div className="zen-maru-gothic text-secondary mb-4 font-bold">
               わ〜い感想ありがと〜！
               <br />
               Xへの投稿もよろしくね〜！

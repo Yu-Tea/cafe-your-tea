@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { validateResetToken, updatePassword } from "../../api/auth";
-import { Title } from "../../shared/components/Title";
-import { InputField } from "../../shared/components/InputField";
 import { toast } from "sonner";
-import StatusDisplay from "../../shared/components/StatusDisplay";
+import { validateResetToken, updatePassword } from "@/api/auth";
+import { Title } from "@/shared/components/Title";
+import { InputField } from "@/shared/components/InputField";
+import { Button } from "@/shared/components/Button";
+import StatusDisplay from "@/shared/components/StatusDisplay";
 
 const PasswordResetForm = () => {
   const { token } = useParams<{ token: string }>();
@@ -118,11 +119,15 @@ const PasswordResetForm = () => {
         <Title title="Password Reset" subtitle="パスワードリセット" />
         <p className="my-8 text-center">リンクが無効または期限切れです。</p>
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link to="/password-reset" className="btn btn-outline btn-primary">
-            リセットを再申請
+          <Link to="/password-reset">
+            <Button variant="btn" className="btn-outline btn-primary">
+              リセットを再申請
+            </Button>
           </Link>
-          <Link to="/login" className="btn btn-outline btn-secondary">
-            ログインページ
+          <Link to="/login">
+            <Button variant="btn" className="btn-outline btn-secondary">
+              ログインページ
+            </Button>
           </Link>
         </div>
       </div>
@@ -131,7 +136,7 @@ const PasswordResetForm = () => {
 
   // メインフォーム（成功画面は削除してトーストのみ）
   return (
-    <div className="flex flex-col items-center justify-center  space-y-8 p-5 sm:p-10">
+    <div className="flex flex-col items-center justify-center space-y-8 p-5 sm:p-10">
       <Title title="New Password" subtitle="パスワード更新" />
       {userEmail && (
         <p className="text-center">{userEmail} のパスワードを変更します。</p>
@@ -164,12 +169,13 @@ const PasswordResetForm = () => {
           />
 
           <div className="text-center">
-            <button
+            <Button
+              variant="btn"
               type="submit"
-              className="btn btn-primary text-base font-normal"
+              className="btn-primary text-base"
             >
               {loading ? "更新中..." : "パスワードを更新"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { motion } from "motion/react";
 import { FaPenFancy, FaUser } from "react-icons/fa";
-import { getTeaArt } from "../../api/teaArtApi";
-import { Comment } from "../../types/comment";
-import { TeaArt } from "../../types/teaArt";
-import { Title } from "../../shared/components/Title";
-import { Button } from "../../shared/components/Button";
+import { getTeaArt } from "@/api/teaArtApi";
+import { Comment } from "@/types/comment";
+import { TeaArt } from "@/types/teaArt";
+import { Title } from "@/shared/components/Title";
+import { Button } from "@/shared/components/Button";
 import { TeaDeleteButton } from "./components/TeaDeleteButton";
 import TwitterButton from "./components/TwitterButton";
 import TagButtonList from "./components/TagButtonList";
 import SeasonText from "./components/SeasonText";
 import Order from "./components/Order";
 import Comments from "./components/Comments";
-import StatusDisplay from "../../shared/components/StatusDisplay";
+import StatusDisplay from "@/shared/components/StatusDisplay";
 
 const TeaArtDetailPage = () => {
   const [teaArt, setTeaArt] = useState<TeaArt | null>(null);
@@ -127,26 +128,30 @@ const TeaArtDetailPage = () => {
 
             {/* 自作メニューのみ表示のボタン3つ */}
             {teaArt.is_owner && (
-              <div className="mt-5 w-full space-x-2 text-center sm:text-right">
+              <div className="mt-5 w-full space-x-2 flex justify-center sm:justify-end">
                 <TwitterButton
                   teaArtId={teaArt.id}
                   teaArtTitle={teaArt.title}
                   className={`btn-accent gap-0.5 px-5`}
                 />
-                <Link
-                  to={`/tea-arts/${teaArt.id}/edit`}
-                >
+                <Link to={`/tea-arts/${teaArt.id}/edit`}>
                   <Button variant="btn" className="btn-neutral px-5">
-                  <FaPenFancy />
-                  編集
+                    <FaPenFancy />
+                    編集
                   </Button>
                 </Link>
-                <TeaDeleteButton
-                  teaArtId={teaArt.id}
-                  teaArtTitle={teaArt.title}
-                  className={`btn-neutral btn-outline px-5`}
-                  redirectAfterDelete={true}
-                />
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                >
+                  <TeaDeleteButton
+                    teaArtId={teaArt.id}
+                    teaArtTitle={teaArt.title}
+                    className={`btn-neutral btn-outline px-5`}
+                    redirectAfterDelete={true}
+                  />
+                </motion.div>
               </div>
             )}
           </div>
