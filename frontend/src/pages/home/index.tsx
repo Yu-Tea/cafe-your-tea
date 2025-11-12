@@ -1,58 +1,98 @@
+import { motion } from "motion/react";
+import { TfiAngleDoubleDown } from "react-icons/tfi";
+import Info from "./components/Info";
+
 export default function HomePage() {
+  const topVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.5,
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
-    <>
-      <section className="relative m-0 h-96 w-full px-15 pt-10 sm:overflow-hidden">
-        {/* 背景画像用の疑似要素的div */}
-        <div
-          className="absolute inset-0 w-full bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: "url('images/top_bg_01.png')",
-            backgroundPosition: "center center",
-            height: "85%",
-            top: 0,
-          }}
-        />
+    <div className="mt-15 space-y-20">
+      <Info />
 
-        {/* 前面の画像 */}
-        <div className="flex w-full flex-col justify-center sm:flex-row">
-          <div className="flex gap-x-20">
-            <div className="relative z-10 hidden sm:block sm:w-3/4">
-              <div className="bg-base-100 my-4 rounded-xl px-10 py-8 zen-maru-gothic font-bold text-lg text-secondary">
-                いらっしゃいませ〜！Cafe Your Teaへようこそ！
-                <br />
-                ボクは、このカフェの店員のケロチャだよ。
-                <br />
-                ここではお客様が提案してくれた素敵なティーを飲めるよ。
-                <br />
-                ほっと一息、ティータイムを楽しんでケロ〜！
-              </div>
+      {/* Pick Upセクション */}
+      <motion.section
+        viewport={{ once: true }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{
+          delay: 0.5,
+          duration: 0.8,
+          ease: "easeOut",
+        }}
+        className="flex h-60 items-center justify-center bg-[url(/images/top_bg_01.webp)] bg-cover bg-fixed"
+      >
+        <motion.div
+          variants={topVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-base-200 space-y-2 pt-4 text-center"
+        >
+          <h1 className="!text-base-200">Pick Up Tea</h1>
+          <p className="tracking-widest">
+            当店の自慢のティーをピックアップしてご紹介いたします。
+          </p>
+          <motion.div
+            initial={{ y: -10, opacity: 1 }}
+            animate={{ y: 10, opacity: 0 }}
+            transition={{
+              duration: 1.5,
+              ease: "easeOut",
+              repeat: Infinity,
+              repeatDelay: 1.5,
+            }}
+            className="flex justify-center"
+          >
+            <TfiAngleDoubleDown size={30} />
+          </motion.div>
+        </motion.div>
+      </motion.section>
+
+      {/* ティー紹介 */}
+      <section className="flex items-center justify-center">
+        <div className="flex w-full max-w-5xl justify-center gap-x-15 gap-y-10 sm:flex-row">
+          {/* 画像 */}
+
+          <div className="relative h-[400px] w-[500px]">
+            <div className="bg-secondary absolute top-8 left-0 aspect-[3/2] w-[400px]"></div>
+            <div className="absolute top-0 left-8 aspect-[3/2] w-[400px]">
+              <img
+                src="../images/bg_table_big.png"
+                className="h-full w-full object-cover"
+              />
             </div>
-            <img
-              src="images/top_img_01.png"
-              alt="ケロチャ"
-              className="relative w-[430px] object-contain"
-            />
+            <div className="bg-secondary absolute top-10 right-4 size-[320px] rounded-full opacity-60 blur-md"></div>
+            <div className="absolute top-2 right-0">
+              <img src="images/tea_sample.png" className="w-[360px]" />
+            </div>
+          </div>
+
+          {/* テキスト */}
+
+          <div className="mt-15 space-y-3">
+            <div className="josefin-sans">
+              <p className="text-neutral mb-2 text-5xl italic">for</p>
+              <p className="text-secondary text-6xl italic">All Season</p>
+            </div>
+
+            <p className="zen-maru-gothic text-2xl font-bold">
+              あいうえおカキクケコ名前ティー
+            </p>
+            <p className="text-sm">by ダミーテキストお名前さん</p>
           </div>
         </div>
       </section>
-
-      <section className="container mx-auto">
-        <div className="flex flex-col items-center gap-x-20 gap-y-10 p-10 sm:flex-row">
-          <img src="images/top_img_02.png" alt="Welcome" />
-
-          <div>
-            <h1 className="mb-6">Welcome to Our Cafe</h1>
-            <div>
-              ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
-              <br />
-              ミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
-              <br />
-              ミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
-              <br />
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+    </div>
   );
 }
