@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { TfiAngleDoubleDown } from "react-icons/tfi";
 import Info from "./components/Info";
 import PickUpSection from "./components/PickUpSection";
+import { pickupSections } from "@/pages/home/data/pickupData";
 
 export default function HomePage() {
   const topVariants = {
@@ -15,6 +16,11 @@ export default function HomePage() {
         ease: "easeOut",
       },
     },
+  };
+
+  // PickUpTeaセクションのレイアウトパターン用の関数
+  const getLayoutPattern = (index: number): 'normal' | 'reverse' => {
+    return index % 2 === 0 ? 'normal' : 'reverse';
   };
 
   return (
@@ -63,11 +69,14 @@ export default function HomePage() {
       </motion.section>
 
       {/* ティー紹介 All Season */}
-      <PickUpSection />
-      <PickUpSection />
-      <PickUpSection />
-      <PickUpSection />
-      <PickUpSection />
+      {pickupSections.map((sectionData, index) => (
+          <PickUpSection
+            key={sectionData.id}
+            data={sectionData}
+            layout={getLayoutPattern(index)}
+            index={index}
+          />
+        ))}
     </div>
   );
 }
