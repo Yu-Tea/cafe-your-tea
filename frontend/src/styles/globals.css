@@ -41,6 +41,8 @@
   --text-3xl: 1.6rem;
   --text-4xl: 1.85rem;
   --text-5xl: 2.1rem;
+  --text-6xl: 2.85rem;
+  --text-7xl: 3.75rem;
 }
 
 @plugin "tailwindcss-animate";
