@@ -1,5 +1,5 @@
 export interface PickupData {
-  id: string;
+  category: string;
   season: string;
   title: string;
   name: string;
@@ -13,7 +13,7 @@ export interface PickupData {
 
 export const pickupSections: PickupData[] = [
   {
-    id: "all",
+    category: "all",
     season: "All",
     title: "あいうえおかきくけこ名前ティー",
     name: "ダミーテキストお名前さん",
@@ -25,7 +25,7 @@ export const pickupSections: PickupData[] = [
     },
   },
   {
-    id: "spring",
+    category: "spring",
     season: "Spring",
     title: "あいうえおかきくけこ名前ティー",
     name: "スプリングティーマスター",
@@ -37,7 +37,7 @@ export const pickupSections: PickupData[] = [
     },
   },
   {
-    id: "summer",
+    category: "summer",
     season: "Summer",
     title: "あいうえおかきくけこ名前ティー",
     name: "サマーティーエキスパート",
@@ -49,7 +49,7 @@ export const pickupSections: PickupData[] = [
     },
   },
   {
-    id: "autumn",
+    category: "autumn",
     season: "Autumn",
     title: "あいうえおかきくけこ名前ティー",
     name: "オータムティーソムリエ",
@@ -61,7 +61,7 @@ export const pickupSections: PickupData[] = [
     },
   },
   {
-    id: "winter",
+    category: "winter",
     season: "Winter",
     title: "あいうえおかきくけこ名前ティー",
     name: "ウィンターティーマイスター",

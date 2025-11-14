@@ -14,7 +14,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
   return (
     <section
       style={{
-        backgroundImage: `url(/images/top_bg_${data.id}.png)`,
+        backgroundImage: `url(/images/top_bg_${data.category}.png)`,
       }}
       className={`flex items-center justify-center bg-no-repeat xl:py-4 ${
         isReverse
@@ -22,7 +22,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
           : "bg-right-bottom sm:bg-right-top"
       } px-5`}
     >
-      <Link to={`/seasons/${data.id}`}>
+      <Link to={`/seasons/${data.category}`}>
         <motion.div
           whileHover={{ scale: 1.01, opacity: 0.9 }}
           whileTap={{ scale: 0.99 }}
@@ -58,7 +58,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
                 ease: "easeOut",
               }}
               style={{
-                backgroundImage: `url(/images/top_image_${data.id}.webp)`,
+                backgroundImage: `url(/images/top_image_${data.category}.webp)`,
               }}
               className={`absolute top-0 ${
                 isReverse ? "right-[7%]" : "left-[7%]"

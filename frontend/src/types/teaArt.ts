@@ -114,3 +114,27 @@ export const getTemperatureValue = (temperatureName: string): number => {
   };
   return temperatureMap[temperatureName] ?? 0;
 };
+
+// PickUp用のTeaArt型
+export interface PickupTeaArtData {
+  id: number;
+  title: string;
+  image_url: string;
+  user: {
+    name: string;
+  };
+}
+
+// PickUpSection用のデータ変換型
+export interface PickupSectionData {
+  category: SeasonKey;
+  season: string;
+  title: string;
+  name: string;
+  description: string;
+  teaImage: string;
+  colors: {
+    bg: string;
+    text: string;
+  };
+}
