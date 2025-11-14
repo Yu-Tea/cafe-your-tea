@@ -1,11 +1,10 @@
 export interface PickupData {
   id: string;
   season: string;
-  description: string;
-  author: string;
-  mainImage: string;
+  title: string;
+  name: string;
+  description:string;
   teaImage: string;
-  bgImage: string;
   colors: {
     text: string;
     bg: string;
@@ -16,11 +15,10 @@ export const pickupSections: PickupData[] = [
   {
     id: "all",
     season: "All",
-    description: "あいうえおかきくけこ名前ティー",
-    author: "ダミーテキストお名前さん",
-    mainImage: "/images/top_image_all.webp",
+    title: "あいうえおかきくけこ名前ティー",
+    name: "ダミーテキストお名前さん",
+    description:"A little comfort\nany time.",
     teaImage: "/images/tea_sample.png",
-    bgImage: "/images/top_bg_all.png",
     colors: {
       text: "text-secondary",
       bg: "bg-secondary",
@@ -29,11 +27,10 @@ export const pickupSections: PickupData[] = [
   {
     id: "spring",
     season: "Spring",
-    description: "あいうえおかきくけこ名前ティー",
-    author: "スプリングティーマスター",
-    mainImage: "/images/top_image_spring.webp",
+    title: "あいうえおかきくけこ名前ティー",
+    name: "スプリングティーマスター",
+    description:"A gentle breeze\nfor your day.",
     teaImage: "/images/tea_sample.png",
-    bgImage: "/images/top_bg_spring.png",
     colors: {
       text: "text-accent",
       bg: "bg-accent",
@@ -42,11 +39,10 @@ export const pickupSections: PickupData[] = [
   {
     id: "summer",
     season: "Summer",
-    description: "あいうえおかきくけこ名前ティー",
-    author: "サマーティーエキスパート",
-    mainImage: "/images/top_image_summer.webp",
+    title: "あいうえおかきくけこ名前ティー",
+    name: "サマーティーエキスパート",
+    description:"A bright pause\nto refresh.",
     teaImage: "/images/tea_sample.png",
-    bgImage: "/images/top_bg_all.png",
     colors: {
       text: "text-success",
       bg: "bg-success",
@@ -55,11 +51,10 @@ export const pickupSections: PickupData[] = [
   {
     id: "autumn",
     season: "Autumn",
-    description: "あいうえおかきくけこ名前ティー",
-    author: "オータムティーソムリエ",
-    mainImage: "/images/top_image_autumn.webp",
+    title: "あいうえおかきくけこ名前ティー",
+    name: "オータムティーソムリエ",
+    description:"A warm moment\nto unwind.",
     teaImage: "/images/tea_sample.png",
-    bgImage: "/images/top_bg_all.png",
     colors: {
       text: "text-warning",
       bg: "bg-warning",
@@ -68,11 +63,10 @@ export const pickupSections: PickupData[] = [
   {
     id: "winter",
     season: "Winter",
-    description: "あいうえおかきくけこ名前ティー",
-    author: "ウィンターティーマイスター",
-    mainImage: "/images/top_image_winter.webp",
+    title: "あいうえおかきくけこ名前ティー",
+    name: "ウィンターティーマイスター",
+    description:"A calm warmth\nin the cold.",
     teaImage: "/images/tea_sample.png",
-    bgImage: "/images/top_bg_all.png",
     colors: {
       text: "text-info",
       bg: "bg-info",

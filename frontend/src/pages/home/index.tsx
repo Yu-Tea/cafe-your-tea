@@ -24,7 +24,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="mt-15 space-y-20">
+    <div className="mt-20 space-y-15 lg:space-y-25">
       <Info />
 
       {/* Pick Upセクション */}
