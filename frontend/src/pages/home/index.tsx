@@ -11,18 +11,6 @@ import Info from "./components/Info";
 import PickUpSection from "./components/PickUpSection";
 
 export default function HomePage() {
-  const topVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.5,
-        duration: 0.8,
-        ease: [0.25, 0.1, 0.25, 1], 
-      },
-    },
-  };
-
   const [pickupData, setPickupData] = useState<PickupSectionData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -63,10 +51,14 @@ export default function HomePage() {
 
       {/* Pick Upセクション */}
       <motion.section
-        variants={topVariants}
-        initial="hidden"
-        whileInView="visible"
         viewport={{ once: true }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{
+          delay: 0.5,
+          duration: 0.8,
+          ease: "easeOut",
+        }}
         className="flex h-60 items-center justify-center bg-[url(/images/top_bg_01.webp)] bg-cover bg-fixed"
       >
         <motion.div
@@ -75,7 +67,7 @@ export default function HomePage() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{
             delay: 1.0,
-            duration: 0.4,
+            duration: 0.6,
             ease: "easeOut",
           }}
           className="text-base-200 space-y-2 pt-4 text-center"
@@ -114,10 +106,14 @@ export default function HomePage() {
       ))}
       {/* ボタン */}
       <motion.div
-        variants={topVariants}
-        initial="hidden"
-        whileInView="visible"
         viewport={{ once: true }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{
+          delay: 0.8,
+          duration: 0.8,
+          ease: "easeOut",
+        }}
         className="mb-5 text-center"
       >
         <Link to="/tea-arts">
