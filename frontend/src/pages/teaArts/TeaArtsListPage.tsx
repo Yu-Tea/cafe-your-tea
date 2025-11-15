@@ -1,10 +1,10 @@
 import { useEffect, useState, useMemo } from "react";
-import { getTeaArts } from "../../api/teaArtApi";
-import TeaArtGrid from "./components/TeaArtGrid";
-import type { TeaArt } from "../../types/teaArt";
-import { Title } from "../../shared/components/Title";
+import { getTeaArts } from "@/api/teaArtApi";
+import type { TeaArt } from "@/types/teaArt";
+import { Title } from "@/shared/components/Title";
 import { TeaArtSearchForm } from "./components/TeaArtSearchForm";
-import StatusDisplay from "../../shared/components/StatusDisplay";
+import StatusDisplay from "@/shared/components/StatusDisplay";
+import TeaArtGrid from "./components/TeaArtGrid";
 
 const TeaArtsListPage = () => {
   const [teaArts, setTeaArts] = useState<TeaArt[]>([]);

@@ -157,7 +157,7 @@ class Api::V1::TeaArtsController < ApplicationController
       render json: {
         status: 'success',
         data: {
-          all_seasons: serialize_season_data(season_results['all_seasons'], 'all_seasons'),
+          all: serialize_season_data(season_results['all_seasons'], 'all_seasons'),
           spring: serialize_season_data(season_results['spring'], 'spring'),
           summer: serialize_season_data(season_results['summer'], 'summer'),
           autumn: serialize_season_data(season_results['autumn'], 'autumn'),

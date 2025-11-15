@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
-import { PickupData } from "@/pages/home/data/pickupData";
+import { PickupSectionData } from "@/types/teaArt";
 
 interface PickUpSectionProps {
-  data: PickupData;
+  data: PickupSectionData; // 型を変更
   layout: "normal" | "reverse";
   index: number;
 }
@@ -22,7 +22,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
           : "bg-right-bottom sm:bg-right-top"
       } px-5`}
     >
-      <Link to={`/seasons/${data.category}`}>
+      <Link to={`/tea-arts/${data.id}`}>
         <motion.div
           whileHover={{ scale: 1.01, opacity: 0.9 }}
           whileTap={{ scale: 0.99 }}
