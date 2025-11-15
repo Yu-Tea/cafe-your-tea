@@ -156,7 +156,7 @@ const TeaArtEditPage = () => {
       <div className="border-secondary/20 relative aspect-[3/2] w-full max-w-[600px] overflow-hidden rounded-xl border-1">
         <img src={imageUrl} className="absolute h-full w-full object-cover" />
         <img
-          src="@/images/bg_table_big.png"
+          src="/images/bg_table_big.png"
           alt="テーブル"
           className="h-full w-full object-cover"
         />

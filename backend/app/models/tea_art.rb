@@ -50,11 +50,21 @@ class TeaArt < ApplicationRecord
     end
   end
 
-  # スコープ（仮）
-  scope :by_season, ->(season) { where(season: season) if season.present? }
-  scope :by_temperature, ->(temp) { where(temperature: temp) if temp.present? }
-  scope :by_tag_id, ->(tag_id) { joins(:tags).where(tags: { id: tag_id }) }
-  scope :by_tag, ->(tag_name) { joins(:tags).where(tags: { name: tag_name }) }
+  # TOPページのPick Up用
+  def self.pickup_by_seasons
+    seasons = %w[spring summer autumn winter all_seasons]
+    result = {}
+    
+    seasons.each do |season_name|
+      result[season_name] = joins(:user)
+                              .where(season: season_name)
+                              .select('tea_arts.*, users.name as user_name')
+                              .order('RANDOM()')
+                              .first
+    end
+    
+    result
+  end
 
   private
 

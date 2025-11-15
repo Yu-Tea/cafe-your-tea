@@ -78,7 +78,7 @@ const TeaArtDetailPage = () => {
               className="absolute h-full w-full object-cover"
             />
             <img
-              src="../images/bg_table_big.png"
+              src="/images/bg_table_big.png"
               alt="テーブル"
               className="h-full w-full object-cover"
             />

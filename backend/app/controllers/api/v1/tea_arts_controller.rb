@@ -150,6 +150,32 @@ class Api::V1::TeaArtsController < ApplicationController
     end
   end
 
+  def pickup
+    begin
+      season_results = TeaArt.pickup_by_seasons
+      
+      render json: {
+        status: 'success',
+        data: {
+          all: serialize_season_data(season_results['all_seasons'], 'all_seasons'),
+          spring: serialize_season_data(season_results['spring'], 'spring'),
+          summer: serialize_season_data(season_results['summer'], 'summer'),
+          autumn: serialize_season_data(season_results['autumn'], 'autumn'),
+          winter: serialize_season_data(season_results['winter'], 'winter'),
+        },
+      }, status: :ok
+      
+    rescue => e
+      Rails.logger.error "PickUp TeaArts API Error: #{e.message}"
+      
+      render json: {
+        status: 'error',
+        message: 'Failed to fetch pickup tea arts',
+        data: generate_empty_seasons_data
+      }, status: :internal_server_error
+    end
+  end
+
   private
 
   def set_tea_art
@@ -270,5 +296,39 @@ class Api::V1::TeaArtsController < ApplicationController
       next_page: collection.next_page,
       prev_page: collection.prev_page
     }
+  end
+
+  #Pick Up用
+  def serialize_season_data(tea_art, season_key)
+    if tea_art.present?
+      {
+        exists: true,
+        season: season_key,
+        data: {
+          id: tea_art.id,
+          title: tea_art.title,
+          image_url: tea_art.image_url,
+          user: {
+            name: tea_art.user_name
+          },
+        }
+      }
+    else
+      {
+        exists: false,
+        season: season_key,
+        data: nil
+      }
+    end
+  end
+
+  def generate_empty_seasons_data
+    %w[spring summer autumn winter all_seasons].each_with_object({}) do |season, hash|
+      hash[season] = {
+        exists: false,
+        season: season,
+        data: nil
+      }
+    end
   end
 end

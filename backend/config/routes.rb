@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
       resources :tea_arts, only: %i[index show create update destroy] do
         collection do
+          get :pickup         # TOPページ用季節別ピックアップ
           get :search_by_tag  # タグ検索専用
           get :search         # 総合検索用
         end

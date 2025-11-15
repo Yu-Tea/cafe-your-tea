@@ -1,58 +1,131 @@
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "motion/react";
+import { TfiAngleDoubleDown } from "react-icons/tfi";
+import { pickupTeaArts } from "@/api/teaArtApi";
+import { PickupSectionData } from "@/types/teaArt";
+import { convertAllPickupData } from "@/utils/pickupData";
+import { Button } from "@/shared/components/Button";
+import StatusDisplay from "@/shared/components/StatusDisplay";
+import Info from "./components/Info";
+import PickUpSection from "./components/PickUpSection";
+
 export default function HomePage() {
+  const topVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 0.5,
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const [pickupData, setPickupData] = useState<PickupSectionData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPickupData = async () => {
+      try {
+        const response = await pickupTeaArts();
+        const convertedData = convertAllPickupData(response);
+        setPickupData(convertedData);
+      } catch (err) {
+        setError("データの取得に失敗しました");
+        console.error("Pickup fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPickupData();
+  }, []);
+
+  if (loading) {
+    return <StatusDisplay type="loading" />;
+  }
+
+  if (error) {
+    return <StatusDisplay type="error" />;
+  }
+
+  // PickUpTeaセクションのレイアウトパターン用の関数
+  const getLayoutPattern = (index: number): "normal" | "reverse" => {
+    return index % 2 === 0 ? "normal" : "reverse";
+  };
+
   return (
-    <>
-      <section className="relative m-0 h-96 w-full px-15 pt-10 sm:overflow-hidden">
-        {/* 背景画像用の疑似要素的div */}
-        <div
-          className="absolute inset-0 w-full bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: "url('images/top_bg_01.png')",
-            backgroundPosition: "center center",
-            height: "85%",
-            top: 0,
+    <div className="mt-20 space-y-15 lg:space-y-20">
+      <Info />
+
+      {/* Pick Upセクション */}
+      <motion.section
+        variants={topVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex h-60 items-center justify-center bg-[url(/images/top_bg_01.webp)] bg-cover bg-fixed"
+      >
+        <motion.div
+          viewport={{ once: true }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 1.0,
+            duration: 0.4,
+            ease: "easeOut",
           }}
+          className="text-base-200 space-y-2 pt-4 text-center"
+        >
+          <h1 className="!text-base-200">Pick Up Tea</h1>
+          <p className="tracking-widest">
+            当店の自慢のティーをピックアップして
+            <br className="sm:hidden" />
+            ご紹介いたします。
+          </p>
+          {/* 矢印 */}
+          <motion.div
+            initial={{ y: -10, opacity: 1 }}
+            animate={{ y: 10, opacity: 0 }}
+            transition={{
+              duration: 1.5,
+              ease: "easeOut",
+              repeat: Infinity,
+              repeatDelay: 1,
+            }}
+            className="flex justify-center"
+          >
+            <TfiAngleDoubleDown size={30} />
+          </motion.div>
+        </motion.div>
+      </motion.section>
+
+      {/* 各種ティー紹介 */}
+      {pickupData.map((data, index) => (
+        <PickUpSection
+          key={data.category}
+          data={data}
+          layout={getLayoutPattern(index)}
+          index={index}
         />
-
-        {/* 前面の画像 */}
-        <div className="flex w-full flex-col justify-center sm:flex-row">
-          <div className="flex gap-x-20">
-            <div className="relative z-10 hidden sm:block sm:w-3/4">
-              <div className="bg-base-100 my-4 rounded-xl px-10 py-8 zen-maru-gothic font-bold text-lg text-secondary">
-                いらっしゃいませ〜！Cafe Your Teaへようこそ！
-                <br />
-                ボクは、このカフェの店員のケロチャだよ。
-                <br />
-                ここではお客様が提案してくれた素敵なティーを飲めるよ。
-                <br />
-                ほっと一息、ティータイムを楽しんでケロ〜！
-              </div>
-            </div>
-            <img
-              src="images/top_img_01.png"
-              alt="ケロチャ"
-              className="relative w-[430px] object-contain"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="container mx-auto">
-        <div className="flex flex-col items-center gap-x-20 gap-y-10 p-10 sm:flex-row">
-          <img src="images/top_img_02.png" alt="Welcome" />
-
-          <div>
-            <h1 className="mb-6">Welcome to Our Cafe</h1>
-            <div>
-              ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
-              <br />
-              ミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
-              <br />
-              ミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
-              <br />
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+      ))}
+      {/* ボタン */}
+      <motion.div
+        variants={topVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="mb-5 text-center"
+      >
+        <Link to="/tea-arts">
+          <Button variant="st-btn" className="btn-outline btn-primary">
+            → ティーを一覧で見る
+          </Button>
+        </Link>
+      </motion.div>
+    </div>
   );
 }
