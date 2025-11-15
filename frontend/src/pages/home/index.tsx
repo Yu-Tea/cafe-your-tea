@@ -18,7 +18,7 @@ export default function HomePage() {
       transition: {
         delay: 0.5,
         duration: 0.8,
-        ease: "easeOut",
+        ease: [0.25, 0.1, 0.25, 1], 
       },
     },
   };
