@@ -59,7 +59,7 @@ export default function HomePage() {
           duration: 0.8,
           ease: "easeOut",
         }}
-        className="flex h-60 items-center justify-center bg-[url(/images/top_bg_01.webp)] bg-cover bg-fixed"
+        className="flex py-3 sm:py-9 items-center justify-center bg-[url(/images/top_bg_01.webp)] bg-cover bg-fixed"
       >
         <motion.div
           viewport={{ once: true }}
