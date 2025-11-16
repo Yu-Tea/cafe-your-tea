@@ -89,5 +89,5 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   # Renderのホストを許可
-  config.hosts << 'cafe-yt-back.onrender.com'
+  config.hosts << 'cafe-back-towg.onrender.com'
 end

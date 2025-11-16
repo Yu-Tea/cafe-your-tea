@@ -15,7 +15,7 @@ class GoogleAuthService
           code: @auth_code,
           client_id: ENV['GOOGLE_CLIENT_ID'],
           client_secret: ENV['GOOGLE_CLIENT_SECRET'],
-          redirect_uri: ENV['FRONTEND_ORIGIN'],  
+          redirect_uri: ENV['FRONTEND_URL'],  
           grant_type: "authorization_code"
         }
       )
