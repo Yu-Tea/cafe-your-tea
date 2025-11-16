@@ -119,7 +119,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
               duration: 0.5,
               ease: "easeOut",
             }}
-            className="flex-1 space-y-1 sm:space-y-3 sm:mt-8 sm:ml-5 lg:mt-15 xl:ml-10"
+            className="flex-1 space-y-1 sm:mt-8 sm:ml-5 sm:space-y-3 lg:mt-15 xl:ml-10"
           >
             <div className="josefin-sans">
               <p className="text-4xl text-[#aa9b94] italic sm:mb-1 lg:text-6xl">
@@ -143,13 +143,13 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
                 }`}
               >
                 {!isReverse && (
-                  <div className={`border-primary/80 w-20 border-b`}></div>
+                  <div className="border-primary/80 w-20 border-b"></div>
                 )}
                 <span className="text-primary josefin-sans text-2xl font-light sm:text-3xl lg:text-4xl">
                   View More
                 </span>
                 {isReverse && (
-                  <div className={`border-primary/80 w-20 border-b`}></div>
+                  <div className="border-primary/80 w-20 border-b"></div>
                 )}
               </div>
             </div>
@@ -157,7 +157,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
             {/* SPのview more */}
             <div className="block sm:hidden">
               <div className="flex items-center justify-end space-x-2">
-                <div className={`border-primary/80 w-20 border-b`}></div>
+                <div className="border-primary/80 w-20 border-b"></div>
                 <span className="text-primary josefin-sans text-2xl font-light sm:text-3xl lg:text-4xl">
                   View More
                 </span>
