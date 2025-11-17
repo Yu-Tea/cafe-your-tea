@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
-import { FaCoffee, FaFrog } from "react-icons/fa";
+import { IoStorefrontSharp } from "react-icons/io5";
+import { FaCoffee } from "react-icons/fa";
 import { BiSolidFoodMenu } from "react-icons/bi";
 import { FaFaceSmileBeam } from "react-icons/fa6";
-
+import { BsFillPatchQuestionFill } from "react-icons/bs";
+import { useAuth } from "../../shared/contexts/AuthContext";
 import Headline from "./components/Headline.tsx";
 
 const About = () => {
+  const { isLoggedIn, user } = useAuth();
+
   return (
     <div className="my-10">
       <div className="flex justify-center p-5 sm:p-10">
@@ -22,27 +26,30 @@ const About = () => {
             <p>
               Cafe your Teaへようこそ！
               <br />
-              当店は、特別な技術でイラストを載せたティーを取り扱うカフェです。
+              ここは、特別な技術でイラストを載せたティーを取り扱う不思議なカフェです。
               <br />
-              ダミーテキストです。ダミーテキストです。ダミーテキストです。
+              カフェではケロチャというロボが店員として貴方をご案内いたします。
             </p>
           </div>
-          <img
-            src="../images/kero_img_01.png"
-            alt="ケロチャ"
-            className="relative w-[280px] self-end object-contain sm:w-[300px]"
-          />
+          <div className="max-w-[300px]">
+            <img
+              src="/images/about_img_01.png"
+              alt="ケロチャ"
+              className="h-auto w-full"
+            />
+          </div>
         </div>
       </div>
 
       {/* すべての方へ */}
-      <Headline title="For Everyone" subtitle="すべての方へ" bg="top_bg_01" />
+      <Headline title="For Everyone" subtitle="すべての方へ" bg="about_bg_01" />
       <div className="flex justify-center p-5 sm:p-10">
         <div className="w-full max-w-4xl space-y-6 sm:space-y-10">
           {/* 説明文 */}
           <p>
-            ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
-            ダミーテキストです。ダミーテキストです。ダミーテキストです。
+            Cafe Your
+            Teaはユーザー登録をしていない方でも、ふらっと立ち寄ってお楽しみいただける場となっております。
+            まずは下記の機能から、アプリの雰囲気を感じてみてください。
           </p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {/* Top */}
@@ -50,13 +57,14 @@ const About = () => {
               <div className="divider divider-neutral">
                 <Link
                   to="/"
-                  className="text-accent josefin-sans flex space-x-2 text-4xl transition duration-300 hover:-translate-y-[2px] hover:text-[#b87780]"
+                  className="text-accent josefin-sans flex space-x-1 text-4xl transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
                 >
-                  Top
+                  <IoStorefrontSharp />
+                  <span>Top</span>
                 </Link>
               </div>
               <p className="text-sm">
-                ダミーテキストです。ダミーテキストです。ダミーテキストです。
+                ケロチャがお出迎えする最初のページです。ケロチャとのお喋りやピックアップティーのコーナーをお楽しみいただけます。
               </p>
             </div>
             {/* About */}
@@ -64,14 +72,14 @@ const About = () => {
               <div className="divider divider-neutral">
                 <Link
                   to="/about"
-                  className="text-accent josefin-sans flex space-x-2 text-4xl transition duration-300 hover:-translate-y-[2px] hover:text-[#b87780]"
+                  className="text-accent josefin-sans flex space-x-1 text-4xl transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
                 >
-                  <FaFrog />
+                  <BsFillPatchQuestionFill />
                   <span>About</span>
                 </Link>
               </div>
               <p className="text-sm">
-                ダミーテキストです。ダミーテキストです。ダミーテキストです。
+                このページです。各ページのご案内や、ちょっとしたおまけコーナーを載せております。
               </p>
             </div>
             {/* Menu */}
@@ -79,7 +87,7 @@ const About = () => {
               <div className="divider divider-neutral">
                 <Link
                   to="/tea-arts"
-                  className="text-accent josefin-sans flex space-x-2 text-4xl transition duration-300 hover:-translate-y-[2px] hover:text-[#b87780]"
+                  className="text-accent josefin-sans flex space-x-1 text-4xl transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
                 >
                   <BiSolidFoodMenu />
                   <span>Menu</span>
@@ -91,8 +99,8 @@ const About = () => {
             </div>
           </div>
           {/* その他のページ */}
-          <div className="border-neutral/60 bg-base-100/30 sm:mt-12 flex flex-col items-center rounded-xl border px-5 py-6 lg:flex-row">
-            <div className="josefin-sans text-secondary pt-1 text-3xl lg:pl-2">
+          <div className="border-neutral/60 bg-base-100/30 flex flex-col items-center rounded-xl border px-5 py-6 sm:mt-12 lg:flex-row">
+            <div className="josefin-sans text-secondary pt-1 text-center text-3xl lg:pl-2">
               Other
               <br className="hidden lg:block" /> pages
             </div>
@@ -102,7 +110,7 @@ const About = () => {
                 <Link to="/signup" className="link link-primary">
                   Sign Up
                 </Link>
-                ：新規登録ページです。下記の特別な機能を使用したい方はこちらからユーザー登録してください。
+                ：新規登録ページです。下記の特別な機能を使用したい方は、こちらからユーザー登録してください。
               </p>
               <p>
                 <Link to="/login" className="link link-primary">
@@ -114,13 +122,13 @@ const About = () => {
                 <Link to="/teams" className="link link-primary">
                   利用規約
                 </Link>
-                ：ダミーテキスト
+                ：このサービスをご利用いただく際の基本的なルールをまとめています。
               </p>
               <p>
                 <Link to="/privacy" className="link link-primary">
                   プライバシーポリシー
                 </Link>
-                ：ダミーテキスト
+                ：ユーザーの皆さまの情報をどのように扱い、守るかをまとめたページです。
               </p>
               <p>
                 <Link to="/contact" className="link link-primary">
@@ -137,48 +145,65 @@ const About = () => {
       <Headline
         title="For Special Guests"
         subtitle="特別なお客様へ"
-        bg="top_bg_01"
+        bg="about_bg_02"
       />
       <div className="flex justify-center p-5 sm:p-10">
         <div className="w-full max-w-4xl space-y-10">
           {/* 説明文 */}
           <p>
-            ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
-            ダミーテキストです。ダミーテキストです。ダミーテキストです。
+            ユーザー登録したお客様だけがご利用いただける、特別な機能のご紹介です。より豊かなカフェタイムをお楽しみください。
           </p>
 
           {/* Tea Art説明 */}
-          <div className="flex flex-col items-center justify-center gap-x-15 gap-y-6 sm:flex-row">
+          <div className="flex flex-col items-center justify-center gap-x-8 gap-y-6 sm:flex-row lg:gap-x-18">
             <div className="max-w-[350px]">
               <img src="/images/top_image_all.webp" className="h-auto w-full" />
             </div>
             <div className="flex-1">
-              <Link
-                to="/tea-arts"
-                className="flex items-center space-x-2 transition duration-300 hover:-translate-y-[2px] hover:text-[#b87780]"
-              >
-                <div className="text-accent flex space-x-2 text-4xl">
-                  <FaCoffee />
-                  <span className="josefin-sans">Tea Art</span>
+              {isLoggedIn ? (
+                <Link
+                  to="/tea-arts/create"
+                  className="flex items-center space-x-2 transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
+                >
+                  <div className="text-accent flex space-x-2 text-4xl">
+                    <FaCoffee />
+                    <span className="josefin-sans">Tea Art</span>
+                  </div>
+                  <div className="border-secondary/50 flex-auto border-b"></div>
+                  <div className="text-secondary text-sm font-bold">
+                    ティーアート
+                  </div>
+                </Link>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <div className="text-accent flex space-x-2 text-4xl">
+                    <FaCoffee />
+                    <span className="josefin-sans">Tea Art</span>
+                  </div>
+                  <div className="border-secondary/50 flex-auto border-b"></div>
+                  <div className="text-secondary text-sm font-bold">
+                    ティーアート
+                  </div>
                 </div>
-                <div className="border-secondary/50 flex-auto border-b"></div>
-                <div className="text-secondary text-sm font-bold">
-                  ティーアート
-                </div>
-              </Link>
+              )}
               <div className="py-5 text-sm">
-                ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
-                ダミーテキストです。ダミーテキストです。ダミーテキストです。
+                当カフェで提供しているティーはすべて、お客様のアイデアから生まれた特別な一杯です。
+                <br />
+                Tea
+                Artページでは、ティーの色を調整したり、表面にイラストを描いたり、名前などの詳細を決めて、あなただけのオリジナルティーをメニューに登録できます。
+                <br />
+                想いを込めて描いた一杯を、ぜひ当カフェに加えてください。
               </div>
             </div>
           </div>
 
-          {/* Tea Art説明 */}
-          <div className="flex flex-col-reverse items-center justify-center gap-x-15 gap-y-6 sm:flex-row">
+          {/* My page説明 */}
+          <div className="flex flex-col-reverse items-center justify-center gap-x-8 gap-y-6 sm:flex-row lg:gap-x-18">
             <div className="flex-1">
+              {isLoggedIn ? (
               <Link
-                to="/tea-arts"
-                className="flex items-center space-x-2 transition duration-300 hover:-translate-y-[2px] hover:text-[#b87780]"
+                to={`/users/${user?.id}`}
+                className="flex items-center space-x-2 transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
               >
                 <div className="text-accent flex space-x-2 text-4xl">
                   <FaFaceSmileBeam />
@@ -189,20 +214,82 @@ const About = () => {
                   マイページ
                 </div>
               </Link>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <div className="text-accent flex space-x-2 text-4xl">
+                    <FaFaceSmileBeam />
+                    <span className="josefin-sans">My Page</span>
+                  </div>
+                  <div className="border-secondary/50 flex-auto border-b"></div>
+                  <div className="text-secondary text-sm font-bold">
+                    マイページ
+                  </div>
+                </div>
+              )}
               <div className="py-5 text-sm">
-                ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。ダミーテキストです。
-                ダミーテキストです。ダミーテキストです。ダミーテキストです。
+                あなたのプロフィール情報と、作成したティーの一覧が表示されます。お名前・アバター画像・自己紹介文の編集もこちらから行えます。
+                <br />
+                また、このページの内容は、他のユーザーからはあなたのユーザーページとして表示されます。
               </div>
             </div>
             <div className="max-w-[350px]">
               <img src="/images/top_image_all.webp" className="h-auto w-full" />
             </div>
           </div>
+
+          {/* その他のページ */}
+          <div className="border-neutral/60 bg-base-100/30 flex flex-col items-center rounded-xl border px-5 py-6 sm:mt-12 lg:flex-row">
+            <div className="josefin-sans text-secondary pt-1 text-center text-3xl lg:pl-2">
+              Other
+              <br className="hidden lg:block" /> options
+            </div>
+            <div className="divider lg:divider-horizontal"></div>
+            <div className="space-y-4 text-sm sm:space-y-2">
+              <p>
+                ・あなたが作成したティーは情報を編集したり削除することができます。
+              </p>
+              <p>
+                ・ティーの詳細ページへのコメントに、あなたのお名前と選択したアバター画像が反映されるようになります。
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* おまけ */}
-      <Headline title="For Everyone" subtitle="すべての方へ" bg="top_bg_01" />
+      <Headline
+        title="Little Extras"
+        subtitle="おまけのひとさじ"
+        bg="about_bg_01"
+      />
+      <div className="flex justify-center p-5 sm:p-10">
+        <div className="flex w-full max-w-4xl flex-col items-center justify-center space-y-8 sm:flex-row">
+          <div className="flex-1">
+            <div className="mb-4 flex items-end gap-x-5">
+              <h1>Kerocha</h1>
+              <div className="text-secondary pb-4.5 text-sm font-bold tracking-widest">
+                ケロチャについて
+              </div>
+            </div>
+
+            {/* 説明文 */}
+            <p>
+              Cafe your Teaへようこそ！
+              <br />
+              ここは、特別な技術でイラストを載せたティーを取り扱う不思議なカフェです。
+              <br />
+              カフェではケロチャというロボが店員として貴方をご案内いたします。
+            </p>
+          </div>
+          <div className="max-w-[300px]">
+            <img
+              src="/images/kero_img_01.png"
+              alt="ケロチャ"
+              className="h-auto w-full"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

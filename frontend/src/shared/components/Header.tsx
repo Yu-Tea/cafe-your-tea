@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
-import { FaCoffee, FaFrog } from "react-icons/fa";
+import { FaCoffee } from "react-icons/fa";
 import { BiSolidFoodMenu } from "react-icons/bi";
 import { IoMdMenu, IoMdClose } from "react-icons/io";
 import {
@@ -10,6 +10,7 @@ import {
   FaFaceSmileBeam,
   FaRightFromBracket,
 } from "react-icons/fa6";
+import { BsFillPatchQuestionFill } from "react-icons/bs";
 import { useAuth } from "../../shared/contexts/AuthContext";
 import { Button } from "./Button";
 import { performLogout } from "../../api/auth";
@@ -142,7 +143,7 @@ export default function Header() {
                   variant="nav-btn"
                   className={`${isActivePage("/about") ? "text-[#d9e2c0]" : ""}`}
                 >
-                  <FaFrog />
+                  <BsFillPatchQuestionFill />
                   <span className="ml-1 pt-0.5">About</span>
                 </Button>
               </Link>
@@ -273,7 +274,7 @@ export default function Header() {
                 to="/about"
                 className={`flex hover:text-[#d9e2c0] ${isActivePage("/about") ? "text-[#d9e2c0]" : ""}`}
               >
-                <FaFrog />
+                <BsFillPatchQuestionFill />
                 <span className="ml-1 pt-0.5">About</span>
               </Link>
             </li>
