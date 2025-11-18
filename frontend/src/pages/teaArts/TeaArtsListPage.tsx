@@ -1,6 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
+import { motion } from "motion/react";
 import { getTeaArts } from "@/api/teaArtApi";
 import type { TeaArt } from "@/types/teaArt";
+import { inVariants } from "@/utils/animations.ts";
 import { Title } from "@/shared/components/Title";
 import { TeaArtSearchForm } from "./components/TeaArtSearchForm";
 import StatusDisplay from "@/shared/components/StatusDisplay";
@@ -71,10 +73,15 @@ const TeaArtsListPage = () => {
   }
 
   return (
-    <div className="flex justify-center p-5 sm:p-10">
-      <div className="max-w-7xl space-y-8">
-        <Title title="Menu" subtitle="メニュー" />
-
+    <div className="space-y-8 p-5 sm:p-10">
+      <Title title="Menu" subtitle="メニュー" />
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex max-w-7xl flex-col items-center justify-center space-y-8"
+      >
         {/* 説明文 */}
         <div className="text-left sm:text-center">
           こちらではカフェで取り扱っているティーを一覧でご紹介しております。
@@ -93,7 +100,7 @@ const TeaArtsListPage = () => {
 
         {/* メニュー一覧 */}
         <TeaArtGrid teaArts={filteredTeaArts} />
-      </div>
+      </motion.div>
     </div>
   );
 };

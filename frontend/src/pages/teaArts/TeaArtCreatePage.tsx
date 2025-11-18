@@ -1,8 +1,10 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 import { toast } from "sonner";
 import { createTeaArt } from "@/api/teaArtApi";
 import { TeaArtFormData, SEASONS, TEMPERATURES } from "@/types/teaArt";
+import { inVariants } from "@/utils/animations.ts";
 import { RadioButtonGroup } from "./components/RadioButtonGroup";
 import TeaArtDraw, { TeaArtDrawRef } from "./components/TeaArtDraw";
 import { Title } from "@/shared/components/Title";
@@ -98,95 +100,103 @@ const TeaArtCreatePage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-10 p-5 sm:p-10">
+    <div className="space-y-10 p-5 sm:p-10">
       <Title title="Tea Art" subtitle="ティーアートを描こう！" />
-      <div className="text-left sm:text-center">
-        あなただけのオリジナルティーを作って、メニューに登録しよう！
-        <br />
-        （※登録後の編集ではティーのイラストは修正できないので注意してね）
-      </div>
-
-      {/* イラスト描画枠&ツール部分 */}
-      <TeaArtDraw
-        ref={drawRef}
-        onArtComplete={setArtBase64}
-        onArtChange={setHasArtContent}
-      />
-
-      {/* フォーム */}
-      <form
-        onSubmit={handleSubmit}
-        className="mt-5 w-full max-w-3xl space-y-10"
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex flex-col items-center space-y-10"
       >
-        {/* タイトル */}
-        <div className="mb-5">
-          <InputField
-            label="Title"
-            type="text"
-            name="title"
-            value={formData.title}
-            maxLength={15}
+        <div className="text-left sm:text-center">
+          あなただけのオリジナルティーを作って、メニューに登録しよう！
+          <br />
+          （※登録後の編集ではティーのイラストは修正できないので注意してね）
+        </div>
+
+        {/* イラスト描画枠&ツール部分 */}
+        <TeaArtDraw
+          ref={drawRef}
+          onArtComplete={setArtBase64}
+          onArtChange={setHasArtContent}
+        />
+
+        {/* フォーム */}
+        <form
+          onSubmit={handleSubmit}
+          className="mt-5 w-full max-w-3xl space-y-10"
+        >
+          {/* タイトル */}
+          <div className="mb-5">
+            <InputField
+              label="Title"
+              type="text"
+              name="title"
+              value={formData.title}
+              maxLength={15}
+              onChange={handleChange}
+              placeholder="ティーのメニュー名"
+              required
+              disabled={isLoading}
+              note="※15文字以内"
+            />
+          </div>
+
+          {/* 説明文 */}
+          <TextAreaField
+            label="Description"
+            name="description"
+            value={formData.description}
+            maxLength={500}
             onChange={handleChange}
-            placeholder="ティーのメニュー名"
+            placeholder="ティーの説明文"
+            rows={5}
             required
             disabled={isLoading}
-            note="※15文字以内"
           />
-        </div>
 
-        {/* 説明文 */}
-        <TextAreaField
-          label="Description"
-          name="description"
-          value={formData.description}
-          maxLength={500}
-          onChange={handleChange}
-          placeholder="ティーの説明文"
-          rows={5}
-          required
-          disabled={isLoading}
-        />
+          {/* 季節選択 */}
+          <RadioButtonGroup
+            label="ティーの提供季節"
+            name="season"
+            value={formData.season}
+            options={SEASONS}
+            onChange={handleRadioChange}
+            disabled={isLoading}
+          />
 
-        {/* 季節選択 */}
-        <RadioButtonGroup
-          label="ティーの提供季節"
-          name="season"
-          value={formData.season}
-          options={SEASONS}
-          onChange={handleRadioChange}
-          disabled={isLoading}
-        />
+          {/* 温度選択 */}
+          <RadioButtonGroup
+            label="ティーの提供温度"
+            name="temperature"
+            value={formData.temperature}
+            options={TEMPERATURES}
+            onChange={handleRadioChange}
+            disabled={isLoading}
+            gridClassName="md:grid-cols-3"
+          />
 
-        {/* 温度選択 */}
-        <RadioButtonGroup
-          label="ティーの提供温度"
-          name="temperature"
-          value={formData.temperature}
-          options={TEMPERATURES}
-          onChange={handleRadioChange}
-          disabled={isLoading}
-          gridClassName="md:grid-cols-3"
-        />
+          {/* タグ選択 */}
 
-        {/* タグ選択 */}
+          <TagCheckboxList
+            selectedTagNames={selectedTagNames}
+            onChange={setSelectedTagNames}
+          />
 
-        <TagCheckboxList
-          selectedTagNames={selectedTagNames}
-          onChange={setSelectedTagNames}
-        />
-
-        {/* ボタン */}
-        <div className="mt-10 text-center">
-          <Button
-            variant="st-btn"
-            type="submit"
-            className="btn-primary px-8 text-base"
-            disabled={isLoading || !hasArtContent}
-          >
-            {isLoading ? "作成中..." : "作成する"}
-          </Button>
-        </div>
-      </form>
+          {/* ボタン */}
+          <div className="mt-10 text-center">
+            <Button
+              variant="st-btn"
+              type="submit"
+              className="btn-primary px-8 text-base"
+              disabled={isLoading || !hasArtContent}
+            >
+              {isLoading ? "作成中..." : "作成する"}
+            </Button>
+          </div>
+        </form>
+      </motion.div>
     </div>
   );
 };

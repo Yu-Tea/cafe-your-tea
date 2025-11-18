@@ -1,16 +1,18 @@
 import { useEffect, useState, useCallback } from "react";
+import { motion } from "motion/react";
+import { FaPenFancy, FaTrash } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Title } from "../../../shared/components/Title";
-import { Avatar } from "../../../shared/components/Avatar";
 import {
   getComments,
   updateComment,
   deleteComment,
-} from "../../../api/commentApi";
-import { Comment } from "../../../types/comment";
-import { FaPenFancy, FaTrash } from "react-icons/fa";
-import StatusDisplay from "../../../shared/components/StatusDisplay";
-import { TextAreaField } from "../../../shared/components/TextAreaField";
+} from "@/api/commentApi";
+import { Comment } from "@/types/comment";
+import { upVariants } from "@/utils/animations.ts";
+import { TextAreaField } from "@/shared/components/TextAreaField";
+import { Title } from "@/shared/components/Title";
+import { Avatar } from "@/shared/components/Avatar";
+import StatusDisplay from "@/shared/components/StatusDisplay";
 
 interface CommentsProps {
   teaArtId: number;
@@ -176,7 +178,12 @@ const Comments = ({
       <Title title="Comments" subtitle="ティーを飲んだ方のご感想" />
 
       {/* コメント一覧 */}
-      <div className="border-neutral/40 w-full max-w-3xl rounded-xl border-1 px-1 py-4 sm:pr-3 sm:pl-6">
+      <motion.div 
+      variants={upVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+      className="border-neutral/40 w-full max-w-3xl rounded-xl border-1 px-1 py-4 sm:pr-3 sm:pl-6">
         {comments.length === 0 ? (
           <div className="py-8 text-center">
             <p>
@@ -333,7 +340,7 @@ const Comments = ({
             </div>
           </>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };

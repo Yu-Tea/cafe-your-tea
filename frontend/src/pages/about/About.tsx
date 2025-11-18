@@ -1,27 +1,17 @@
 import { Link } from "react-router-dom";
-import { motion, Variants } from "motion/react";
+import { motion } from "motion/react";
 import { IoStorefrontSharp } from "react-icons/io5";
 import { FaCoffee } from "react-icons/fa";
 import { BiSolidFoodMenu } from "react-icons/bi";
 import { FaFaceSmileBeam } from "react-icons/fa6";
 import { BsFillPatchQuestionFill } from "react-icons/bs";
-import { useAuth } from "../../shared/contexts/AuthContext";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { upVariants } from "@/utils/animations.ts";
 import Headline from "./components/Headline.tsx";
 
 const About = () => {
   const { isLoggedIn, user } = useAuth();
-  const aboutVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: 0.6,
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
+  
 
   return (
     <div className="my-10">
@@ -69,7 +59,7 @@ const About = () => {
         <div className="w-full max-w-4xl space-y-6 sm:space-y-10">
           {/* 説明文 */}
           <motion.p
-            variants={aboutVariants}
+            variants={upVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -79,7 +69,7 @@ const About = () => {
             下記のページの閲覧や機能はどなたでもご利用できます。
           </motion.p>
           <motion.div
-            variants={aboutVariants}
+            variants={upVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -133,7 +123,7 @@ const About = () => {
           </motion.div>
           {/* その他のページ */}
           <motion.div
-            variants={aboutVariants}
+            variants={upVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -190,7 +180,7 @@ const About = () => {
         <div className="w-full max-w-4xl space-y-10">
           {/* 説明文 */}
           <motion.p
-            variants={aboutVariants}
+            variants={upVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -200,7 +190,7 @@ const About = () => {
 
           {/* Tea Art説明 */}
           <motion.div
-            variants={aboutVariants}
+            variants={upVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -252,7 +242,7 @@ const About = () => {
 
           {/* My page説明 */}
           <motion.div
-            variants={aboutVariants}
+            variants={upVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -301,7 +291,7 @@ const About = () => {
 
           {/* その他の機能 */}
           <motion.div
-            variants={aboutVariants}
+            variants={upVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -331,7 +321,7 @@ const About = () => {
         bg="about_bg_03"
       />
       <motion.div
-        variants={aboutVariants}
+        variants={upVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}

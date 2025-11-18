@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { motion } from "motion/react";
 import { toast } from "sonner";
 import { updateUserProfile, getUser } from "@/api/userApi";
+import { inVariants } from "@/utils/animations.ts";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { Title } from "@/shared/components/Title";
 import { InputField } from "@/shared/components/InputField";
@@ -116,9 +118,15 @@ const UserEditPage = () => {
   };
 
   return (
-    <div className="flex justify-center p-5 sm:p-10">
-      <div className="w-full max-w-2xl space-y-8">
-        <Title title="Profile Edit" subtitle="プロフィール編集" />
+    <div className="flex flex-col items-center justify-center space-y-8 p-5 sm:p-10">
+      <Title title="Profile Edit" subtitle="プロフィール編集" />
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="w-full max-w-2xl space-y-8"
+      >
         <div className="text-center">
           閲覧者に公開されるプロフィール情報を編集できます。
         </div>
@@ -204,7 +212,7 @@ const UserEditPage = () => {
             </Button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };
