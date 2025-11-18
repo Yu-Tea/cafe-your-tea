@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion, Variants } from "motion/react";
 import { IoStorefrontSharp } from "react-icons/io5";
 import { FaCoffee } from "react-icons/fa";
 import { BiSolidFoodMenu } from "react-icons/bi";
@@ -9,10 +10,32 @@ import Headline from "./components/Headline.tsx";
 
 const About = () => {
   const { isLoggedIn, user } = useAuth();
+  const aboutVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.6,
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
 
   return (
     <div className="my-10">
-      <div className="flex justify-center p-5 sm:p-10">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.2,
+          duration: 0.8,
+          ease: "easeOut",
+        }}
+        viewport={{ once: true }}
+        className="flex justify-center p-5 sm:p-10"
+      >
         <div className="flex w-full max-w-4xl flex-col items-center justify-center space-y-8 gap-x-10 sm:flex-row">
           <div className="flex-1 leading-relaxed">
             <div className="mb-4 flex items-end justify-center gap-x-5 sm:justify-normal">
@@ -38,19 +61,30 @@ const About = () => {
             />
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* すべての方へ */}
       <Headline title="For Everyone" subtitle="すべての方へ" bg="about_bg_01" />
       <div className="flex justify-center p-5 sm:p-10">
         <div className="w-full max-w-4xl space-y-6 sm:space-y-10">
           {/* 説明文 */}
-          <p>
+          <motion.p
+            variants={aboutVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             Cafe Your
             Teaはユーザー登録をしていない方でも、ふらっと立ち寄ってお楽しみいただける場となっております。
             下記のページの閲覧や機能はどなたでもご利用できます。
-          </p>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+          </motion.p>
+          <motion.div
+            variants={aboutVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 gap-6 sm:grid-cols-3"
+          >
             {/* Top */}
             <div>
               <div className="divider divider-neutral">
@@ -96,9 +130,15 @@ const About = () => {
                 当カフェで取り扱う、お客様が考案したティーの一覧です。ティーの詳細ページや、制作したユーザーのページもこちらからどうぞ。
               </p>
             </div>
-          </div>
+          </motion.div>
           {/* その他のページ */}
-          <div className="border-neutral/60 bg-base-100/30 flex flex-col items-center rounded-xl border px-5 py-6 sm:mt-12 lg:flex-row">
+          <motion.div
+            variants={aboutVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="border-neutral/60 bg-base-100/30 flex flex-col items-center rounded-xl border px-5 py-6 sm:mt-12 lg:flex-row"
+          >
             <div className="josefin-sans text-secondary pt-1 text-center text-3xl lg:pl-2">
               Other
               <br className="hidden lg:block" /> pages
@@ -136,7 +176,7 @@ const About = () => {
                 ：当アプリについてのお問い合わせはこちらからどうぞ。
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -149,14 +189,28 @@ const About = () => {
       <div className="flex justify-center p-5 sm:p-10">
         <div className="w-full max-w-4xl space-y-10">
           {/* 説明文 */}
-          <p>
+          <motion.p
+            variants={aboutVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             ユーザー登録したお客様だけがご利用いただける、特別な機能のご紹介です。より豊かなカフェタイムをお楽しみください。
-          </p>
+          </motion.p>
 
           {/* Tea Art説明 */}
-          <div className="flex flex-col items-center justify-center gap-x-8 gap-y-6 sm:flex-row lg:gap-x-14">
+          <motion.div
+            variants={aboutVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="flex flex-col items-center justify-center gap-x-8 gap-y-6 sm:flex-row lg:gap-x-14"
+          >
             <div className="max-w-[380px]">
-              <img src="/images/about_img_02.webp" className="h-auto w-full border border-primary/30" />
+              <img
+                src="/images/about_img_02.webp"
+                className="border-primary/30 h-auto w-full border"
+              />
             </div>
             <div className="flex-1 lg:pt-4">
               {isLoggedIn ? (
@@ -194,10 +248,16 @@ const About = () => {
                 想いを込めて描いた一杯を、ぜひ当カフェに加えてください。
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* My page説明 */}
-          <div className="flex flex-col-reverse items-center justify-center gap-x-8 gap-y-6 sm:flex-row lg:gap-x-18">
+          <motion.div
+            variants={aboutVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="flex flex-col-reverse items-center justify-center gap-x-8 gap-y-6 sm:flex-row lg:gap-x-14"
+          >
             <div className="flex-1 lg:pt-4">
               {isLoggedIn ? (
                 <Link
@@ -232,12 +292,21 @@ const About = () => {
               </div>
             </div>
             <div className="max-w-[380px]">
-              <img src="/images/about_img_02.webp" className="h-auto w-full border border-primary/30" />
+              <img
+                src="/images/about_img_03.webp"
+                className="border-primary/30 h-auto w-full border"
+              />
             </div>
-          </div>
+          </motion.div>
 
-          {/* その他のページ */}
-          <div className="border-neutral/60 bg-base-100/30 flex flex-col items-center rounded-xl border px-5 py-6 sm:mt-12 lg:flex-row">
+          {/* その他の機能 */}
+          <motion.div
+            variants={aboutVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="border-neutral/60 bg-base-100/30 flex flex-col items-center rounded-xl border px-5 py-6 sm:mt-12 lg:flex-row"
+          >
             <div className="josefin-sans text-secondary pt-1 text-center text-3xl lg:pl-2">
               Other
               <br className="hidden lg:block" /> options
@@ -251,7 +320,7 @@ const About = () => {
                 ティーの詳細ページへのコメントに、あなたのお名前と選択したアバター画像が反映されるようになります。
               </li>
             </ul>
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -261,10 +330,16 @@ const About = () => {
         subtitle="おまけのひとさじ"
         bg="about_bg_03"
       />
-      <div className="flex justify-center p-5 sm:p-10">
+      <motion.div
+        variants={aboutVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex justify-center p-5 sm:p-10"
+      >
         <div className="flex w-full max-w-4xl flex-col items-center justify-center space-y-8 gap-x-9 sm:flex-row">
           <div className="flex-1 leading-relaxed">
-            <div className="mb-4 flex items-end gap-x-5 justify-center sm:justify-normal">
+            <div className="mb-4 flex items-end justify-center gap-x-5 sm:justify-normal">
               <h1>Kerocha</h1>
               <div className="text-secondary pb-4.5 text-sm font-bold tracking-widest">
                 ケロチャについて
@@ -288,7 +363,7 @@ const About = () => {
             />
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
