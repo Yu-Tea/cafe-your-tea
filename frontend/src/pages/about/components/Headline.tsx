@@ -10,7 +10,7 @@ const Headline = ({ title, subtitle, bg }: HeadlineProps) => {
       style={{
         backgroundImage: `url(/images/${bg}.webp)`,
       }}
-      className="flex items-center justify-center bg-cover bg-fixed py-6 mt-15"
+      className="flex items-center justify-center bg-cover bg-fixed py-6 mt-15 bg-center"
     >
       <div className="text-center pb-5">
         <h1>{title}</h1>

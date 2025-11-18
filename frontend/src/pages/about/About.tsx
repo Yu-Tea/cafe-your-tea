@@ -13,9 +13,9 @@ const About = () => {
   return (
     <div className="my-10">
       <div className="flex justify-center p-5 sm:p-10">
-        <div className="flex w-full max-w-4xl flex-col items-center justify-center space-y-8 sm:flex-row">
-          <div className="flex-1">
-            <div className="mb-4 flex items-end gap-x-5">
+        <div className="flex w-full max-w-4xl flex-col items-center justify-center space-y-8 gap-x-10 sm:flex-row">
+          <div className="flex-1 leading-relaxed">
+            <div className="mb-4 flex items-end justify-center gap-x-5 sm:justify-normal">
               <h1>About</h1>
               <div className="text-secondary pb-4.5 text-sm font-bold tracking-widest">
                 このカフェについて
@@ -24,11 +24,10 @@ const About = () => {
 
             {/* 説明文 */}
             <p>
-              Cafe your Teaへようこそ！
+              Cafe your Teaへようこそ。
+              ここは、イラストを描いて“オリジナルのティー”に仕立てられる、カフェ風のイラスト投稿アプリです。
               <br />
-              ここは、特別な技術でイラストを載せたティーを取り扱う不思議なカフェです。
-              <br />
-              カフェではケロチャというロボが店員として貴方をご案内いたします。
+              当カフェでは店員ロボットのケロチャが皆さまをお迎えします。ティー作りを楽しんだり、お気に入りの一杯を探したり、思い思いの時間をお過ごしください。
             </p>
           </div>
           <div className="max-w-[300px]">
@@ -49,7 +48,7 @@ const About = () => {
           <p>
             Cafe Your
             Teaはユーザー登録をしていない方でも、ふらっと立ち寄ってお楽しみいただける場となっております。
-            まずは下記の機能から、アプリの雰囲気を感じてみてください。
+            下記のページの閲覧や機能はどなたでもご利用できます。
           </p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {/* Top */}
@@ -79,7 +78,7 @@ const About = () => {
                 </Link>
               </div>
               <p className="text-sm">
-                このページです。各ページのご案内や、ちょっとしたおまけコーナーを載せております。
+                現在表示されているページです。各ページのご案内や、ちょっとしたおまけコーナーを載せております。
               </p>
             </div>
             {/* Menu */}
@@ -94,7 +93,7 @@ const About = () => {
                 </Link>
               </div>
               <p className="text-sm">
-                ダミーテキストです。ダミーテキストです。ダミーテキストです。
+                当カフェで取り扱う、お客様が考案したティーの一覧です。ティーの詳細ページや、制作したユーザーのページもこちらからどうぞ。
               </p>
             </div>
           </div>
@@ -155,11 +154,11 @@ const About = () => {
           </p>
 
           {/* Tea Art説明 */}
-          <div className="flex flex-col items-center justify-center gap-x-8 gap-y-6 sm:flex-row lg:gap-x-18">
-            <div className="max-w-[350px]">
-              <img src="/images/top_image_all.webp" className="h-auto w-full" />
+          <div className="flex flex-col items-center justify-center gap-x-8 gap-y-6 sm:flex-row lg:gap-x-14">
+            <div className="max-w-[380px]">
+              <img src="/images/about_img_02.webp" className="h-auto w-full border border-primary/30" />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 lg:pt-4">
               {isLoggedIn ? (
                 <Link
                   to="/tea-arts/create"
@@ -199,21 +198,21 @@ const About = () => {
 
           {/* My page説明 */}
           <div className="flex flex-col-reverse items-center justify-center gap-x-8 gap-y-6 sm:flex-row lg:gap-x-18">
-            <div className="flex-1">
+            <div className="flex-1 lg:pt-4">
               {isLoggedIn ? (
-              <Link
-                to={`/users/${user?.id}`}
-                className="flex items-center space-x-2 transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
-              >
-                <div className="text-accent flex space-x-2 text-4xl">
-                  <FaFaceSmileBeam />
-                  <span className="josefin-sans">My Page</span>
-                </div>
-                <div className="border-secondary/50 flex-auto border-b"></div>
-                <div className="text-secondary text-sm font-bold">
-                  マイページ
-                </div>
-              </Link>
+                <Link
+                  to={`/users/${user?.id}`}
+                  className="flex items-center space-x-2 transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
+                >
+                  <div className="text-accent flex space-x-2 text-4xl">
+                    <FaFaceSmileBeam />
+                    <span className="josefin-sans">My Page</span>
+                  </div>
+                  <div className="border-secondary/50 flex-auto border-b"></div>
+                  <div className="text-secondary text-sm font-bold">
+                    マイページ
+                  </div>
+                </Link>
               ) : (
                 <div className="flex items-center space-x-2">
                   <div className="text-accent flex space-x-2 text-4xl">
@@ -232,8 +231,8 @@ const About = () => {
                 また、このページの内容は、他のユーザーからはあなたのユーザーページとして表示されます。
               </div>
             </div>
-            <div className="max-w-[350px]">
-              <img src="/images/top_image_all.webp" className="h-auto w-full" />
+            <div className="max-w-[380px]">
+              <img src="/images/about_img_02.webp" className="h-auto w-full border border-primary/30" />
             </div>
           </div>
 
@@ -244,14 +243,14 @@ const About = () => {
               <br className="hidden lg:block" /> options
             </div>
             <div className="divider lg:divider-horizontal"></div>
-            <div className="space-y-4 text-sm sm:space-y-2">
-              <p>
-                ・あなたが作成したティーは情報を編集したり削除することができます。
-              </p>
-              <p>
-                ・ティーの詳細ページへのコメントに、あなたのお名前と選択したアバター画像が反映されるようになります。
-              </p>
-            </div>
+            <ul className="list-disc space-y-2 pl-4 text-sm">
+              <li>
+                あなたが作成したティーは情報を編集したり削除することができます。
+              </li>
+              <li>
+                ティーの詳細ページへのコメントに、あなたのお名前と選択したアバター画像が反映されるようになります。
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -260,12 +259,12 @@ const About = () => {
       <Headline
         title="Little Extras"
         subtitle="おまけのひとさじ"
-        bg="about_bg_01"
+        bg="about_bg_03"
       />
       <div className="flex justify-center p-5 sm:p-10">
-        <div className="flex w-full max-w-4xl flex-col items-center justify-center space-y-8 sm:flex-row">
-          <div className="flex-1">
-            <div className="mb-4 flex items-end gap-x-5">
+        <div className="flex w-full max-w-4xl flex-col items-center justify-center space-y-8 gap-x-9 sm:flex-row">
+          <div className="flex-1 leading-relaxed">
+            <div className="mb-4 flex items-end gap-x-5 justify-center sm:justify-normal">
               <h1>Kerocha</h1>
               <div className="text-secondary pb-4.5 text-sm font-bold tracking-widest">
                 ケロチャについて
@@ -273,15 +272,15 @@ const About = () => {
             </div>
 
             {/* 説明文 */}
-            <p>
-              Cafe your Teaへようこそ！
+            <p className="text-sm sm:text-base">
+              ケロ型ロボット。フルネームはピョン・ケロォン・ケロチャ。身長最大96cm、体重最大68kg。人のお世話やおしゃべりが大好きな、好奇心旺盛な子です。
               <br />
-              ここは、特別な技術でイラストを載せたティーを取り扱う不思議なカフェです。
+              お茶作りに魅了され、たくさんの人をティータイムに招いておもてなしした経験から、“特別な一杯を届けるカフェを作りたい”という夢が生まれました。
               <br />
-              カフェではケロチャというロボが店員として貴方をご案内いたします。
+              それが、このカフェの始まりです。
             </p>
           </div>
-          <div className="max-w-[300px]">
+          <div className="max-w-[280px]">
             <img
               src="/images/kero_img_01.png"
               alt="ケロチャ"
