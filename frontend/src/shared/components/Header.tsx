@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
-import { FaCoffee, FaFrog } from "react-icons/fa";
+import { FaCoffee } from "react-icons/fa";
 import { BiSolidFoodMenu } from "react-icons/bi";
 import { IoMdMenu, IoMdClose } from "react-icons/io";
 import {
@@ -10,6 +10,7 @@ import {
   FaFaceSmileBeam,
   FaRightFromBracket,
 } from "react-icons/fa6";
+import { BsFillPatchQuestionFill } from "react-icons/bs";
 import { useAuth } from "../../shared/contexts/AuthContext";
 import { Button } from "./Button";
 import { performLogout } from "../../api/auth";
@@ -21,6 +22,11 @@ export default function Header() {
   const location = useLocation();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const drawerToggleRef = useRef<HTMLInputElement>(null);
+
+  // 現在のページを取得
+  const isActivePage = (path: string): boolean => {
+    return location.pathname === path;
+  };
 
   // ハンバーガーメニューボタンの開閉を処理
   const handleDrawerToggle = () => {
@@ -133,14 +139,20 @@ export default function Header() {
             >
               {/* 常時表示するリンク先 */}
               <Link to="/about">
-                <Button variant="nav-btn">
-                  <FaFrog />
+                <Button
+                  variant="nav-btn"
+                  className={`${isActivePage("/about") ? "text-[#d9e2c0]" : ""}`}
+                >
+                  <BsFillPatchQuestionFill />
                   <span className="ml-1 pt-0.5">About</span>
                 </Button>
               </Link>
 
               <Link to="/tea-arts">
-                <Button variant="nav-btn">
+                <Button
+                  variant="nav-btn"
+                  className={`${isActivePage("/tea-arts") ? "text-[#d9e2c0]" : ""}`}
+                >
                   <BiSolidFoodMenu />
                   <span className="ml-0.5 pt-0.5">Menu</span>
                 </Button>
@@ -149,7 +161,10 @@ export default function Header() {
               {/* ログイン後のみTeaArtを追加表示 */}
               {isLoggedIn && (
                 <Link to="/tea-arts/create">
-                  <Button variant="nav-btn">
+                  <Button
+                    variant="nav-btn"
+                    className={`${isActivePage("/tea-arts/create") ? "text-[#d9e2c0]" : ""}`}
+                  >
                     <FaCoffee />
                     <span className="ml-1 pt-0.5">Tea Art</span>
                   </Button>
@@ -168,7 +183,7 @@ export default function Header() {
                   <Link to={`/users/${user?.id}`}>
                     <Button
                       variant="header-btn"
-                      className="text-accent flex place-items-center"
+                      className={`text-accent flex place-items-center ${isActivePage(`/users/${user?.id}`) ? "bg-base-300" : ""}`}
                     >
                       <FaFaceSmileBeam />
 
@@ -191,7 +206,7 @@ export default function Header() {
                   <Link to="/signup">
                     <Button
                       variant="header-btn"
-                      className="text-accent flex place-items-center"
+                      className={`text-accent flex place-items-center ${isActivePage("/signup") ? "bg-base-300" : ""}`}
                     >
                       <FaUserPlus />
                       <span className="ml-1 pt-0.5">Sign Up</span>
@@ -200,7 +215,7 @@ export default function Header() {
                   <Link to="/login">
                     <Button
                       variant="header-btn"
-                      className="text-primary flex place-items-center"
+                      className={`text-primary flex place-items-center ${isActivePage("/login") ? "bg-base-300" : ""}`}
                     >
                       <FaRightToBracket />
                       <span className="ml-1 pt-0.5">Login</span>
@@ -255,13 +270,19 @@ export default function Header() {
           <ul className="josefin-sans space-y-4 text-5xl font-normal">
             {/* 常時表示するリンク先 */}
             <li>
-              <Link to="/about" className="flex hover:text-[#d9e2c0]">
-                <FaFrog />
+              <Link
+                to="/about"
+                className={`flex hover:text-[#d9e2c0] ${isActivePage("/about") ? "text-[#d9e2c0]" : ""}`}
+              >
+                <BsFillPatchQuestionFill />
                 <span className="ml-1 pt-0.5">About</span>
               </Link>
             </li>
             <li>
-              <Link to="/tea-arts" className="flex hover:text-[#d9e2c0]">
+              <Link
+                to="/tea-arts"
+                className={`flex hover:text-[#d9e2c0] ${isActivePage("/tea-arts") ? "text-[#d9e2c0]" : ""}`}
+              >
                 <BiSolidFoodMenu />
                 <span className="ml-0.5 pt-0.5">Menu</span>
               </Link>
@@ -272,7 +293,7 @@ export default function Header() {
               <li>
                 <Link
                   to="/tea-arts/create"
-                  className="flex hover:text-[#d9e2c0]"
+                  className={`flex hover:text-[#d9e2c0] ${isActivePage("/tea-arts/create") ? "text-[#d9e2c0]" : ""}`}
                 >
                   <FaCoffee />
                   <span className="ml-1 pt-0.5">Tea Art</span>

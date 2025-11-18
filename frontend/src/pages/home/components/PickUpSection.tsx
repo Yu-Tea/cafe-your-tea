@@ -22,7 +22,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
           : "bg-right-bottom sm:bg-right-top"
       } px-5`}
     >
-      <Link to={`/tea-arts/${data.id}`}>
+      <Link to={`/tea-arts/${data.id}`} className="w-full sm:w-auto">
         <motion.div
           whileHover={{ scale: 1.01, opacity: 0.9 }}
           whileTap={{ scale: 0.99 }}
@@ -32,7 +32,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
           }`}
         >
           {/* 画像部分 */}
-          <div className="relative aspect-[7/5] w-full max-w-[520px] sm:w-[380px] lg:w-[520px]">
+          <div className="relative aspect-[7/5] max-w-[520px] sm:w-[380px] lg:w-[520px]">
             {/* 単色 */}
             <motion.div
               viewport={{ once: true }}
@@ -119,7 +119,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
               duration: 0.5,
               ease: "easeOut",
             }}
-            className="flex-1 space-y-3 sm:mt-8 sm:ml-5 lg:mt-15 xl:ml-10"
+            className="flex-1 space-y-1 sm:mt-8 sm:ml-5 sm:space-y-3 lg:mt-15 xl:ml-10"
           >
             <div className="josefin-sans">
               <p className="text-4xl text-[#aa9b94] italic sm:mb-1 lg:text-6xl">
@@ -135,20 +135,33 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
             </p>
             <p className="text-secondary text-sm">by {data.name}</p>
 
-            <div
-              className={`mt-5 flex items-center space-x-2 ${
-                isReverse ? "justify-start" : "justify-end"
-              }`}
-            >
-              {!isReverse && (
-                <div className={`border-primary/80 w-20 border-b`}></div>
-              )}
-              <span className="text-primary josefin-sans text-2xl font-light sm:text-3xl lg:text-4xl">
-                View More
-              </span>
-              {isReverse && (
-                <div className={`border-primary/80 w-20 border-b`}></div>
-              )}
+            {/* PC・TABのview more */}
+            <div className="hidden sm:block">
+              <div
+                className={`mt-5 flex items-center space-x-2 ${
+                  isReverse ? "justify-start" : "justify-end"
+                }`}
+              >
+                {!isReverse && (
+                  <div className="border-primary/80 w-20 border-b"></div>
+                )}
+                <span className="text-primary josefin-sans text-2xl font-light sm:text-3xl lg:text-4xl">
+                  View More
+                </span>
+                {isReverse && (
+                  <div className="border-primary/80 w-20 border-b"></div>
+                )}
+              </div>
+            </div>
+
+            {/* SPのview more */}
+            <div className="block sm:hidden">
+              <div className="flex items-center justify-end space-x-2">
+                <div className="border-primary/80 w-20 border-b"></div>
+                <span className="text-primary josefin-sans text-2xl font-light sm:text-3xl lg:text-4xl">
+                  View More
+                </span>
+              </div>
             </div>
           </motion.div>
         </motion.div>
