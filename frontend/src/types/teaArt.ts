@@ -14,6 +14,16 @@ export interface TeaArt {
   is_owner: boolean;
 }
 
+//ページネーション用
+export interface PaginationInfo {
+  current_page: number;
+  total_pages: number;
+  total_count: number;
+  per_page: number;
+  next_page: number | null;
+  prev_page: number | null;
+}
+
 // タグ用
 export interface Tag {
   id: number;
