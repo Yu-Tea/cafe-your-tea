@@ -50,12 +50,13 @@ const TeaArtsByTagPage = () => {
   return (
     <div className="space-y-10 p-5 sm:p-10">
       <Title title="Search results" subtitle="タグでの検索結果" />
-      <motion.div 
-      variants={inVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-      className="max-w-7xl space-y-6">
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex max-w-7xl flex-col items-center justify-center space-y-6"
+      >
         <div className="text-center">
           「# {tagName}」タグのついたティーは{teaArts.length}件です。
         </div>

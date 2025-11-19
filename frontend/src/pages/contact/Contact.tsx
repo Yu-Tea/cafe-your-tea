@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { motion } from "motion/react";
+import { inVariants } from "@/utils/animations.ts";
 import { Title } from "@/shared/components/Title";
 import { InputField } from "@/shared/components/InputField";
 import { Button } from "@/shared/components/Button";
@@ -60,21 +62,32 @@ const Contact = () => {
         <div className="w-full max-w-xl space-y-10">
           <Title title="Thank You!" subtitle="送信完了" />
 
-          <div className="text-center">
+          <motion.div
+            variants={inVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="text-center"
+          >
             送信が完了しました。
             <br />
             お問い合わせいただきありがとうございます。
-          </div>
+          </motion.div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex justify-center p-5 sm:p-10">
-      <div className="w-full max-w-xl space-y-6">
-        <Title title="Contact" subtitle="お問い合わせ" />
-
+    <div className="flex flex-col items-center justify-center space-y-6 p-5 sm:p-10">
+      <Title title="Contact" subtitle="お問い合わせ" />
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="w-full max-w-xl space-y-6"
+      >
         {/* フォーム */}
         <form onSubmit={handleSubmit} className="flex flex-col">
           <InputField
@@ -129,7 +142,7 @@ const Contact = () => {
             </Button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };
