@@ -73,7 +73,7 @@ const TeaArtsListPage = () => {
   }
 
   return (
-    <div className="space-y-8 p-5 sm:p-10">
+    <div className="flex flex-col items-center justify-center space-y-8 p-5 sm:p-10">
       <Title title="Menu" subtitle="メニュー" />
       <motion.div
         variants={inVariants}
