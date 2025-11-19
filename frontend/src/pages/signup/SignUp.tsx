@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 import { toast } from "sonner";
 import { apiClient } from "@/utils/axios";
+import { inVariants } from "@/utils/animations.ts";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { Title } from "@/shared/components/Title";
 import { InputField } from "@/shared/components/InputField";
 import { Button } from "@/shared/components/Button";
 import GoogleLoginButton from "@/shared/components/GoogleLoginButton";
 
-// フォームデータの型定義
 interface SignupFormData {
   name: string;
   email: string;
@@ -18,7 +19,6 @@ interface SignupFormData {
   avatar_preset?: number;
 }
 
-// APIレスポンスの型定義
 interface SignupResponse {
   id: number;
   name: string;
@@ -81,16 +81,20 @@ export default function SignUp() {
       }
     } finally {
       // エラーの場合のみボタンを再有効化
-      // 成功時は遷移するので不要
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center p-5 sm:p-10">
-      <div className="w-full max-w-sm space-y-2">
-        <Title title="Sign Up" subtitle="新規登録" />
-
+    <div className="flex flex-col items-center justify-center space-y-2 p-5 sm:p-10">
+      <Title title="Sign Up" subtitle="新規登録" />
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="w-full max-w-sm space-y-2"
+      >
         <div>
           {/* Google認証ボタン */}
           <GoogleLoginButton />
@@ -183,7 +187,7 @@ export default function SignUp() {
           </Link>
           へ
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

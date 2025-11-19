@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 import { toast } from "sonner";
 import { getTeaArt, updateTeaArt } from "@/api/teaArtApi";
 import {
@@ -10,6 +11,7 @@ import {
   getTemperatureValue,
   Tag,
 } from "@/types/teaArt";
+import { inVariants } from "@/utils/animations.ts";
 import { Title } from "@/shared/components/Title";
 import { InputField } from "@/shared/components/InputField";
 import { TextAreaField } from "@/shared/components/TextAreaField";
@@ -146,93 +148,99 @@ const TeaArtEditPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-10 p-5 sm:p-10">
+    <div className="space-y-10 p-5 sm:p-10">
       <Title title="Tea Art Edit" subtitle="ティーアートの編集" />
-      <div className="text-left">
-        ティーの情報の編集ができます。（※画像は修正できません。）
-      </div>
-
-      {/* 画像 */}
-      <div className="border-secondary/20 relative aspect-[3/2] w-full max-w-[600px] overflow-hidden rounded-xl border-1">
-        <img src={imageUrl} className="absolute h-full w-full object-cover" />
-        <img
-          src="/images/bg_table_big.png"
-          alt="テーブル"
-          className="h-full w-full object-cover"
-        />
-      </div>
-
-      {/* フォーム */}
-      <form
-        onSubmit={handleSubmit}
-        className="mt-5 w-full max-w-3xl space-y-10"
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex flex-col items-center space-y-10"
       >
-        {/* タイトル */}
-        <div className="mb-5">
-          <InputField
-            label="Title"
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            placeholder="ティーのメニュー名"
-            required
-            disabled={isLoading}
-            note="※15文字以内"
+        <p>ティーの情報の編集ができます。（※画像は修正できません。）</p>
+
+        {/* 画像 */}
+        <div className="border-secondary/20 relative aspect-[3/2] w-full max-w-[600px] overflow-hidden rounded-xl border-1">
+          <img src={imageUrl} className="absolute h-full w-full object-cover" />
+          <img
+            src="/images/bg_table_big.png"
+            alt="テーブル"
+            className="h-full w-full object-cover"
           />
         </div>
 
-        {/* 説明文 */}
-        <TextAreaField
-          label="Description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          placeholder="ティーの説明文"
-          rows={5}
-          required
-          disabled={isLoading}
-        />
+        {/* フォーム */}
+        <form
+          onSubmit={handleSubmit}
+          className="mt-5 w-full max-w-3xl space-y-10"
+        >
+          {/* タイトル */}
+          <div className="mb-5">
+            <InputField
+              label="Title"
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="ティーのメニュー名"
+              required
+              disabled={isLoading}
+              note="※15文字以内"
+            />
+          </div>
 
-        {/* 季節選択 */}
-        <RadioButtonGroup
-          label="ティーの提供季節"
-          name="season"
-          value={formData.season}
-          options={SEASONS}
-          onChange={handleRadioChange}
-          disabled={isLoading}
-        />
-
-        {/* 温度選択 */}
-        <RadioButtonGroup
-          label="ティーの提供温度"
-          name="temperature"
-          value={formData.temperature}
-          options={TEMPERATURES}
-          onChange={handleRadioChange}
-          disabled={isLoading}
-          gridClassName="md:grid-cols-3"
-        />
-
-        {/* タグ選択 */}
-        <TagCheckboxList
-          selectedTagNames={selectedTagNames}
-          onChange={setSelectedTagNames}
-        />
-
-        {/* ボタン */}
-        <div className="mt-10 text-center">
-          <Button
-            variant="st-btn"
-            type="submit"
-            className="btn-primary px-8 text-base"
+          {/* 説明文 */}
+          <TextAreaField
+            label="Description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="ティーの説明文"
+            rows={5}
+            required
             disabled={isLoading}
-          >
-            {isLoading ? "変更中..." : "変更する"}
-          </Button>
-        </div>
-      </form>
+          />
+
+          {/* 季節選択 */}
+          <RadioButtonGroup
+            label="ティーの提供季節"
+            name="season"
+            value={formData.season}
+            options={SEASONS}
+            onChange={handleRadioChange}
+            disabled={isLoading}
+          />
+
+          {/* 温度選択 */}
+          <RadioButtonGroup
+            label="ティーの提供温度"
+            name="temperature"
+            value={formData.temperature}
+            options={TEMPERATURES}
+            onChange={handleRadioChange}
+            disabled={isLoading}
+            gridClassName="md:grid-cols-3"
+          />
+
+          {/* タグ選択 */}
+          <TagCheckboxList
+            selectedTagNames={selectedTagNames}
+            onChange={setSelectedTagNames}
+          />
+
+          {/* ボタン */}
+          <div className="mt-10 text-center">
+            <Button
+              variant="st-btn"
+              type="submit"
+              className="btn-primary px-8 text-base"
+              disabled={isLoading}
+            >
+              {isLoading ? "変更中..." : "変更する"}
+            </Button>
+          </div>
+        </form>
+      </motion.div>
     </div>
   );
 };

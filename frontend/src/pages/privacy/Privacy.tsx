@@ -1,4 +1,6 @@
-import { Title } from "../../shared/components/Title";
+import { motion } from "motion/react";
+import { inVariants } from "@/utils/animations.ts";
+import { Title } from "@/shared/components/Title";
 
 const Privacy = () => {
   return (
@@ -7,7 +9,13 @@ const Privacy = () => {
         <Title title="Privacy Policy" subtitle="プライバシーポリシー" />
 
         {/* 内容 */}
-        <div className="space-y-2 text-sm leading-normal">
+        <motion.div
+          variants={inVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="space-y-2 text-sm leading-normal"
+        >
           <p>
             Cafe Your
             Tea（以下、「本サービス」といいます。）は、本ウェブサイト上で提供する本サービスにおける、ユーザーの個人情報の取扱いについて、以下のとおりプライバシーポリシー（以下、「本ポリシー」といいます。）を定めます。
@@ -113,7 +121,7 @@ const Privacy = () => {
           <p>
             本サービスが別途定める場合を除いて、変更後のプライバシーポリシーは、本ウェブサイトに掲載したときから効力を生じるものとします。
           </p>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

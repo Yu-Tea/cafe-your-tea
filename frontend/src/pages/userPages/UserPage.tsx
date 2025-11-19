@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { motion } from "motion/react";
 import { getUser } from "@/api/userApi";
 import { getTeaArts } from "@/api/teaArtApi";
 import { User } from "@/types/user";
 import { TeaArt } from "@/types/teaArt";
+import { inVariants } from "@/utils/animations.ts";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { Avatar } from "@/shared/components/Avatar";
 import { Title } from "@/shared/components/Title";
@@ -57,7 +59,13 @@ const UserPage = () => {
         <Title title="Tea Artist" subtitle={`${userDetail.name}さんのページ`} />
       )}
 
-      <div className="w-full max-w-2xl">
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="w-full max-w-2xl"
+      >
         {/* ユーザー情報 */}
         <div className="flex flex-col items-center gap-x-8 gap-y-3 text-left sm:flex-row">
           <Avatar user={userDetail} className="size-[100px] sm:size-auto" />
@@ -68,22 +76,34 @@ const UserPage = () => {
             <div>{userDetail?.bio}</div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* マイページのときのみ編集ボタン */}
       {userDetail.is_owner && (
-        <div className="text-center">
+        <motion.div
+          variants={inVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-center"
+        >
           <Link to={`/users/${userDetail?.id}/edit`}>
             <Button variant="st-btn" className="btn-accent">
               プロフィールを編集
             </Button>
           </Link>
-        </div>
+        </motion.div>
       )}
 
       {/* ティーギャラリー */}
 
-      <div className="mt-10 max-w-7xl space-y-8">
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="mt-10 max-w-7xl space-y-8"
+      >
         <Title
           title="Tea Gallery"
           subtitle={`${userDetail?.name}さんのティー`}
@@ -98,7 +118,7 @@ const UserPage = () => {
               : `${userDetail.name}さんの作品はまだありません。`
           }
         />
-      </div>
+      </motion.div>
     </div>
   );
 };

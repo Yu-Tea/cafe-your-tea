@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { motion } from "motion/react";
 import { toast } from "sonner";
 import { apiClient } from "@/utils/axios";
+import { inVariants } from "@/utils/animations.ts";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { Title } from "@/shared/components/Title";
 import { InputField } from "@/shared/components/InputField";
@@ -18,17 +20,14 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // フォームデータのstate
   const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   });
 
-  // エラーとローディング状態
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // 成功メッセージ（新規登録からの遷移時）
   const [successMessage] = useState<string | null>(
     location.state?.message || null
   );
@@ -58,7 +57,6 @@ export default function Login() {
       });
 
       if (response.status === 200) {
-        // AuthContextのlogin関数を呼び出し（/meエンドポイントを使用）
         await login();
 
         // ログイン成功時はTOPページにリダイレクト
@@ -81,10 +79,15 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center p-5 sm:p-10">
-      <div className="w-full max-w-sm space-y-2">
-        <Title title="Login" subtitle="ログイン" />
-
+    <div className="flex flex-col items-center justify-center space-y-2 p-5 sm:p-10">
+      <Title title="Login" subtitle="ログイン" />
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="w-full max-w-sm space-y-2"
+      >
         <div>
           {/* Google認証ボタン */}
           <GoogleLoginButton />
@@ -166,7 +169,7 @@ export default function Login() {
             へ
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

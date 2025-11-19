@@ -1,4 +1,6 @@
-import { Title } from "../../shared/components/Title";
+import { motion } from "motion/react";
+import { inVariants } from "@/utils/animations.ts";
+import { Title } from "@/shared/components/Title";
 
 const Teams = () => {
   return (
@@ -7,7 +9,13 @@ const Teams = () => {
         <Title title="Teams of Service" subtitle="利用規約" />
 
         {/* 内容 */}
-        <div className="space-y-2 text-sm leading-normal">
+        <motion.div
+          variants={inVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="space-y-2 text-sm leading-normal"
+        >
           <p>
             この利用規約（以下、「本規約」といいます。）は、Cafe Your
             Tea（以下、「本サービス」といいます。）の利用条件を定めるものです。
@@ -188,7 +196,7 @@ const Teams = () => {
           </p>
 
           <p className="text-right">以上</p>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { getTeaArtsByTag } from "../../api/tagApi";
-import type { TeaArt } from "../../types/teaArt";
+import { useParams } from "react-router-dom";
+import { motion } from "motion/react";
+import { getTeaArtsByTag } from "@/api/tagApi";
+import type { TeaArt } from "@/types/teaArt";
+import { inVariants } from "@/utils/animations.ts";
+import { Title } from "@/shared/components/Title";
+import SmartBackButton from "./components/SmartBackButton";
+import StatusDisplay from "@/shared/components/StatusDisplay";
 import TeaArtGrid from "./components/TeaArtGrid";
-import { Title } from "../../shared/components/Title";
-import StatusDisplay from "../../shared/components/StatusDisplay";
 
 const TeaArtsByTagPage = () => {
   const { tagName } = useParams<{ tagName: string }>();
@@ -45,10 +48,15 @@ const TeaArtsByTagPage = () => {
   }
 
   return (
-    <div className="flex justify-center p-5 sm:p-10">
-      <div className="max-w-7xl space-y-8">
-        <Title title="Search results" subtitle="タグでの検索結果" />
-
+    <div className="space-y-10 p-5 sm:p-10">
+      <Title title="Search results" subtitle="タグでの検索結果" />
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex max-w-7xl flex-col items-center justify-center space-y-6"
+      >
         <div className="text-center">
           「# {tagName}」タグのついたティーは{teaArts.length}件です。
         </div>
@@ -65,13 +73,11 @@ const TeaArtsByTagPage = () => {
           <TeaArtGrid teaArts={teaArts} />
         )}
 
-        {/* アクションボタン */}
-        <div className="mt-15 text-center">
-          <Link to="/tea-arts" className="btn btn-outline btn-primary">
-            ← メニューの一覧に戻る
-          </Link>
+        {/* 戻るボタン */}
+        <div className="mt-10 text-center">
+          <SmartBackButton />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

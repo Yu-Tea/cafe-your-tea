@@ -5,10 +5,12 @@ import { FaPenFancy, FaUser } from "react-icons/fa";
 import { getTeaArt } from "@/api/teaArtApi";
 import { Comment } from "@/types/comment";
 import { TeaArt } from "@/types/teaArt";
+import { upVariants } from "@/utils/animations.ts";
 import { Title } from "@/shared/components/Title";
 import { Button } from "@/shared/components/Button";
 import { TeaDeleteButton } from "./components/TeaDeleteButton";
 import TwitterButton from "./components/TwitterButton";
+import SmartBackButton from "./components/SmartBackButton";
 import TagButtonList from "./components/TagButtonList";
 import SeasonText from "./components/SeasonText";
 import Order from "./components/Order";
@@ -67,9 +69,15 @@ const TeaArtDetailPage = () => {
   return (
     <>
       {/* ティー情報 */}
-      <div className="flex justify-center p-5 sm:p-10">
-        <div className="w-full max-w-[600px] space-y-10">
-          <Title title="Menu Details" subtitle="メニュー詳細" />
+      <div className="flex flex-col items-center justify-center space-y-10 p-5 sm:p-10">
+        <Title title="Menu Details" subtitle="メニュー詳細" />
+        <motion.div
+          variants={upVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="w-full max-w-[600px] space-y-10"
+        >
           {/* 画像 */}
           <div className="border-secondary/20 relative aspect-[3/2] w-full overflow-hidden rounded-xl border-1">
             <img
@@ -155,7 +163,7 @@ const TeaArtDetailPage = () => {
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* 注文 */}
@@ -168,14 +176,15 @@ const TeaArtDetailPage = () => {
         onNewCommentProcessed={handleNewCommentProcessed}
       />
 
-      {/* 戻るボタン */}
-      <div className="mt-10 mb-5 text-center">
-        <Link to="/tea-arts">
-          <Button variant="st-btn" className="btn-outline btn-primary">
-            ← メニューの一覧に戻る
-          </Button>
-        </Link>
-      </div>
+      {/* 戻るorTOPに移動ボタン */}
+      <motion.div 
+      variants={upVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+      className="mt-10 mb-5 text-center">
+        <SmartBackButton />
+      </motion.div>
     </>
   );
 };
