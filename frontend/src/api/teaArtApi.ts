@@ -34,12 +34,6 @@ export const getTeaArts = async (
   return response.data;
 };
 
-// 自分のTeaArt一覧取得（マイページ用）
-export const getMyTeaArts = async (): Promise<TeaArtsListResponse> => {
-  const response = await apiClient.get("/tea_arts/my");
-  return response.data;
-};
-
 // TeaArt作成
 export const createTeaArt = async (
   data: CreateTeaArtRequest

@@ -49,7 +49,7 @@ const TeaArtsByTagPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center space-y-10 p-5 sm:p-10">
-      <Title title="Search results" subtitle="タグでの検索結果" />
+      <Title title="Tag Results" subtitle="タグでの検索結果" />
       <motion.div
         variants={inVariants}
         initial="hidden"

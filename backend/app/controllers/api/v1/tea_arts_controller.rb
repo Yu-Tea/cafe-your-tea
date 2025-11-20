@@ -1,6 +1,6 @@
 class Api::V1::TeaArtsController < ApplicationController
   before_action :authenticate_user!, only: %i[create update destroy]
-  before_action :set_tea_art, only: %i[show update destroy]
+  before_action :set_tea_art, only: %i[update destroy]
   before_action :check_owner, only: %i[update destroy]
 
   # GET /api/v1/tea_arts
@@ -240,22 +240,7 @@ class Api::V1::TeaArtsController < ApplicationController
                                     :image_data, tag_names: [])
   end
 
-  # TeaArtのMenu用軽量データ
-  def tea_art_list_json(tea_art)
-    {
-      id: tea_art.id,
-      title: tea_art.title,
-      season: tea_art.season_display,
-      image_url: tea_art.image_url,
-      tags: tea_art.tags.map { |tag| tag_json(tag) },
-      tag_names: tea_art.tag_names,
-      user: {
-        id: tea_art.user.id,
-        name: tea_art.user.name
-      },
-      is_owner: current_user&.id == tea_art.user_id
-    }
-  end
+
 
   # TeaArtの完全データ
   def tea_art_detail_json(tea_art)
@@ -276,27 +261,13 @@ class Api::V1::TeaArtsController < ApplicationController
     }
   end
 
-  def tag_json(tag)
-    {
-      id: tag.id,
-      name: tag.name
-    }
-  end
+  
 
   def search_params
     params.permit(:title, :user_name, :description, :tag_name, :season)
   end
 
-  def pagination_json(collection)
-    {
-      current_page: collection.current_page,
-      total_pages: collection.total_pages,
-      total_count: collection.total_count,
-      per_page: collection.limit_value,
-      next_page: collection.next_page,
-      prev_page: collection.prev_page
-    }
-  end
+  
 
   #Pick Up用
   def serialize_season_data(tea_art, season_key)

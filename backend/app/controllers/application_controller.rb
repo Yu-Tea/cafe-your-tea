@@ -61,6 +61,43 @@ class ApplicationController < ActionController::API
     end
   end
 
+    # TeaArtのMenu用軽量データ
+  def tea_art_list_json(tea_art)
+    {
+      id: tea_art.id,
+      title: tea_art.title,
+      season: tea_art.season_display,
+      image_url: tea_art.image_url,
+      tags: tea_art.tags.map { |tag| tag_json(tag) },
+      tag_names: tea_art.tag_names,
+      user: {
+        id: tea_art.user.id,
+        name: tea_art.user.name
+      },
+      is_owner: current_user&.id == tea_art.user_id
+    }
+  end
+
+  # 上記のタグ部分用
+  def tag_json(tag)
+    {
+      id: tag.id,
+      name: tag.name
+    }
+  end
+
+  # ページネーション用
+  def pagination_json(collection)
+    {
+      current_page: collection.current_page,
+      total_pages: collection.total_pages,
+      total_count: collection.total_count,
+      per_page: collection.limit_value,
+      next_page: collection.next_page,
+      prev_page: collection.prev_page
+    }
+  end
+
   private
 
   # エラーハンドリングメソッド
@@ -93,18 +130,18 @@ class ApplicationController < ActionController::API
     }, status: :internal_server_error
   end
 
-  def extract_domain_from_url(url)
-    return nil unless url
+  # def extract_domain_from_url(url)
+  #   return nil unless url
 
-    URI.parse(url).host
-  rescue URI::InvalidURIError
-    nil
-  end
+  #   URI.parse(url).host
+  # rescue URI::InvalidURIError
+  #   nil
+  # end
 
-  def database_status
-    ActiveRecord::Base.connection.execute('SELECT 1')
-    'connected'
-  rescue StandardError
-    'disconnected'
-  end
+  # def database_status
+  #   ActiveRecord::Base.connection.execute('SELECT 1')
+  #   'connected'
+  # rescue StandardError
+  #   'disconnected'
+  # end
 end

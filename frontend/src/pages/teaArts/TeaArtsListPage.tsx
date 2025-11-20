@@ -6,8 +6,8 @@ import { inVariants } from "@/utils/animations.ts";
 import { Title } from "@/shared/components/Title";
 import { TeaArtSearchForm } from "./components/TeaArtSearchForm";
 import StatusDisplay from "@/shared/components/StatusDisplay";
-import Pagination from "@/shared/components/Pagination";
 import TeaArtGrid from "./components/TeaArtGrid";
+import Pagination from "@/shared/components/Pagination";
 
 const TeaArtsListPage = () => {
   const [teaArts, setTeaArts] = useState<TeaArt[]>([]);
@@ -25,7 +25,7 @@ const TeaArtsListPage = () => {
       setLoading(true);
       // ページ番号を渡してデータ取得
       const data = await getTeaArts({ page });
-      
+
       setTeaArts(data.tea_arts);
       setPagination(data.pagination || null); // undefinedの場合はnullに
     } catch (err) {
@@ -44,7 +44,7 @@ const TeaArtsListPage = () => {
   const handlePageChange = (page: number) => {
     fetchTeaArts(page);
     // スクロールトップに
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // 絞り込み検索の処理
@@ -115,12 +115,10 @@ const TeaArtsListPage = () => {
         {/* メニュー一覧 */}
         <TeaArtGrid teaArts={filteredTeaArts} />
 
+        {/* ページネーション */}
         {pagination && (
-        <Pagination 
-          pagination={pagination} 
-          onPageChange={handlePageChange} 
-        />
-      )}
+          <Pagination pagination={pagination} onPageChange={handlePageChange} />
+        )}
       </motion.div>
     </div>
   );
