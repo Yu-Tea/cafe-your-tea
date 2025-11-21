@@ -65,14 +65,6 @@ export const deleteTeaArt = async (
   return response.data;
 };
 
-// タグ検索専用
-export const searchByTag = async (tagName: string, page = 1) => {
-  const response = await apiClient.get(
-    `/tea_arts/search_by_tag?tag_name=${encodeURIComponent(tagName)}&page=${page}`
-  );
-  return response.data;
-};
-
 // Pick Up（TOPページ用）
 export const pickupTeaArts = async (): Promise<TeaArtsPickupResponse> => {
   const response = await apiClient.get("/tea_arts/pickup");

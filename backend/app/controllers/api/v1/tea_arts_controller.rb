@@ -106,50 +106,7 @@ class Api::V1::TeaArtsController < ApplicationController
     render json: { message: 'ティーアートが削除されました' }
   end
 
-  # 単一タグで絞り込み用
-  def search_by_tag
-    tag_name = params[:tag] # ← tag_nameではなくtag！
-
-    if tag_name.blank?
-      render json: {
-        tea_arts: [],
-        pagination: {
-          current_page: 1,
-          total_pages: 0,
-          total_count: 0,
-          per_page: 0
-        },
-        search_type: 'tag',
-        selected_tag: nil,
-        message: 'タグ名が指定されていません'
-      }
-      return
-    end
-
-    begin
-      @tea_arts = TeaArt.joins(:tags)
-                        .where(tags: { name: tag_name })
-                        .includes(:tags, :user)
-                        .order(created_at: :desc)
-                        .page(params[:page])
-
-      render json: {
-        tea_arts: @tea_arts.map { |tea_art| tea_art_list_json(tea_art) },
-        pagination: pagination_json(@tea_arts),
-        search_type: 'tag',
-        selected_tag: tag_name,
-        total_count: @tea_arts.total_count
-      }
-    rescue StandardError => e
-      render json: {
-        error: {
-          type: 'TagSearchError',
-          message: "タグ検索でエラーが発生しました: #{e.message}"
-        }
-      }, status: :internal_server_error
-    end
-  end
-
+  # TOPページのピックアップ用
   def pickup
     begin
       season_results = TeaArt.pickup_by_seasons
@@ -174,6 +131,17 @@ class Api::V1::TeaArtsController < ApplicationController
         data: generate_empty_seasons_data
       }, status: :internal_server_error
     end
+  end
+
+  # 検索バー用
+  def search
+    @search_result = TeaArtSearchService.new(search_params).execute
+    
+    render json: {
+      tea_arts: @search_result[:tea_arts].as_json(include: [:user, :tags]),
+      pagination: @search_result[:pagination],
+      total_count: @search_result[:total_count]
+    }
   end
 
   private
@@ -240,9 +208,7 @@ class Api::V1::TeaArtsController < ApplicationController
                                     :image_data, tag_names: [])
   end
 
-
-
-  # TeaArtの完全データ
+  # TeaArtの完全データ（詳細ページ用）
   def tea_art_detail_json(tea_art)
     {
       id: tea_art.id,
@@ -260,14 +226,6 @@ class Api::V1::TeaArtsController < ApplicationController
       is_owner: current_user&.id == tea_art.user_id
     }
   end
-
-  
-
-  def search_params
-    params.permit(:title, :user_name, :description, :tag_name, :season)
-  end
-
-  
 
   #Pick Up用
   def serialize_season_data(tea_art, season_key)
@@ -301,5 +259,9 @@ class Api::V1::TeaArtsController < ApplicationController
         data: nil
       }
     end
+  end
+
+  def search_params
+    params.permit(:season, :search_text, :page, :per_page, :tag_id)
   end
 end

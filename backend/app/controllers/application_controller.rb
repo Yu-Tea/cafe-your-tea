@@ -61,7 +61,7 @@ class ApplicationController < ActionController::API
     end
   end
 
-    # TeaArtのMenu用軽量データ
+  # TeaArtのMenu用軽量データ
   def tea_art_list_json(tea_art)
     {
       id: tea_art.id,

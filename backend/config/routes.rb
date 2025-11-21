@@ -17,19 +17,17 @@ Rails.application.routes.draw do
 
       resources :users, only: %i[create show] do
         member do
-          get :tea_arts  # MyPageのTeaGallery用
+          get :tea_arts  # ユーザーページのティーギャラリー用
         end
       end
       resource :user, only: [:update]
 
       resources :tea_arts, only: %i[index show create update destroy] do
         collection do
-          get :pickup         # TOPページ用季節別ピックアップ
-          get :search_by_tag  # タグ検索専用
-          get :search         # 総合検索用
+          get :pickup  # TOPページ用季節別ピックアップ
+          get :search  # 検索バーからの絞り込み用
         end
 
-        # ネストしたコメントリソース（作成・一覧取得）
         resources :comments, only: %i[index create]
       end
       resources :tags, only: [:index, :show]
