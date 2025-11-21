@@ -60,7 +60,7 @@ const TeaArtsListPage = () => {
 
       // タグフィルタ
       if (searchConditions.tagName) {
-        const hasTag = teaArt.tag_names.includes(searchConditions.tagName);
+        const hasTag = teaArt.tags.some((tag) => tag.name === searchConditions.tagName);
         if (!hasTag) return false;
       }
 
