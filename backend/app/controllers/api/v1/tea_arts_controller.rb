@@ -7,7 +7,7 @@ class Api::V1::TeaArtsController < ApplicationController
   def index
     @tea_arts = TeaArt.includes(:user, :tags)
                       .order(created_at: :desc)
-                      .page(params[:page]).per(1)
+                      .page(params[:page])
 
     render json: {
       tea_arts: @tea_arts.map { |tea_art| tea_art_list_json(tea_art) },

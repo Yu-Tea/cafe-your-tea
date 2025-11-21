@@ -5,8 +5,12 @@ export interface TeaArt {
   season: string;
   temperature: string;
   image_url: string;
-  tags: Tag[];
-  tag_names: string[];
+  tags: Array<{
+    id: number;
+    name: string;
+  }>;
+  // tags: Tag[];
+  // tag_names: string[];
   user: {
     id: number;
     name: string;

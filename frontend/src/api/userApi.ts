@@ -1,10 +1,10 @@
-import { apiClient } from "../utils/axios";
+import { apiClient } from "@/utils/axios";
 import {
   User,
   UpdateProfileRequest,
   UpdateProfileResponse,
 } from "../types/user";
-import type { TeaArtsListResponse } from "../types/teaArt";
+import type { TeaArtsListResponse } from "@/types/teaArt";
 
 // ユーザー個別ページ用
 export const getUser = async (id: number): Promise<User> => {

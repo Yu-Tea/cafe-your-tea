@@ -1,41 +1,63 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "motion/react";
-import { getTeaArtsByTag } from "@/api/tagApi";
-import type { TeaArt } from "@/types/teaArt";
+import { getTagTeaArts } from "@/api/tagApi";
+import type { TeaArt, PaginationInfo } from "@/types/teaArt";
 import { inVariants } from "@/utils/animations.ts";
 import { Title } from "@/shared/components/Title";
+
 import SmartBackButton from "./components/SmartBackButton";
 import StatusDisplay from "@/shared/components/StatusDisplay";
 import TeaArtGrid from "./components/TeaArtGrid";
+import Pagination from "@/shared/components/Pagination";
 
 const TeaArtsByTagPage = () => {
-  const { tagName } = useParams<{ tagName: string }>();
+  const [tagName, setTagName] = useState<string>("");
   const [teaArts, setTeaArts] = useState<TeaArt[]>([]);
+  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    const fetchTeaArtsByTag = async () => {
-      if (!tagName) return;
-
+    const initializeData = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        // タグ専用のAPI呼び出し
-        const data = await getTeaArtsByTag(tagName);
-        setTeaArts(data.tea_arts || data);
+        const data = await getTagTeaArts(Number(id), 1);
+
+        setTagName(data.tag_name);
+        setTeaArts(data.tea_arts);
+        setPagination(data.pagination || null);
       } catch (err) {
-        console.error("Error fetching tea arts by tag:", err);
-        setError("投稿の取得に失敗しました");
+        console.error("Error fetching initial data:", err);
+        setError("作品の取得に失敗しました");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTeaArtsByTag();
-  }, [tagName]);
+    initializeData();
+  }, [id]);
+
+  // ページ変更時の処理
+  const handlePageChange = async (page: number) => {
+    try {
+      setLoading(true);
+
+      // 作品データのみを取得・更新（tag_nameは初回取得時のまま保持）
+      const teaData = await getTagTeaArts(Number(id), page);
+
+      setTeaArts(teaData.tea_arts);
+      setPagination(teaData.pagination || null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      console.error("Error fetching tea arts:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // ローディング状態
   if (loading) {
@@ -44,7 +66,7 @@ const TeaArtsByTagPage = () => {
 
   // エラー状態
   if (error) {
-    return <StatusDisplay type="error" message={error} />;
+    return <StatusDisplay type="error" />;
   }
 
   return (
@@ -57,24 +79,32 @@ const TeaArtsByTagPage = () => {
         viewport={{ once: true }}
         className="flex max-w-7xl flex-col items-center justify-center space-y-6"
       >
-        <div className="text-center">
-          「# {tagName}」タグのついたティーは{teaArts.length}件です。
-        </div>
-
         {/* 投稿がない場合の表示 */}
         {teaArts.length === 0 ? (
           <div className="">
-            <p className="mb-6">
+            <p className="text-center">
+              「# {tagName}」タグのついたティーはまだありません。
+              <br />
               他のタグで検索するか、新しい投稿を作成してみてください。
             </p>
           </div>
         ) : (
-          /* メニュー一覧（タグでフィルタリング済み） */
-          <TeaArtGrid teaArts={teaArts} />
+          <>
+            <div className="text-center">
+              「# {tagName}」タグのついたティーの検索結果です。
+            </div>
+            {/* メニュー一覧 */}
+            <TeaArtGrid teaArts={teaArts} />
+          </>
+        )}
+
+        {/* ページネーション */}
+        {pagination && (
+          <Pagination pagination={pagination} onPageChange={handlePageChange} />
         )}
 
         {/* 戻るボタン */}
-        <div className="mt-10 text-center">
+        <div className="mt-4 text-center">
           <SmartBackButton />
         </div>
       </motion.div>

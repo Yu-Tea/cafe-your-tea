@@ -32,7 +32,7 @@ Rails.application.routes.draw do
         # ネストしたコメントリソース（作成・一覧取得）
         resources :comments, only: %i[index create]
       end
-      resources :tags, only: [:index]
+      resources :tags, only: [:index, :show]
 
       # 個別コメント操作（編集・削除・詳細）
       resources :comments, only: %i[update destroy]

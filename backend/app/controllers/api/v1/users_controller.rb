@@ -62,7 +62,6 @@ class Api::V1::UsersController < ApplicationController
                    .includes(:user, :tags)
                    .order(created_at: :desc)
                    .page(params[:page])
-                   .per(16)
 
     render json: {
       tea_arts: tea_arts.map { |tea_art| tea_art_list_json(tea_art) },

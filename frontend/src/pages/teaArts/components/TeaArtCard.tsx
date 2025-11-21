@@ -54,6 +54,7 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
       <h3 className="text-secondary mb-1 text-center font-bold">
         {teaArt.title}
       </h3>
+      {/* タグ */}
       <TagButtonList teaArt={teaArt} className={`space-x-2 text-sm`} />
 
       {/* 自作かどうかで表示変更する範囲ここから */}
