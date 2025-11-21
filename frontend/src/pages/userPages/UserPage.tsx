@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "motion/react";
-import { getUser } from "@/api/userApi";
-import { getTeaArts } from "@/api/teaArtApi";
+import { getUser, getUserTeaArts } from "@/api/userApi";
 import { User } from "@/types/user";
-import { TeaArt } from "@/types/teaArt";
+import { TeaArt, PaginationInfo } from "@/types/teaArt";
 import { inVariants } from "@/utils/animations.ts";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { Avatar } from "@/shared/components/Avatar";
@@ -12,33 +11,58 @@ import { Title } from "@/shared/components/Title";
 import { Button } from "@/shared/components/Button";
 import TeaArtGrid from "@/pages/teaArts/components/TeaArtGrid";
 import StatusDisplay from "@/shared/components/StatusDisplay";
+import Pagination from "@/shared/components/Pagination";
 
 const UserPage = () => {
   const [userDetail, setUserDetail] = useState<User | null>(null);
   const [teaArts, setTeaArts] = useState<TeaArt[]>([]);
+  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { user: currentUser } = useAuth();
   const { id } = useParams<{ id: string }>();
 
-  const isOwnProfile =
-    currentUser && userDetail && currentUser.id === userDetail.id;
-
   useEffect(() => {
-    const fetchUserDetail = async () => {
+    const initializeData = async () => {
       try {
         setLoading(true);
-        const data = await getUser(Number(id));
-        setUserDetail(data);
-        const teaData = await getTeaArts();
+
+        const [userData, teaData] = await Promise.all([
+          getUser(Number(id)),
+          getUserTeaArts(Number(id), { page: 1 }),
+        ]);
+
+        setUserDetail(userData);
         setTeaArts(teaData.tea_arts);
+        setPagination(teaData.pagination || null);
       } catch (err) {
-        console.error("Error fetching user detail:", err);
+        console.error("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
     };
-    fetchUserDetail();
+
+    initializeData();
   }, [id]);
+
+  // ページ変更時の処理
+  const handlePageChange = async (page: number) => {
+    try {
+      setLoading(true);
+      const teaData = await getUserTeaArts(Number(id), { page });
+
+      setTeaArts(teaData.tea_arts);
+      setPagination(teaData.pagination || null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      console.error("Error fetching tea arts:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 投稿したティーがあるか判別
+  const isOwnProfile =
+    currentUser && userDetail && currentUser.id === userDetail.id;
 
   // ローディング状態
   if (loading) {
@@ -102,7 +126,7 @@ const UserPage = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="mt-10 max-w-7xl space-y-8"
+        className="mt-10 flex max-w-7xl flex-col items-center justify-center space-y-8"
       >
         <Title
           title="Tea Gallery"
@@ -110,14 +134,17 @@ const UserPage = () => {
         />
         <TeaArtGrid
           teaArts={teaArts}
-          filterByUserId={true}
-          userId={userDetail.id}
           emptyMessage={
             isOwnProfile
-              ? "まだ作品を投稿していません。"
-              : `${userDetail.name}さんの作品はまだありません。`
+              ? "まだティーを投稿していません。"
+              : `${userDetail.name}さんのティーはまだありません。`
           }
         />
+
+        {/* ページネーション */}
+        {pagination && (
+          <Pagination pagination={pagination} onPageChange={handlePageChange} />
+        )}
       </motion.div>
     </div>
   );

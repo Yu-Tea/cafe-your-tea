@@ -49,10 +49,24 @@ class Api::V1::UsersController < ApplicationController
       }, status: :ok
     else
       render json: {
-        status: 'error', # 👈 統一されたエラーステータス
+        status: 'error',
         errors: @current_user.errors.full_messages
       }, status: :unprocessable_entity
     end
+  end
+
+  # マイページのギャラリー用
+  def tea_arts
+    user = User.find(params[:id])
+    tea_arts = user.tea_arts
+                   .includes(:user, :tags)
+                   .order(created_at: :desc)
+                   .page(params[:page])
+
+    render json: {
+      tea_arts: tea_arts.map { |tea_art| tea_art_list_json(tea_art) },
+      pagination: pagination_json(tea_arts),
+    }
   end
 
   private

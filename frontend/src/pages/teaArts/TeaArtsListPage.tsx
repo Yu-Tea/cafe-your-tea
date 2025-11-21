@@ -1,15 +1,17 @@
 import { useEffect, useState, useMemo } from "react";
 import { motion } from "motion/react";
 import { getTeaArts } from "@/api/teaArtApi";
-import type { TeaArt } from "@/types/teaArt";
+import type { TeaArt, PaginationInfo } from "@/types/teaArt";
 import { inVariants } from "@/utils/animations.ts";
 import { Title } from "@/shared/components/Title";
 import { TeaArtSearchForm } from "./components/TeaArtSearchForm";
 import StatusDisplay from "@/shared/components/StatusDisplay";
 import TeaArtGrid from "./components/TeaArtGrid";
+import Pagination from "@/shared/components/Pagination";
 
 const TeaArtsListPage = () => {
   const [teaArts, setTeaArts] = useState<TeaArt[]>([]);
+  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [searchConditions, setSearchConditions] = useState({
     season: "",
@@ -17,21 +19,33 @@ const TeaArtsListPage = () => {
     searchQuery: "",
   });
 
-  useEffect(() => {
-    const fetchTeaArts = async () => {
-      try {
-        setLoading(true);
-        const data = await getTeaArts();
-        setTeaArts(data.tea_arts);
-      } catch (err) {
-        console.error("ティー情報取得エラー:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // データ取得用
+  const fetchTeaArts = async (page: number = 1) => {
+    try {
+      setLoading(true);
+      // ページ番号を渡してデータ取得
+      const data = await getTeaArts({ page });
 
-    fetchTeaArts();
+      setTeaArts(data.tea_arts);
+      setPagination(data.pagination || null); // undefinedの場合はnullに
+    } catch (err) {
+      console.error("ティー情報取得エラー:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 初回読み込み
+  useEffect(() => {
+    fetchTeaArts(1);
   }, []);
+
+  // ページ変更ハンドラ
+  const handlePageChange = (page: number) => {
+    fetchTeaArts(page);
+    // スクロールトップに
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   // 絞り込み検索の処理
   const filteredTeaArts = useMemo(() => {
@@ -100,6 +114,11 @@ const TeaArtsListPage = () => {
 
         {/* メニュー一覧 */}
         <TeaArtGrid teaArts={filteredTeaArts} />
+
+        {/* ページネーション */}
+        {pagination && (
+          <Pagination pagination={pagination} onPageChange={handlePageChange} />
+        )}
       </motion.div>
     </div>
   );

@@ -1,4 +1,4 @@
-import type { TeaArt } from "../../../types/teaArt";
+import type { TeaArt } from "@/types/teaArt";
 import { Link } from "react-router-dom";
 
 interface TagButtonListProps {
@@ -6,22 +6,22 @@ interface TagButtonListProps {
   className?: string;
 }
 
-// 作者名クリック時はカードのクリックイベントを止める
-const handleAuthorClick = (e: React.MouseEvent) => {
+// タグ部分クリック時はカードのクリックイベントを止める
+const handleTagClick = (e: React.MouseEvent) => {
   e.stopPropagation();
 };
 
 const TagButtonList = ({ teaArt, className = "" }: TagButtonListProps) => {
   return (
     <div className={`text-left ${className}`}>
-      {teaArt.tag_names.map((tagName, index) => (
+      {teaArt.tags.map((tag) => (
         <Link
-          to={`/tea-arts/tag/${encodeURIComponent(tagName)}`}
-          key={index}
-          className="link link-success hover:btn-success rounded-full transition-colors"
-          onClick={handleAuthorClick}
+          to={`/tea-arts/tag/${tag.id}`}
+          key={tag.id}
+          className="link link-success hover:btn-success transition-colors"
+          onClick={handleTagClick}
         >
-          # {tagName}
+          # {tag.name}
         </Link>
       ))}
     </div>

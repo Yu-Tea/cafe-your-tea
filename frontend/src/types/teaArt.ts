@@ -5,13 +5,27 @@ export interface TeaArt {
   season: string;
   temperature: string;
   image_url: string;
-  tags: Tag[];
-  tag_names: string[];
+  tags: Array<{
+    id: number;
+    name: string;
+  }>;
+  // tags: Tag[];
+  // tag_names: string[];
   user: {
     id: number;
     name: string;
   };
   is_owner: boolean;
+}
+
+//ページネーション用
+export interface PaginationInfo {
+  current_page: number;
+  total_pages: number;
+  total_count: number;
+  per_page: number;
+  next_page: number | null;
+  prev_page: number | null;
 }
 
 // タグ用

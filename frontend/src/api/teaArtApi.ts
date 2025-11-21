@@ -7,15 +7,30 @@ import type {
   TeaArtsPickupResponse,
 } from "../types/teaArt";
 
-// 全ユーザーのTeaArt一覧取得（Menuページ用）
-export const getTeaArts = async (): Promise<TeaArtsListResponse> => {
-  const response = await apiClient.get("/tea_arts");
-  return response.data;
-};
+interface GetTeaArtsParams {
+  page?: number;
+  // 将来の検索機能用（今は使わないけど準備）
+  search?: string;
+  season?: string;
+  tagName?: string;
+}
 
-// 自分のTeaArt一覧取得（マイページ用）
-export const getMyTeaArts = async (): Promise<TeaArtsListResponse> => {
-  const response = await apiClient.get("/tea_arts/my");
+// 全ユーザーのTeaArt一覧取得（Menuページ用）
+export const getTeaArts = async (
+  params: GetTeaArtsParams = {}
+): Promise<TeaArtsListResponse> => {
+  const { page = 1, search, season, tagName } = params;
+  // クエリパラメータを構築
+  const queryParams = new URLSearchParams({
+    page: page.toString(),
+  });
+
+  // 将来の検索機能用（現在は未使用）
+  if (search) queryParams.append('search', search);
+  if (season) queryParams.append('season', season);
+  if (tagName) queryParams.append('tag_name', tagName);
+
+  const response = await apiClient.get(`/tea_arts?${queryParams}`);
   return response.data;
 };
 

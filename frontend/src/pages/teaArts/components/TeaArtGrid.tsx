@@ -1,29 +1,19 @@
-import React from "react";
 import TeaArtCard from "./TeaArtCard";
-import type { TeaArt } from "../../../types/teaArt";
+import type { TeaArt } from "@/types/teaArt";
 
 interface TeaArtGridProps {
   teaArts: TeaArt[];
   emptyMessage?: string;
-  filterByUserId?: boolean;
-  userId?: number;
 }
 
-const TeaArtGrid: React.FC<TeaArtGridProps> = ({
+const TeaArtGrid = ({
   teaArts,
   emptyMessage = "ティーが存在していません。",
-  filterByUserId = false,
-  userId,
-}) => {
-  // マイページ用にユーザーidで絞り込み
-  const filteredTeaArts =
-    filterByUserId && userId !== undefined
-      ? teaArts.filter((teaArt) => teaArt.user.id === userId)
-      : teaArts;
+}: TeaArtGridProps) => {
 
-  if (filteredTeaArts.length === 0) {
+  if (teaArts.length === 0) {
     return (
-      <div className="py-8 text-center">
+      <div className="py-4 text-center">
         <p>{emptyMessage}</p>
       </div>
     );
@@ -49,8 +39,8 @@ const TeaArtGrid: React.FC<TeaArtGridProps> = ({
   };
 
   return (
-    <div className={getResponsiveGridClass(filteredTeaArts.length)}>
-      {filteredTeaArts.map((teaArt) => (
+    <div className={getResponsiveGridClass(teaArts.length)}>
+      {teaArts.map((teaArt) => (
         <TeaArtCard key={teaArt.id} teaArt={teaArt} />
       ))}
     </div>

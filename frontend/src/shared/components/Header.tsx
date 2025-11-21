@@ -239,8 +239,8 @@ export default function Header() {
           d="M -40 0 Q 0 30 40 0 Q 80 30 120 0 Q 160 30 200 0 Q 240 30 280 0 Q 320 30 360 0 Q 400 30 440 0 Q 480 30 520 0 Q 560 30 600 0 Q 640 30 680 0 Q 720 30 760 0 Q 800 30 840 0 Q 880 30 920 0 Q 960 30 1000 0 Q 1040 30 1080 0 Q 1120 30 1160 0 Q 1200 30 1240 0 Q 1280 30 1320 0 L 1280 0 L 0 0 Z"
           fill="#6f9169"
           stroke="#6f9169"
-          stroke-width="1"
-          stroke-linejoin="round"
+          strokeWidth="1"
+          strokeLinejoin="round"
         ></path>
       </svg>
 
@@ -254,8 +254,8 @@ export default function Header() {
           d="M -40 0 Q 0 30 40 0 Q 80 30 120 0 Q 160 30 200 0 Q 240 30 280 0 Q 320 30 360 0 Q 400 30 440 0 Q 480 30 520 0 Q 560 30 600 0 Q 640 30 680 0 L 640 0 L 0 0 Z"
           fill="#6f9169"
           stroke="#6f9169"
-          stroke-width="1"
-          stroke-linejoin="round"
+          strokeWidth="1"
+          strokeLinejoin="round"
         ></path>
       </svg>
 

@@ -65,7 +65,7 @@ function App() {
               <Route path="/tea-arts/:id" element={<TeaArtDetailPage />} />
               <Route path="/users/:id" element={<UserPage />} />
               <Route
-                path="/tea-arts/tag/:tagName"
+                path="/tea-arts/tag/:id"
                 element={<TeaArtsByTagPage />}
               />
 

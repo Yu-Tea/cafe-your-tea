@@ -15,7 +15,11 @@ Rails.application.routes.draw do
       post "google_login", to: "authentication#google_login"
       get 'me', to: 'authentication#me'
 
-      resources :users, only: %i[create show]
+      resources :users, only: %i[create show] do
+        member do
+          get :tea_arts  # MyPageのTeaGallery用
+        end
+      end
       resource :user, only: [:update]
 
       resources :tea_arts, only: %i[index show create update destroy] do
@@ -28,7 +32,7 @@ Rails.application.routes.draw do
         # ネストしたコメントリソース（作成・一覧取得）
         resources :comments, only: %i[index create]
       end
-      resources :tags, only: [:index]
+      resources :tags, only: [:index, :show]
 
       # 個別コメント操作（編集・削除・詳細）
       resources :comments, only: %i[update destroy]
