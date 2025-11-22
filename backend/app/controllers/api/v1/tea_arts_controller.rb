@@ -5,13 +5,12 @@ class Api::V1::TeaArtsController < ApplicationController
 
   # GET /api/v1/tea_arts
   def index
-    @tea_arts = TeaArt.includes(:user, :tags)
-                      .order(created_at: :desc)
-                      .page(params[:page])
-
+    @search_result = TeaArtSearchService.new(search_params).execute
+    
     render json: {
-      tea_arts: @tea_arts.map { |tea_art| tea_art_list_json(tea_art) },
-      pagination: pagination_json(@tea_arts)
+      tea_arts: @search_result[:tea_arts],
+      pagination: @search_result[:pagination],
+      total_count: @search_result[:total_count]
     }
   end
 
@@ -131,17 +130,6 @@ class Api::V1::TeaArtsController < ApplicationController
         data: generate_empty_seasons_data
       }, status: :internal_server_error
     end
-  end
-
-  # 検索バー用
-  def search
-    @search_result = TeaArtSearchService.new(search_params).execute
-    
-    render json: {
-      tea_arts: @search_result[:tea_arts].as_json(include: [:user, :tags]),
-      pagination: @search_result[:pagination],
-      total_count: @search_result[:total_count]
-    }
   end
 
   private

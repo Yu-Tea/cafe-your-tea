@@ -9,26 +9,27 @@ import type {
 
 interface GetTeaArtsParams {
   page?: number;
-  // 将来の検索機能用（今は使わないけど準備）
-  search?: string;
+  search_text?: string;
   season?: string;
-  tagName?: string;
+  tag_id?: number;
+  per_page?: number;
 }
 
 // 全ユーザーのTeaArt一覧取得（Menuページ用）
 export const getTeaArts = async (
   params: GetTeaArtsParams = {}
 ): Promise<TeaArtsListResponse> => {
-  const { page = 1, search, season, tagName } = params;
+  const { page = 1, search_text, season, tag_id, per_page } = params;
   // クエリパラメータを構築
   const queryParams = new URLSearchParams({
     page: page.toString(),
   });
 
-  // 将来の検索機能用（現在は未使用）
-  if (search) queryParams.append('search', search);
+  // 検索パラメータ
+  if (search_text) queryParams.append('search_text', search_text);
   if (season) queryParams.append('season', season);
-  if (tagName) queryParams.append('tag_name', tagName);
+  if (tag_id) queryParams.append('tag_id', tag_id.toString());
+  if (per_page) queryParams.append('per_page', per_page.toString());
 
   const response = await apiClient.get(`/tea_arts?${queryParams}`);
   return response.data;

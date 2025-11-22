@@ -1,31 +1,31 @@
-import { useState, useEffect } from "react";
-import { Tag } from "../../../types/teaArt";
-import { getTags } from "../../../api/tagApi";
+import { useState, useEffect, useRef } from "react";
+import { Tag } from "@/types/teaArt";
+import { getTags } from "@/api/tagApi";
 
 interface SearchFormData {
   season: string;
-  tagName: string;
-  searchQuery: string;
+  tag_id: number | null;
+  search_text: string;
 }
 
 interface TeaArtSearchFormProps {
   onSearch: (searchData: SearchFormData) => void;
   onReset: () => void;
   hasResults?: boolean | null; // null = 未絞り込み, true = 絞り込みありかつ結果あり, false = 絞り込みありかつ結果なし
+  searchConditions: SearchFormData;
 }
 
 export const TeaArtSearchForm = ({
   onSearch,
   onReset,
   hasResults = null, // デフォルトは未絞り込み
+  searchConditions,
 }: TeaArtSearchFormProps) => {
-  const [formData, setFormData] = useState<SearchFormData>({
-    season: "",
-    tagName: "",
-    searchQuery: "",
-  });
+  const [formData, setFormData] = useState<SearchFormData>(searchConditions);
   const [tags, setTags] = useState<Tag[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  // デバウンス用のrefを追加
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // タグ一覧の取得
   useEffect(() => {
@@ -44,25 +44,60 @@ export const TeaArtSearchForm = ({
     fetchTags();
   }, []);
 
-  // フォーム値の変更
-  const handleChange = (key: keyof SearchFormData, value: string) => {
-    const newFormData = { ...formData, [key]: value };
-    setFormData(newFormData);
+  // クリーンアップ用
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
 
-    // リアルタイム検索
+  // フォーム値の変更
+  const handleSeasonChange = (value: string) => {
+    const newFormData = { ...formData, season: value };
+    setFormData(newFormData);
     onSearch(newFormData);
+  };
+
+  const handleTagChange = (value: string) => {
+    const tag_id = value ? Number(value) : null;
+    const newFormData = { ...formData, tag_id };
+    setFormData(newFormData);
+    onSearch(newFormData);
+  };
+
+  const handleSearchTextChange = (value: string) => {
+    // フォームの状態は即座に更新
+  const newFormData = { ...formData, search_text: value };
+  setFormData(newFormData);
+  
+  // 既存のタイマーをクリア
+  if (debounceTimerRef.current) {
+    clearTimeout(debounceTimerRef.current);
+  }
+  
+  // 新しいタイマーを設定（500ms後に検索実行）
+  debounceTimerRef.current = setTimeout(() => {
+    onSearch(newFormData);
+  }, 500);
   };
 
   // 検索リセット
   const handleReset = () => {
-    const resetData = { season: "", tagName: "", searchQuery: "" };
+    // リセット時もタイマーをクリア
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    
+    const resetData = { season: "", tag_id: null, search_text: "" };
     setFormData(resetData);
     onReset();
   };
 
   // 検索条件があるかチェック
   const hasSearchConditions =
-    formData.season || formData.tagName || formData.searchQuery;
+    formData.season || formData.tag_id || formData.search_text;
 
   // ケロチャのセリフ
   const titleText = (() => {
@@ -95,27 +130,27 @@ export const TeaArtSearchForm = ({
           {/* 季節選択 */}
           <select
             value={formData.season}
-            onChange={(e) => handleChange("season", e.target.value)}
+            onChange={(e) => handleSeasonChange(e.target.value)}
             className="select select-neutral w-2/5 sm:w-28"
           >
             <option value="">提供季節</option>
-            <option value="All">通年</option>
-            <option value="Spring">春</option>
-            <option value="Summer">夏</option>
-            <option value="Autumn">秋</option>
-            <option value="Winter">冬</option>
+            <option value="all_seasons">通年</option>
+            <option value="spring">春</option>
+            <option value="summer">夏</option>
+            <option value="autumn">秋</option>
+            <option value="winter">冬</option>
           </select>
 
           {/* タグ選択 */}
           <select
-            value={formData.tagName}
-            onChange={(e) => handleChange("tagName", e.target.value)}
+            value={formData.tag_id || ""}
+            onChange={(e) => handleTagChange(e.target.value)}
             className="select select-neutral w-3/5 sm:w-44"
             disabled={isLoading}
           >
             <option value=""># メニュータグ</option>
             {tags.map((tag) => (
-              <option key={tag.id} value={tag.name}>
+              <option key={tag.id} value={tag.id}>
                 {tag.name}
               </option>
             ))}
@@ -143,8 +178,8 @@ export const TeaArtSearchForm = ({
             </svg>
             <input
               type="text"
-              value={formData.searchQuery}
-              onChange={(e) => handleChange("searchQuery", e.target.value)}
+              value={formData.search_text}
+              onChange={(e) => handleSearchTextChange(e.target.value)}
               placeholder="メニュー名または制作者名で検索"
               className="w-54 grow"
             />

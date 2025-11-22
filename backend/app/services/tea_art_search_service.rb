@@ -4,18 +4,21 @@ class TeaArtSearchService
     @tag_id = params[:tag_id]
     @search_text = params[:search_text]
     @page = params[:page] || 1
-    @per_page = params[:per_page] || 12
+    @per_page = params[:per_page] || 2
   end
 
   def execute
-    scope = TeaArt.includes(:user, :tags)
+    scope = TeaArt.all
     
     # 季節フィルタ
     scope = scope.where(season: @season) if @season.present?
     
     # タグフィルタ
     if @tag_id.present?
-      scope = scope.joins(:tags).where(tags: { id: @tag_id }).distinct
+      scope = scope.where(
+        "EXISTS (SELECT 1 FROM tea_art_tags WHERE tea_art_tags.tea_art_id = tea_arts.id AND tea_art_tags.tag_id = ?)",
+        @tag_id
+      )
     end
     
     # テキスト検索（メニュー名 or ユーザー名）
@@ -29,7 +32,8 @@ class TeaArtSearchService
     
     # ページネーション
     total_count = scope.count
-    tea_arts = scope.order(created_at: :desc)
+    tea_arts = scope.includes(:user, :tags)
+                    .order(created_at: :desc)
                     .page(@page)
                     .per(@per_page)
     

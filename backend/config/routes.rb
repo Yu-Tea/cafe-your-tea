@@ -25,7 +25,6 @@ Rails.application.routes.draw do
       resources :tea_arts, only: %i[index show create update destroy] do
         collection do
           get :pickup  # TOPページ用季節別ピックアップ
-          get :search  # 検索バーからの絞り込み用
         end
 
         resources :comments, only: %i[index create]
