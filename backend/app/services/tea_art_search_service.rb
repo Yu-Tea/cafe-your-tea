@@ -4,7 +4,7 @@ class TeaArtSearchService
     @tag_id = params[:tag_id]
     @search_text = params[:search_text]
     @page = params[:page] || 1
-    @per_page = params[:per_page] || 2
+    @per_page = params[:per_page] || 20
   end
 
   def execute

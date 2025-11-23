@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { TfiAngleDoubleDown } from "react-icons/tfi";
+import { BiSolidFoodMenu } from "react-icons/bi";
 import { pickupTeaArts } from "@/api/teaArtApi";
 import { PickupSectionData } from "@/types/teaArt";
 import { convertAllPickupData } from "@/utils/pickupData";
@@ -118,7 +119,7 @@ export default function HomePage() {
       >
         <Link to="/tea-arts">
           <Button variant="st-btn" className="btn-outline btn-primary">
-            → ティーを一覧で見る
+            <BiSolidFoodMenu />ティーの一覧はこちら
           </Button>
         </Link>
       </motion.div>
