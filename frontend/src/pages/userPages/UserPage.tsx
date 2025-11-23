@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { getUser, getUserTeaArts } from "@/api/userApi";
@@ -20,6 +20,7 @@ const UserPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const { user: currentUser } = useAuth();
   const { id } = useParams<{ id: string }>();
+  const animationPlayedRef = useRef(false);
 
   useEffect(() => {
     const initializeData = async () => {
@@ -52,7 +53,6 @@ const UserPage = () => {
 
       setTeaArts(teaData.tea_arts);
       setPagination(teaData.pagination || null);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
       console.error("Error fetching tea arts:", err);
     } finally {
@@ -78,16 +78,27 @@ const UserPage = () => {
     <div className="flex flex-col items-center justify-center space-y-8 p-5 sm:p-10">
       {/* タイトル */}
       {userDetail.is_owner ? (
-        <Title title="My Page" subtitle={`${userDetail.name}さんのページ`} />
+        <Title
+          title="My Page"
+          subtitle={`${userDetail.name}さんのページ`}
+          disableAnimation={animationPlayedRef.current}
+        />
       ) : (
-        <Title title="Tea Artist" subtitle={`${userDetail.name}さんのページ`} />
+        <Title
+          title="Tea Artist"
+          subtitle={`${userDetail.name}さんのページ`}
+          disableAnimation={animationPlayedRef.current}
+        />
       )}
 
       <motion.div
         variants={inVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
+        initial={animationPlayedRef.current ? false : "hidden"}
+        animate="visible"
+        onAnimationComplete={() => {
+          // 一度アニメーションが終わったらフラグを立てる（以降は無効）
+          animationPlayedRef.current = true;
+        }}
         className="w-full max-w-2xl"
       >
         {/* ユーザー情報 */}
@@ -106,9 +117,8 @@ const UserPage = () => {
       {userDetail.is_owner && (
         <motion.div
           variants={inVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          initial={animationPlayedRef.current ? false : "hidden"}
+          animate="visible"
           className="text-center"
         >
           <Link to={`/users/${userDetail?.id}/edit`}>
@@ -123,14 +133,14 @@ const UserPage = () => {
 
       <motion.div
         variants={inVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
+        initial={animationPlayedRef.current ? false : "hidden"}
+        animate="visible"
         className="mt-10 flex max-w-7xl flex-col items-center justify-center space-y-8"
       >
         <Title
           title="Tea Gallery"
           subtitle={`${userDetail?.name}さんのティー`}
+          disableAnimation={animationPlayedRef.current}
         />
         <TeaArtGrid
           teaArts={teaArts}

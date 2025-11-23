@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "motion/react";
 import { getTagTeaArts } from "@/api/tagApi";
@@ -18,6 +18,7 @@ const TeaArtsByTagPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { id } = useParams<{ id: string }>();
+  const animationPlayedRef = useRef(false);
 
   useEffect(() => {
     const initializeData = async () => {
@@ -51,7 +52,6 @@ const TeaArtsByTagPage = () => {
 
       setTeaArts(teaData.tea_arts);
       setPagination(teaData.pagination || null);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
       console.error("Error fetching tea arts:", err);
     } finally {
@@ -71,12 +71,19 @@ const TeaArtsByTagPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center space-y-10 p-5 sm:p-10">
-      <Title title="Tag Results" subtitle="タグでの検索結果" />
+      <Title
+        title="Tag Results"
+        subtitle="タグでの検索結果"
+        disableAnimation={animationPlayedRef.current}
+      />
       <motion.div
         variants={inVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
+        initial={animationPlayedRef.current ? false : "hidden"}
+        animate="visible"
+        onAnimationComplete={() => {
+          // 一度アニメーションが終わったらフラグを立てる（以降は無効）
+          animationPlayedRef.current = true;
+        }}
         className="flex max-w-7xl flex-col items-center justify-center space-y-6"
       >
         {/* 投稿がない場合の表示 */}

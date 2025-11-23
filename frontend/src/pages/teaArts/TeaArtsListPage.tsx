@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion } from "motion/react";
 import { getTeaArts } from "@/api/teaArtApi";
 import type { TeaArt, PaginationInfo } from "@/types/teaArt";
@@ -9,77 +9,92 @@ import StatusDisplay from "@/shared/components/StatusDisplay";
 import TeaArtGrid from "./components/TeaArtGrid";
 import Pagination from "@/shared/components/Pagination";
 
+interface SearchConditions {
+  season: string;
+  tag_id: number | null;
+  search_text: string;
+}
+
 const TeaArtsListPage = () => {
   const [teaArts, setTeaArts] = useState<TeaArt[]>([]);
   const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const [loading, setLoading] = useState(true);
-  const [searchConditions, setSearchConditions] = useState({
+  const [searchConditions, setSearchConditions] = useState<SearchConditions>({
     season: "",
-    tagName: "",
-    searchQuery: "",
+    tag_id: null,
+    search_text: "",
   });
+  const animationPlayedRef = useRef(false);
 
   // データ取得用
-  const fetchTeaArts = async (page: number = 1) => {
-    try {
-      setLoading(true);
-      // ページ番号を渡してデータ取得
-      const data = await getTeaArts({ page });
+  const fetchTeaArts = useCallback(
+    async (page: number = 1, conditions?: SearchConditions) => {
+      try {
+        setLoading(true);
+        const searchParams = conditions ?? {
+          season: "",
+          tag_id: null,
+          search_text: "",
+        };
 
-      setTeaArts(data.tea_arts);
-      setPagination(data.pagination || null); // undefinedの場合はnullに
-    } catch (err) {
-      console.error("ティー情報取得エラー:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+        const params = {
+          page,
+          ...(searchParams.season && { season: searchParams.season }),
+          ...(searchParams.tag_id && { tag_id: searchParams.tag_id }),
+          ...(searchParams.search_text && {
+            search_text: searchParams.search_text,
+          }),
+        };
+
+        const data = await getTeaArts(params);
+        setTeaArts(data.tea_arts);
+        setPagination(data.pagination || null);
+      } catch (err) {
+        console.error("ティー情報取得エラー:", err);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   // 初回読み込み
   useEffect(() => {
     fetchTeaArts(1);
-  }, []);
+  }, [fetchTeaArts]);
+
+  // 検索条件変更時の処理
+  const handleSearch = useCallback(
+    (newConditions: SearchConditions) => {
+      setSearchConditions(newConditions);
+      fetchTeaArts(1, newConditions); // 1ページ目から検索実行
+    },
+    [fetchTeaArts]
+  );
+
+  // 検索リセット処理
+  const handleReset = useCallback(() => {
+    const resetConditions = { season: "", tag_id: null, search_text: "" };
+    setSearchConditions(resetConditions);
+    fetchTeaArts(1, resetConditions); // リセット後に全件取得
+  }, [fetchTeaArts]);
 
   // ページ変更ハンドラ
-  const handlePageChange = (page: number) => {
-    fetchTeaArts(page);
-    // スクロールトップに
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const handlePageChange = useCallback(
+    (page: number) => {
+      fetchTeaArts(page, searchConditions); // 現在の検索条件でページ変更
+    },
+    [fetchTeaArts, searchConditions]
+  );
 
-  // 絞り込み検索の処理
-  const filteredTeaArts = useMemo(() => {
-    return teaArts.filter((teaArt) => {
-      // 季節フィルタ
-      if (
-        searchConditions.season &&
-        teaArt.season !== searchConditions.season
-      ) {
-        return false;
-      }
-
-      // タグフィルタ
-      if (searchConditions.tagName) {
-        const hasTag = teaArt.tags.some((tag) => tag.name === searchConditions.tagName);
-        if (!hasTag) return false;
-      }
-
-      // テキスト検索（title と user.name のみ）
-      if (searchConditions.searchQuery) {
-        const query = searchConditions.searchQuery.toLowerCase();
-        const matchesTitle = teaArt.title.toLowerCase().includes(query);
-        const matchesCreator = teaArt.user.name.toLowerCase().includes(query);
-        if (!matchesTitle && !matchesCreator) return false;
-      }
-
-      return true;
-    });
-  }, [teaArts, searchConditions]);
-
-  const isFiltered =
-    !!searchConditions.season ||
-    !!searchConditions.tagName ||
-    !!searchConditions.searchQuery;
+  // 検索結果があるかどうかの判定（メモ化しておく）
+  const hasResults = useMemo(() => {
+    const hasSearchConditions =
+      !!searchConditions.season ||
+      !!searchConditions.tag_id ||
+      !!searchConditions.search_text;
+    return hasSearchConditions ? teaArts.length > 0 : null;
+  }, [searchConditions, teaArts]);
 
   // ローディング状態
   if (loading) {
@@ -88,12 +103,20 @@ const TeaArtsListPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center space-y-8 p-5 sm:p-10">
-      <Title title="Menu" subtitle="メニュー" />
+      <Title
+        title="Menu"
+        subtitle="メニュー"
+        disableAnimation={animationPlayedRef.current}
+      />
+
       <motion.div
         variants={inVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
+        initial={animationPlayedRef.current ? false : "hidden"}
+        animate="visible"
+        onAnimationComplete={() => {
+          // 一度アニメーションが終わったらフラグを立てる（以降は無効）
+          animationPlayedRef.current = true;
+        }}
         className="flex max-w-7xl flex-col items-center justify-center space-y-8"
       >
         {/* 説明文 */}
@@ -102,18 +125,16 @@ const TeaArtsListPage = () => {
           <br />
           ティーはすべてこのカフェに訪れたお客様が考案したものとなります。是非、気になるティーをお探しください。
         </div>
-
-        {/* 検索用 */}
+        {/* 検索フォーム */}
         <TeaArtSearchForm
-          onSearch={setSearchConditions}
-          onReset={() =>
-            setSearchConditions({ season: "", tagName: "", searchQuery: "" })
-          }
-          hasResults={isFiltered ? filteredTeaArts.length > 0 : null}
+          onSearch={handleSearch}
+          onReset={handleReset}
+          hasResults={hasResults}
+          searchConditions={searchConditions}
         />
 
-        {/* メニュー一覧 */}
-        <TeaArtGrid teaArts={filteredTeaArts} />
+        {/* ティー一覧表示 */}
+        <TeaArtGrid teaArts={teaArts} />
 
         {/* ページネーション */}
         {pagination && (

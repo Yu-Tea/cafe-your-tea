@@ -43,6 +43,6 @@ export const useSmartNavigation = () => {
   return {
     canGoBack,
     goBack,
-    buttonText: canGoBack ? '戻る' : '当カフェへご案内',
+    buttonText: canGoBack ? '戻る' : 'TOPページ',
   }
 }
