@@ -11,7 +11,7 @@ interface SearchFormData {
 interface TeaArtSearchFormProps {
   onSearch: (searchData: SearchFormData) => void;
   onReset: () => void;
-  hasResults?: boolean | null; // null = 未絞り込み, true = 絞り込みありかつ結果あり, false = 絞り込みありかつ結果なし
+  hasResults?: boolean | null;
   searchConditions: SearchFormData;
 }
 
@@ -24,8 +24,7 @@ export const TeaArtSearchForm = ({
   const [formData, setFormData] = useState<SearchFormData>(searchConditions);
   const [tags, setTags] = useState<Tag[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  // デバウンス用のrefを追加
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const debounceTimerRef = useRef<number | null>(null);
 
   // タグ一覧の取得
   useEffect(() => {
@@ -49,6 +48,7 @@ export const TeaArtSearchForm = ({
     return () => {
       if (debounceTimerRef.current) {
         clearTimeout(debounceTimerRef.current);
+        debounceTimerRef.current = null;
       }
     };
   }, []);
@@ -88,6 +88,7 @@ export const TeaArtSearchForm = ({
     // リセット時もタイマーをクリア
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
     }
     
     const resetData = { season: "", tag_id: null, search_text: "" };
