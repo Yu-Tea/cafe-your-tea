@@ -2,7 +2,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { FaCoffee } from "react-icons/fa";
-import { BiSolidFoodMenu } from "react-icons/bi";
 import { IoMdMenu, IoMdClose } from "react-icons/io";
 import {
   FaUserPlus,
@@ -11,9 +10,10 @@ import {
   FaRightFromBracket,
 } from "react-icons/fa6";
 import { BsFillPatchQuestionFill } from "react-icons/bs";
-import { useAuth } from "../../shared/contexts/AuthContext";
+import { PiPencilSimpleLineFill } from "react-icons/pi";
+import { useAuth } from "@/shared/contexts/AuthContext";
 import { Button } from "./Button";
-import { performLogout } from "../../api/auth";
+import { performLogout } from "@/api/auth";
 import { toast } from "sonner";
 
 export default function Header() {
@@ -92,16 +92,18 @@ export default function Header() {
             animate={{ y: 0, opacity: 1 }}
             className="mx-2 block flex-1 sm:mx-4"
           >
-            <Link to="/">
-              <motion.img
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                src="/logo.png"
-                alt="Cafe Your Tea"
-                className="max-w-[280px] hover:opacity-85 sm:max-w-[300px] xl:max-w-[340px]"
-              />
-            </Link>
+            <div className="max-w-[340px] mr-4">
+              <Link to="/">
+                <motion.img
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  src="/logo.png"
+                  alt="Cafe Your Tea"
+                  className="hover:opacity-85"
+                />
+              </Link>
+            </div>
           </motion.div>
 
           {/* ハンバーガーメニュー */}
@@ -153,8 +155,8 @@ export default function Header() {
                   variant="nav-btn"
                   className={`${isActivePage("/tea-arts") ? "text-[#d9e2c0]" : ""}`}
                 >
-                  <BiSolidFoodMenu />
-                  <span className="ml-0.5 pt-0.5">Menu</span>
+                  <FaCoffee />
+                  <span className="ml-1 pt-0.5">Menu</span>
                 </Button>
               </Link>
 
@@ -165,8 +167,8 @@ export default function Header() {
                     variant="nav-btn"
                     className={`${isActivePage("/tea-arts/create") ? "text-[#d9e2c0]" : ""}`}
                   >
-                    <FaCoffee />
-                    <span className="ml-1 pt-0.5">Tea Art</span>
+                    <PiPencilSimpleLineFill />
+                    <span className="ml-0.5 pt-0.5">Tea Art</span>
                   </Button>
                 </Link>
               )}
@@ -283,7 +285,7 @@ export default function Header() {
                 to="/tea-arts"
                 className={`flex hover:text-[#d9e2c0] ${isActivePage("/tea-arts") ? "text-[#d9e2c0]" : ""}`}
               >
-                <BiSolidFoodMenu />
+                <FaCoffee />
                 <span className="ml-0.5 pt-0.5">Menu</span>
               </Link>
             </li>
@@ -295,7 +297,7 @@ export default function Header() {
                   to="/tea-arts/create"
                   className={`flex hover:text-[#d9e2c0] ${isActivePage("/tea-arts/create") ? "text-[#d9e2c0]" : ""}`}
                 >
-                  <FaCoffee />
+                  <PiPencilSimpleLineFill />
                   <span className="ml-1 pt-0.5">Tea Art</span>
                 </Link>
               </li>

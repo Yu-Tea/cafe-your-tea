@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { IoStorefrontSharp } from "react-icons/io5";
 import { FaCoffee } from "react-icons/fa";
-import { BiSolidFoodMenu } from "react-icons/bi";
 import { FaFaceSmileBeam } from "react-icons/fa6";
+import { PiPencilSimpleLineFill } from "react-icons/pi";
 import { BsFillPatchQuestionFill } from "react-icons/bs";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import { upVariants } from "@/utils/animations.ts";
@@ -83,7 +83,7 @@ const About = () => {
                   className="text-accent josefin-sans flex space-x-1 text-4xl transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
                 >
                   <IoStorefrontSharp />
-                  <span>Top</span>
+                  <span className="pt-0.5">Top</span>
                 </Link>
               </div>
               <p className="text-sm">
@@ -98,7 +98,7 @@ const About = () => {
                   className="text-accent josefin-sans flex space-x-1 text-4xl transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
                 >
                   <BsFillPatchQuestionFill />
-                  <span>About</span>
+                  <span className="pt-0.5">About</span>
                 </Link>
               </div>
               <p className="text-sm">
@@ -112,8 +112,8 @@ const About = () => {
                   to="/tea-arts"
                   className="text-accent josefin-sans flex space-x-1 text-4xl transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
                 >
-                  <BiSolidFoodMenu />
-                  <span>Menu</span>
+                  <FaCoffee />
+                  <span className="pt-0.5">Menu</span>
                 </Link>
               </div>
               <p className="text-sm">
@@ -208,9 +208,9 @@ const About = () => {
                   to="/tea-arts/create"
                   className="flex items-center space-x-2 transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
                 >
-                  <div className="text-accent flex space-x-2 text-4xl">
-                    <FaCoffee />
-                    <span className="josefin-sans">Tea Art</span>
+                  <div className="text-accent flex space-x-1 text-4xl">
+                    <PiPencilSimpleLineFill />
+                    <span className="josefin-sans pt-1">Tea Art</span>
                   </div>
                   <div className="border-secondary/50 flex-auto border-b"></div>
                   <div className="text-secondary text-sm font-bold">
@@ -219,9 +219,9 @@ const About = () => {
                 </Link>
               ) : (
                 <div className="flex items-center space-x-2">
-                  <div className="text-accent flex space-x-2 text-4xl">
-                    <FaCoffee />
-                    <span className="josefin-sans">Tea Art</span>
+                  <div className="text-accent flex space-x-1 text-4xl">
+                    <PiPencilSimpleLineFill />
+                    <span className="josefin-sans pt-1">Tea Art</span>
                   </div>
                   <div className="border-secondary/50 flex-auto border-b"></div>
                   <div className="text-secondary text-sm font-bold">
@@ -254,9 +254,9 @@ const About = () => {
                   to={`/users/${user?.id}`}
                   className="flex items-center space-x-2 transition duration-300 hover:-translate-y-[2px] hover:opacity-80"
                 >
-                  <div className="text-accent flex space-x-2 text-4xl">
+                  <div className="text-accent flex space-x-1 text-4xl">
                     <FaFaceSmileBeam />
-                    <span className="josefin-sans">My Page</span>
+                    <span className="josefin-sans pt-0.5">My Page</span>
                   </div>
                   <div className="border-secondary/50 flex-auto border-b"></div>
                   <div className="text-secondary text-sm font-bold">
@@ -265,9 +265,9 @@ const About = () => {
                 </Link>
               ) : (
                 <div className="flex items-center space-x-2">
-                  <div className="text-accent flex space-x-2 text-4xl">
+                  <div className="text-accent flex space-x-1 text-4xl">
                     <FaFaceSmileBeam />
-                    <span className="josefin-sans">My Page</span>
+                    <span className="josefin-sans pt-0.5">My Page</span>
                   </div>
                   <div className="border-secondary/50 flex-auto border-b"></div>
                   <div className="text-secondary text-sm font-bold">
