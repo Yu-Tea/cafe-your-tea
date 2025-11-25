@@ -18,28 +18,15 @@ export const TALKS: TalkData[] = [
     expression: EXPRESSIONS.default,
     timeRange: "all",
   },
-  // ユーザー名入り全時間ランダムセリフ
+  // 全時間ランダムセリフ
   {
-    id: "personal_greeting1",
-    text: "{userName}さん、いつもありがとうございます〜！\n今日のおすすめは何にしようかな？",
+    id: "all1",
+    text: "全時間用セリフが入るケロ！\nこれはサンプルだよ〜！",
     duration: 3000,
     expression: EXPRESSIONS.smile2,
     timeRange: "all",
   },
-  {
-    id: "personal_greeting2",
-    text: "{userName}さん、お疲れさまケロ〜！\nゆっくりしていってくださいね♪",
-    duration: 3000,
-    expression: EXPRESSIONS.smile1,
-    timeRange: "all",
-  },
-  {
-    id: "personal_time_greeting",
-    text: "{userName}さん、今日も一日頑張ってるケロね〜！\n応援してるよ〜♪",
-    duration: 3000,
-    expression: EXPRESSIONS.smile2,
-    timeRange: "all",
-  },
+
   // 朝（5〜11時台）のセリフ
   {
     id: "morning1",
