@@ -11,9 +11,9 @@ import {
 } from "react-icons/fa6";
 import { BsFillPatchQuestionFill } from "react-icons/bs";
 import { PiPencilSimpleLineFill } from "react-icons/pi";
-import { useAuth } from "../../shared/contexts/AuthContext";
+import { useAuth } from "@/shared/contexts/AuthContext";
 import { Button } from "./Button";
-import { performLogout } from "../../api/auth";
+import { performLogout } from "@/api/auth";
 import { toast } from "sonner";
 
 export default function Header() {

@@ -61,7 +61,7 @@ export default function HomePage() {
           duration: 0.8,
           ease: "easeOut",
         }}
-        className="flex py-3 sm:py-9 items-center justify-center bg-[url(/images/top_bg_01.webp)] bg-cover bg-fixed"
+        className="flex items-center justify-center bg-[url(/images/top_bg_01.webp)] bg-cover bg-fixed py-3 sm:py-9"
       >
         <motion.div
           viewport={{ once: true }}
@@ -120,7 +120,8 @@ export default function HomePage() {
       >
         <Link to="/tea-arts">
           <Button variant="st-btn" className="btn-outline btn-primary">
-            <FaCoffee size={18} />ティーの一覧はこちら
+            <FaCoffee size={18} />
+            ティーの一覧はこちら
           </Button>
         </Link>
       </motion.div>

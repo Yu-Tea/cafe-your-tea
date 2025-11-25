@@ -5,9 +5,9 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { apiClient } from "../../utils/axios";
-import type { UserMe } from "../../types/user";
-import type { AuthResponse } from "../../types/auth";
+import { apiClient } from "@/utils/axios";
+import type { UserMe } from "@/types/user";
+import type { AuthResponse } from "@/types/auth";
 
 interface AuthContextType {
   user: UserMe | null;
