@@ -74,5 +74,5 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
   # Renderのホストを許可
-  config.hosts << 'back-cafe.onrender.com'
+  config.hosts << 'api.cafe-your-tea.com'
 end
