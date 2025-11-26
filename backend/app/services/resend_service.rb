@@ -10,10 +10,13 @@ class ResendService
   end
 
   def send_email(to:, subject:, html:)
+    from_email = ENV['RESEND_FROM_EMAIL']
+    raise 'RESEND_FROM_EMAIL environment variable is required' if from_email.blank?
+
     response = self.class.post('/emails', {
       headers: @headers,
       body: {
-        from: ENV['RESEND_FROM_EMAIL'] || 'onboarding@resend.dev',
+        from: from_email,
         to: [to],
         subject: subject,
         html: html
