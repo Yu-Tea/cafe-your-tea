@@ -1,4 +1,5 @@
-import { FaCoffee } from "react-icons/fa";
+import { motion, AnimatePresence } from "motion/react";
+import { FaRegHandPointDown } from "react-icons/fa";
 
 interface OrderTeaModalProps {
   onDrink: () => void;
@@ -7,31 +8,65 @@ interface OrderTeaModalProps {
 
 const OrderTeaModal = ({ onDrink, teaImageUrl }: OrderTeaModalProps) => {
   return (
-    <div className="text-base-100 fixed inset-0 z-50 flex items-center justify-center bg-stone-600/90">
-      <div className="mx-4 max-w-md space-y-6 p-8 text-center font-bold">
-        <div className="">
-          {/* ティー画像 */}
-          <img
-            src={teaImageUrl}
-            alt="完成したティー"
-            className="mx-auto object-cover"
-          />
-        </div>
-        {/* テキスト */}
-        <h3 className="mb-2 text-xl">ティーが完成したよ！</h3>
-        <p className="zen-maru-gothic text-lg">
-          心を込めて作ったよ。
-          <br />
-          どうぞお召し上がりくださいケロ〜！
-        </p>
+    <AnimatePresence mode="wait">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          duration: 0.4,
+        }}
+        className="text-base-100 fixed inset-0 z-50 flex items-center justify-center bg-[#4a6545]/90"
+      >
+        <div className="max-w-md px-2 text-center">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 1.0,
+              delay: 0.5,
+              ease: "easeOut",
+            }}
+          >
+            <motion.div
+              animate={{
+                y: [0, 8, 0],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="josefin-sans flex justify-center space-x-2 text-5xl tracking-wide"
+            >
+              <FaRegHandPointDown />
+              <span>Let's Drink!!</span>
+              <FaRegHandPointDown />
+            </motion.div>
 
-        {/* ボタン */}
-        <button onClick={onDrink} className="btn btn-success btn-lg">
-          <FaCoffee />
-          ティーを飲む
-        </button>
-      </div>
-    </div>
+            {/* ティー画像 */}
+            <motion.button
+              whileHover={{ scale: 1.03, rotate: 8 }}
+              whileTap={{ scale: 0.97, rotate: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              onClick={onDrink}
+              className="cursor-pointer"
+            >
+              <img
+                src={teaImageUrl}
+                alt="完成したティー"
+                className="mx-auto object-cover"
+              />
+            </motion.button>
+            <p className="zen-maru-gothic text-lg font-bold mt-2">
+              ティーが完成したよ！
+              <br />
+              どうぞお召し上がりくださいケロ〜！
+            </p>
+          </motion.div>
+          {/* テキスト */}
+        </div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

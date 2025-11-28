@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { TfiAngleDoubleDown } from "react-icons/tfi";
-
 import { FaCoffee } from "react-icons/fa";
 import { pickupTeaArts } from "@/api/teaArtApi";
 import { PickupSectionData } from "@/types/teaArt";
