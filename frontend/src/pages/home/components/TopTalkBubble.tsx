@@ -23,11 +23,11 @@ const TopTalkBubble = ({ talk, onComplete }: SpeechBubbleProps) => {
     <AnimatePresence mode="wait">
       <motion.div
         key={talk.id}
-        className="bg-base-100 border-neutral/80 rounded-xl border-2 px-2 py-6 text-center"
         initial={{ opacity: 0, scale: 0.8, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.8, y: 0 }}
         transition={{ duration: 0.3 }}
+        className="bg-base-100 border-neutral/80 rounded-xl border-2 px-2 py-6 text-center"
       >
         {/* セリフテキスト部分 */}
         <div className="zen-maru-gothic text-secondary text-lg sm:whitespace-pre-wrap">

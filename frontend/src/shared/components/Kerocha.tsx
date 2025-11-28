@@ -8,6 +8,26 @@ export const EXPRESSIONS = {
     mouth: "normal",
     body: "normal",
   },
+  normalOpenHai: {
+    eye: "normal",
+    mouth: "open",
+    body: "hai",
+  },
+  smileNormalTouch: {
+    eye: "smile",
+    mouth: "normal",
+    body: "touch",
+  },
+  smileOpenHai: {
+    eye: "smile",
+    mouth: "open",
+    body: "hai",
+  },
+  smileOpenUp: {
+    eye: "smile",
+    mouth: "open",
+    body: "up",
+  },
   smile1: {
     eye: "smile",
     mouth: "normal",
@@ -33,7 +53,7 @@ const Kerocha = ({
 }: KerochaCharacterProps) => {
   return (
     <motion.div
-      // ホバー時のアニメーション
+      // ホバー時のゆらゆらアニメーション
       whileHover={{
         rotate: [0, -2, 2, -2, 2, 0],
         transition: {
@@ -56,21 +76,21 @@ const Kerocha = ({
       {/* 体 */}
       <img
         src={`/images/kerocha/body_${expression.body}.png`}
-        alt="ケロチャの体"
+        alt="みわくのボディー"
         className="h-auto w-full"
       />
 
       {/* 目 */}
       <img
         src={`/images/kerocha/eye_${expression.eye}.png`}
-        alt="ケロチャの目"
+        alt="おめめ"
         className="absolute inset-0 h-full w-full object-contain"
       />
 
       {/* 口 */}
       <img
         src={`/images/kerocha/mouth_${expression.mouth}.png`}
-        alt="ケロチャの口"
+        alt="おくち"
         className="absolute inset-0 h-full w-full object-contain"
       />
     </motion.div>

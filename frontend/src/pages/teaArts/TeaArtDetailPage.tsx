@@ -5,7 +5,7 @@ import { FaPenFancy, FaUser } from "react-icons/fa";
 import { getTeaArt } from "@/api/teaArtApi";
 import { Comment } from "@/types/comment";
 import { TeaArt } from "@/types/teaArt";
-import { upVariants } from "@/utils/animations.ts";
+import { inVariants, upVariants } from "@/utils/animations.ts";
 import { Title } from "@/shared/components/Title";
 import { Button } from "@/shared/components/Button";
 import { TeaDeleteButton } from "./components/TeaDeleteButton";
@@ -70,7 +70,7 @@ const TeaArtDetailPage = () => {
     <>
       {/* ティー情報 */}
       <div className="flex flex-col items-center justify-center space-y-10 p-5 sm:p-10">
-        <Title title="Menu Details" subtitle="メニュー詳細" />
+        <Title title="Tea Details" subtitle="ティーの詳細" />
         <motion.div
           variants={upVariants}
           initial="hidden"
@@ -167,8 +167,14 @@ const TeaArtDetailPage = () => {
       </div>
 
       {/* 注文 */}
-      <Order teaArt={teaArt} onCommentCreated={handleCommentCreated} />
-
+      <motion.div
+        variants={inVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+      >
+        <Order teaArt={teaArt} onCommentCreated={handleCommentCreated} />
+      </motion.div>
       {/* コメント欄 */}
       <Comments
         teaArtId={teaArtId}
@@ -177,12 +183,13 @@ const TeaArtDetailPage = () => {
       />
 
       {/* 戻るorTOPに移動ボタン */}
-      <motion.div 
-      variants={upVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-      className="mt-10 mb-5 text-center">
+      <motion.div
+        variants={upVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="mt-10 mb-5 text-center"
+      >
         <SmartBackButton />
       </motion.div>
     </>

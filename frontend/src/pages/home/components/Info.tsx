@@ -103,6 +103,7 @@ const Info = () => {
     >
       <div className="w-full max-w-5xl">
         <div className="flex flex-col gap-6 px-5 sm:h-80 sm:flex-row">
+          {/* フキダシ部分 */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -111,6 +112,7 @@ const Info = () => {
           >
             <TopTalkBubble talk={currentTalk} onComplete={handleTalkComplete} />
           </motion.div>
+          {/* ケロチャ部分 */}
           <motion.div
             initial={{ opacity: 0, y: -40, rotate: 5 }}
             animate={{ opacity: 1, y: 0, rotate: 0 }}

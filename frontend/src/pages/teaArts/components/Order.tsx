@@ -1,5 +1,8 @@
-import { useState } from "react";
-import type { Comment } from "../../../types/comment";
+import { useState, useEffect } from "react";
+import { motion } from "motion/react";
+import { KerochaExpression } from "@/types/character";
+import Kerocha, { EXPRESSIONS } from "@/shared/components/Kerocha";
+import type { Comment } from "@/types/comment";
 import OrderBubble from "./OrderBubble";
 import OrderTeaModal from "./OrderTeaModal";
 import CommentsForm from "./CommentsForm";
@@ -17,11 +20,38 @@ interface OrderProps {
 }
 
 const Order = ({ teaArt, onCommentCreated }: OrderProps) => {
+  const [currentExpression, setCurrentExpression] = useState<KerochaExpression>(
+    EXPRESSIONS.normalOpenHai
+  );
+
   // 注文の進行状況を管理
   const [orderStep, setOrderStep] = useState<
     "initial" | "preparing" | "serving" | "completed" | "comment_send"
   >("initial");
   const [showTeaModal, setShowTeaModal] = useState(false);
+
+  // orderStep に応じて表情を変更
+  useEffect(() => {
+    switch (orderStep) {
+      case "initial":
+        setCurrentExpression(EXPRESSIONS.normalOpenHai);
+        break;
+      case "preparing":
+        setCurrentExpression(EXPRESSIONS.smileNormalTouch);
+        break;
+      case "serving":
+        setCurrentExpression(EXPRESSIONS.smileNormalTouch);
+        break;
+      case "completed":
+        setCurrentExpression(EXPRESSIONS.smileOpenUp);
+        break;
+      case "comment_send":
+        setCurrentExpression(EXPRESSIONS.smileOpenHai);
+        break;
+      default:
+        setCurrentExpression(EXPRESSIONS.normalOpenHai);
+    }
+  }, [orderStep]);
 
   // 注文ボタンクリック処理
   const handleOrder = () => {
@@ -57,24 +87,50 @@ const Order = ({ teaArt, onCommentCreated }: OrderProps) => {
         />
       )}
 
-      <div className="flex w-full items-end justify-center bg-[url(/images/order_bg.png)] bg-cover bg-right-bottom bg-repeat-x sm:bg-contain sm:bg-center">
-        <div className="w-full max-w-3xl">
+      <motion.div className="flex w-full items-end justify-center bg-[url(/images/order_bg.png)] bg-cover bg-right-bottom bg-repeat-x sm:bg-contain sm:bg-center">
+        <div className="w-full max-w-[800px]">
           <div className="flex flex-col gap-6 px-5 sm:h-80 sm:flex-row">
-            <div className="flex-1">
+            {/* フキダシ */}
+            <motion.div
+              viewport={{ once: true }}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 1.2 }}
+              className="flex-1 min-h-[190px]"
+            >
               <OrderBubble
                 orderStep={orderStep}
                 onOrder={handleOrder}
                 teaArt={teaArt}
               />
-            </div>
-            <img
-              src="../images/kero_img_01.png"
-              alt="ケロチャ"
-              className="relative w-[300px] self-end object-contain"
-            />
+            </motion.div>
+            {/* ケロチャ */}
+            <motion.div
+              viewport={{ once: true }}
+              initial={{ opacity: 0, y: -40, rotate: 5 }}
+              whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 180,
+                damping: 12,
+                delay: 1.0,
+              }}
+              className="flex items-end justify-center"
+            >
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 1.02, y: -10 }}
+                transition={{ duration: 0.25 }}
+              >
+                <Kerocha
+                  expression={currentExpression}
+                  className="max-w-[300px]"
+                />
+              </motion.div>
+            </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* 注文完了時のみ表示 */}
       {orderStep === "completed" && teaArt && (
