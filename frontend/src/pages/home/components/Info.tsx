@@ -17,7 +17,7 @@ const Info = () => {
   );
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // 時間帯を取得する
+  // 時間帯の切り替え
   const getCurrentTimeRange = (): string => {
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) return "morning";
@@ -31,10 +31,7 @@ const Info = () => {
     if (isLoggedIn && user) {
       const welcomeTalk = TALKS.find((t) => t.id === "welcome_logged_in");
       if (welcomeTalk) {
-        return {
-          ...welcomeTalk,
-          text: welcomeTalk.text.replace("{userName}", user.name || "さん"),
-        };
+        return welcomeTalk;
       }
     }
     return TALKS.find((t) => t.id === "welcome") || TALKS[0];
@@ -54,15 +51,8 @@ const Info = () => {
     const randomIndex = Math.floor(Math.random() * availableTalks.length);
     const selectedTalk = availableTalks[randomIndex];
 
-    if (selectedTalk.text.includes("{userName}") && user?.name) {
-      return {
-        ...selectedTalk,
-        text: selectedTalk.text.replace("{userName}", user.name),
-      };
-    }
-
     return selectedTalk;
-  }, [getInitialTalk, user]);
+  }, [getInitialTalk]);
 
   // ログイン状態が変わったら初期セリフを更新
   useEffect(() => {
@@ -108,9 +98,13 @@ const Info = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 1.2 }}
-            className="flex-1"
+            className="min-h-[200px] flex-1"
           >
-            <TopTalkBubble talk={currentTalk} onComplete={handleTalkComplete} />
+            <TopTalkBubble
+              talk={currentTalk}
+              onComplete={handleTalkComplete}
+              userName={user?.name}
+            />
           </motion.div>
           {/* ケロチャ部分 */}
           <motion.div
