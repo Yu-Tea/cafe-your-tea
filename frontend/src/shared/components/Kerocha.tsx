@@ -13,6 +13,11 @@ export const EXPRESSIONS = {
     mouth: "open",
     body: "hai",
   },
+  smileNormalDown: {
+    eye: "smile",
+    mouth: "normal",
+    body: "down",
+  },
   smileNormalTouch: {
     eye: "smile",
     mouth: "normal",
@@ -28,15 +33,20 @@ export const EXPRESSIONS = {
     mouth: "open",
     body: "up",
   },
-  smile1: {
-    eye: "smile",
-    mouth: "normal",
-    body: "up",
-  },
-  smile2: {
+  smileMunyaTouch: {
     eye: "smile",
     mouth: "munya",
+    body: "touch",
+  },
+  ItomeNormalDown: {
+    eye: "itome",
+    mouth: "normal",
     body: "down",
+  },
+    ItomeOpenHai: {
+    eye: "itome",
+    mouth: "open",
+    body: "hai",
   },
 } as const;
 
