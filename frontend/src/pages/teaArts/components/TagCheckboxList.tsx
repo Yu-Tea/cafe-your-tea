@@ -6,12 +6,14 @@ interface TagCheckboxListProps {
   selectedTagNames: string[];
   onChange: (tagNames: string[]) => void;
   maxTags?: number;
+  note?: string;
 }
 
 const TagCheckboxList = ({
   selectedTagNames,
   onChange,
   maxTags = 4,
+  note,
 }: TagCheckboxListProps) => {
   const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
@@ -74,7 +76,9 @@ const TagCheckboxList = ({
         <span className="text-sm">
           （{selectedTagNames.length}/{maxTags} 個選択中）
         </span>
+        {note && <div className="text-sm text-secondary/90">{note}</div>}
       </div>
+      
 
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-x-3 gap-y-2">
         {tags.map((tag) => (

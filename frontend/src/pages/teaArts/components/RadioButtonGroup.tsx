@@ -15,6 +15,7 @@ interface RadioButtonGroupProps {
   disabled?: boolean;
   gridClassName?: string;
   className?: string;
+  note?: string;
 }
 
 export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
@@ -26,10 +27,12 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
   disabled = false,
   gridClassName = "md:grid-cols-5", // デフォルト値
   className = "",
+  note,
 }) => {
   return (
     <div className={`form-control ${className}`}>
       <label className="text-secondary">{label}</label>
+      {note && <div className="text-sm text-secondary/90">{note}</div>}
       <div className={`mt-2 grid grid-cols-2 gap-3 ${gridClassName}`}>
         {options.map((option) => (
           <label

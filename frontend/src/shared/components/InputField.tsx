@@ -39,7 +39,7 @@ export const InputField = ({
         >
           {label}
         </label>
-        {note && <span className="text-neutral ml-2 text-sm">{note}</span>}
+        {note && <span className="text-secondary/80 ml-2 text-sm">{note}</span>}
       </div>
       <input
         id={inputId}

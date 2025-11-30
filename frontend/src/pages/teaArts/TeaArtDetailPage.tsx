@@ -66,10 +66,27 @@ const TeaArtDetailPage = () => {
     setNewComment(null);
   };
 
+  // 背景画像用に季節の頭文字を小文字に変更
+  const seasonKey = teaArt?.season
+    ? teaArt.season.charAt(0).toLowerCase() + teaArt.season.slice(1)
+    : "";
+
+  // 背景画像を左右どちらに配置するかの判定
+  const isAllOrSummerOrWinter = ["all", "summer", "winter"].includes(seasonKey);
+
   return (
     <>
       {/* ティー情報 */}
-      <div className="flex flex-col items-center justify-center space-y-10 p-5 sm:p-10">
+      <div
+        style={{
+          backgroundImage: `url(/images/top_bg_${seasonKey}.png)`,
+        }}
+        className={`flex flex-col items-center justify-center space-y-10 bg-no-repeat p-5 sm:p-10 ${
+          isAllOrSummerOrWinter
+            ? "bg-position-[right_top_1rem]"
+            : "bg-position-[left_top_1rem]"
+        }`}
+      >
         <Title title="Tea Details" subtitle="ティーの詳細" />
         <motion.div
           variants={upVariants}

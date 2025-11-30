@@ -147,7 +147,7 @@ const UserPage = () => {
           emptyMessage={
             isOwnProfile
               ? "まだティーを投稿していません。"
-              : `${userDetail.name}さんのティーはまだありません。`
+              : `${userDetail.name}さんが作成したティーはまだありません。`
           }
         />
 

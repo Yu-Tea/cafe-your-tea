@@ -112,7 +112,7 @@ const TeaArtCreatePage = () => {
         <div className="text-left sm:text-center">
           あなただけのオリジナルティーを作って、メニューに登録しよう！
           <br />
-          （※登録後の編集ではティーのイラストは修正できないので注意してね）
+          （※登録した後の編集時にはティーのイラスト修正はできないので注意してね）
         </div>
 
         {/* イラスト描画枠&ツール部分 */}
@@ -150,7 +150,7 @@ const TeaArtCreatePage = () => {
             value={formData.description}
             maxLength={500}
             onChange={handleChange}
-            placeholder="ティーの説明文"
+            placeholder="イラストの説明や、ティーの味や効能など、このティーについて自由にお書きください。"
             rows={5}
             required
             disabled={isLoading}
@@ -159,6 +159,7 @@ const TeaArtCreatePage = () => {
           {/* 季節選択 */}
           <RadioButtonGroup
             label="ティーの提供季節"
+            note="※ ティーに季節感があるかどうかでお選びください。メニューページでの絞り込み検索の対象になります。"
             name="season"
             value={formData.season}
             options={SEASONS}
@@ -169,6 +170,7 @@ const TeaArtCreatePage = () => {
           {/* 温度選択 */}
           <RadioButtonGroup
             label="ティーの提供温度"
+            note="※ ティーの詳細ページのみに表示。ティーのイメージに合わせてお選びください。"
             name="temperature"
             value={formData.temperature}
             options={TEMPERATURES}
@@ -180,6 +182,7 @@ const TeaArtCreatePage = () => {
           {/* タグ選択 */}
 
           <TagCheckboxList
+            note="※ イラストやティーのイメージに合わせてお選びください。4つまで選択でき、絞り込み検索の対象になります。"
             selectedTagNames={selectedTagNames}
             onChange={setSelectedTagNames}
           />

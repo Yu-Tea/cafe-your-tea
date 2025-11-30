@@ -96,7 +96,7 @@ const Order = ({ teaArt, onCommentCreated }: OrderProps) => {
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 1.2 }}
-              className="flex-1 min-h-[190px]"
+              className="min-h-[190px] flex-1"
             >
               <OrderBubble
                 orderStep={orderStep}
@@ -117,16 +117,10 @@ const Order = ({ teaArt, onCommentCreated }: OrderProps) => {
               }}
               className="flex items-end justify-center"
             >
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 1.02, y: -10 }}
-                transition={{ duration: 0.25 }}
-              >
-                <Kerocha
-                  expression={currentExpression}
-                  className="max-w-[300px]"
-                />
-              </motion.div>
+              <Kerocha
+                expression={currentExpression}
+                className="max-w-[300px]"
+              />
             </motion.div>
           </div>
         </div>
