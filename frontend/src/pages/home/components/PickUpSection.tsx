@@ -23,8 +23,8 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
           : "bg-right-bottom sm:bg-right-top"
       } px-5`}
     >
-      <HoverStalker>
-        <Link to={`/tea-arts/${data.id}`} className="w-full sm:w-auto">
+      <Link to={`/tea-arts/${data.id}`} className="w-full sm:w-auto">
+        <HoverStalker>
           <motion.div
             whileHover={{ scale: 1.01, opacity: 0.9 }}
             whileTap={{ scale: 0.99 }}
@@ -169,8 +169,8 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
               </div>
             </motion.div>
           </motion.div>
-        </Link>
-      </HoverStalker>
+        </HoverStalker>
+      </Link>
     </section>
   );
 };

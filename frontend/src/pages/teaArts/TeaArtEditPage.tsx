@@ -204,7 +204,7 @@ const TeaArtEditPage = () => {
           {/* 季節選択 */}
           <RadioButtonGroup
             label="ティーの提供季節"
-            note="※ ティーに季節感があるかどうかでお選びください。メニューページでの検索絞り込みの対象になります。"
+            note="※ ティーに季節感があるかどうかでお選びください。メニューページでの絞り込み検索の対象になります。"
             name="season"
             value={formData.season}
             options={SEASONS}
@@ -226,7 +226,7 @@ const TeaArtEditPage = () => {
 
           {/* タグ選択 */}
           <TagCheckboxList
-          note="※ イラストやティーのイメージに合わせてお選びください。4つまで選択でき、検索絞り込みの対象になります。"
+            note="※ イラストやティーのイメージに合わせてお選びください。4つまで選択でき、絞り込み検索の対象になります。"
             selectedTagNames={selectedTagNames}
             onChange={setSelectedTagNames}
           />
