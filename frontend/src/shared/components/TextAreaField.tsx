@@ -35,7 +35,7 @@ export const TextAreaField = ({
         >
           {label}
         </label>
-        <p className="text-neutral ml-2 text-left text-sm">
+        <p className="text-secondary/80 ml-2 text-left text-sm">
           ※{value.length}/{maxLength}文字以内
         </p>
       </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { TfiAngleDoubleDown } from "react-icons/tfi";
 import { FaCoffee } from "react-icons/fa";
 import { pickupTeaArts } from "@/api/teaArtApi";
@@ -10,6 +10,7 @@ import { Button } from "@/shared/components/Button";
 import StatusDisplay from "@/shared/components/StatusDisplay";
 import Info from "./components/Info";
 import PickUpSection from "./components/PickUpSection";
+
 
 export default function HomePage() {
   const [pickupData, setPickupData] = useState<PickupSectionData[]>([]);
@@ -47,6 +48,7 @@ export default function HomePage() {
   };
 
   return (
+    <AnimatePresence mode="wait">
     <div className="mt-20 space-y-15 lg:space-y-20">
       <Info />
 
@@ -125,5 +127,6 @@ export default function HomePage() {
         </Link>
       </motion.div>
     </div>
+    </AnimatePresence>
   );
 }

@@ -137,7 +137,7 @@ export default function Header() {
               initial={{ y: -10, opacity: 0 }}
               transition={{ duration: 0.3, delay: 0.5, ease: "easeOut" }}
               animate={{ y: 0, opacity: 1 }}
-              className="josefin-sans mr-4 flex space-x-4 pt-1.5 text-3xl"
+              className="josefin-sans mr-4 flex space-x-4 pt-1 text-3xl"
             >
               {/* 常時表示するリンク先 */}
               <Link to="/about">

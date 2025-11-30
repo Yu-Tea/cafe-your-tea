@@ -123,11 +123,31 @@ const Info = () => {
               whileTap={{ scale: 1.02, y: -10 }}
               transition={{ duration: 0.25 }}
             >
-              <Kerocha
-                expression={currentExpression}
-                className="max-w-[300px] lg:max-w-[350px]"
-                onClick={handleKerochaClick}
-              />
+              <motion.div
+                whileHover={{
+                  rotate: [0, -2, 2, -2, 2, 0],
+                  transition: {
+                    duration: 3.0,
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    ease: "easeInOut",
+                  },
+                }}
+                animate={{
+                  rotate: 0,
+                }}
+                transition={{
+                  duration: 0.5,
+                  ease: "easeOut",
+                }}
+                className="origin-bottom cursor-pointer"
+              >
+                <Kerocha
+                  expression={currentExpression}
+                  className="max-w-[300px] lg:max-w-[350px]"
+                  onClick={handleKerochaClick}
+                />
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>

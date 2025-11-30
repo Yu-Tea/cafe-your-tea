@@ -43,7 +43,7 @@ export const EXPRESSIONS = {
     mouth: "normal",
     body: "down",
   },
-    ItomeOpenHai: {
+  ItomeOpenHai: {
     eye: "itome",
     mouth: "open",
     body: "hai",
@@ -62,27 +62,7 @@ const Kerocha = ({
   onClick,
 }: KerochaCharacterProps) => {
   return (
-    <motion.div
-      // ホバー時のゆらゆらアニメーション
-      whileHover={{
-        rotate: [0, -2, 2, -2, 2, 0],
-        transition: {
-          duration: 3.0,
-          repeat: Infinity,
-          repeatType: "loop",
-          ease: "easeInOut",
-        },
-      }}
-      animate={{
-        rotate: 0,
-      }}
-      transition={{
-        duration: 0.5,
-        ease: "easeOut",
-      }}
-      className={`relative ${className} origin-bottom cursor-pointer`}
-      onClick={onClick}
-    >
+    <motion.div className={`relative ${className}`} onClick={onClick}>
       {/* 体 */}
       <img
         src={`/images/kerocha/body_${expression.body}.png`}
