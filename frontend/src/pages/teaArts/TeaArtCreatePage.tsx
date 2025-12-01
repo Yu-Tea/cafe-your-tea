@@ -159,32 +159,71 @@ const TeaArtCreatePage = () => {
           {/* 季節選択 */}
           <RadioButtonGroup
             label="ティーの提供季節"
-            note="※ ティーに季節感があるかどうかでお選びください。メニューページでの絞り込み検索の対象になります。"
             name="season"
             value={formData.season}
             options={SEASONS}
             onChange={handleRadioChange}
             disabled={isLoading}
+            helpModalId="season-help"
+            helpModalTitle="ティーの提供季節について"
+            helpModalContent={
+              <>
+                <li>
+                  ティーのイラストや設定に季節感があるかどうかでお選びください。
+                </li>
+                <li>
+                  メニューやティー詳細ページで対応する季節が表示されます。
+                </li>
+                <li>
+                  TOPページのPick Up
+                  Teaコーナーで、該当する季節設定で取り上げられることがあります。
+                </li>
+                <li>メニューページでの絞り込み検索の対象になります。</li>
+              </>
+            }
           />
 
           {/* 温度選択 */}
           <RadioButtonGroup
             label="ティーの提供温度"
-            note="※ ティーの詳細ページのみに表示。ティーのイメージに合わせてお選びください。"
             name="temperature"
             value={formData.temperature}
             options={TEMPERATURES}
             onChange={handleRadioChange}
             disabled={isLoading}
             gridClassName="md:grid-cols-3"
+            helpModalId="temperature-help"
+            helpModalTitle="ティーの提供温度について"
+            helpModalContent={
+              <>
+                <li>
+                  このティーが「温かい」「冷たい」どちらの温度で提供されるのか、イメージで選択してください。
+                </li>
+                <li>
+                  ティーの詳細ページのみに表示されるオマケのような要素です。
+                </li>
+              </>
+            }
           />
 
           {/* タグ選択 */}
 
           <TagCheckboxList
-            note="※ イラストやティーのイメージに合わせてお選びください。4つまで選択でき、絞り込み検索の対象になります。"
             selectedTagNames={selectedTagNames}
             onChange={setSelectedTagNames}
+            helpModalId="tag-help"
+            helpModalTitle="タグについて"
+            helpModalContent={
+              <>
+                <li>
+                  イラストやティーのイメージに合わせてお選びください。4つまで選択できます。
+                </li>
+                <li>
+                  メニューやティー詳細ページで設定したタグが表示されます。また、このタグボタンから同じタグを持つティーの一覧ページに移動できます。
+                </li>
+                <li>メニューページでの絞り込み検索の対象になります。</li>
+              </>
+            }
           />
 
           {/* ボタン */}
