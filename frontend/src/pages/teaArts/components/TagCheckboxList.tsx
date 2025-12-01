@@ -1,19 +1,24 @@
 import { useState, useEffect } from "react";
-import { Tag, getTags } from "../../../api/tagApi";
-import StatusDisplay from "../../../shared/components/StatusDisplay";
+import { Tag, getTags } from "@/api/tagApi";
+import StatusDisplay from "@/shared/components/StatusDisplay";
+import { HelpModal } from "./HelpModal";
 
 interface TagCheckboxListProps {
   selectedTagNames: string[];
   onChange: (tagNames: string[]) => void;
   maxTags?: number;
-  note?: string;
+  helpModalId?: string;
+  helpModalTitle?: string;
+  helpModalContent?: React.ReactNode;
 }
 
 const TagCheckboxList = ({
   selectedTagNames,
   onChange,
   maxTags = 4,
-  note,
+  helpModalId,
+  helpModalTitle,
+  helpModalContent,
 }: TagCheckboxListProps) => {
   const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
@@ -64,9 +69,7 @@ const TagCheckboxList = ({
 
   // エラー状態
   if (error) {
-    return (
-      <StatusDisplay type="error" message={error} />
-    );
+    return <StatusDisplay type="error" message={error} />;
   }
 
   return (
@@ -74,13 +77,16 @@ const TagCheckboxList = ({
       <div className="text-secondary">
         タグ
         <span className="text-sm">
-          （{selectedTagNames.length}/{maxTags} 個選択中）
+          ({selectedTagNames.length}/{maxTags} 個選択中)
         </span>
-        {note && <div className="text-sm text-secondary/90">{note}</div>}
+        {helpModalId && helpModalTitle && helpModalContent && (
+          <HelpModal id={helpModalId} title={helpModalTitle}>
+            {helpModalContent}
+          </HelpModal>
+        )}
       </div>
-      
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-x-3 gap-y-2">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-2 sm:grid-cols-4 lg:grid-cols-5">
         {tags.map((tag) => (
           <label
             key={tag.id}

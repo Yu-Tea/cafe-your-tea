@@ -1,4 +1,4 @@
-import type { TeaArt } from "../../../types/teaArt";
+import type { TeaArt } from "@/types/teaArt";
 
 interface SeasonTextProps {
   teaArt: TeaArt;

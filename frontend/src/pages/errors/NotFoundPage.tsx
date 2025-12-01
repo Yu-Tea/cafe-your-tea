@@ -1,4 +1,4 @@
-import { Title } from "../../shared/components/Title";
+import { Title } from "@/shared/components/Title";
 
 const NotFoundPage = () => {
   return (

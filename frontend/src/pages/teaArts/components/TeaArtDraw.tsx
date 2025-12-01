@@ -4,7 +4,7 @@ import { SketchPicker } from "react-color";
 import { FaUndo, FaRedo, FaTrashAlt } from "react-icons/fa";
 import Konva from "konva";
 import { motion } from "motion/react";
-import { Button } from "../../../shared/components/Button";
+import { Button } from "@/shared/components/Button";
 
 interface DrawLine {
   points: number[];

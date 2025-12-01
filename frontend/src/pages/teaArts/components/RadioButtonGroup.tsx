@@ -1,4 +1,5 @@
 import React from "react";
+import { HelpModal } from "./HelpModal";
 
 interface RadioOption {
   readonly id: string;
@@ -15,7 +16,9 @@ interface RadioButtonGroupProps {
   disabled?: boolean;
   gridClassName?: string;
   className?: string;
-  note?: string;
+  helpModalId?: string;
+  helpModalTitle?: string;
+  helpModalContent?: React.ReactNode;
 }
 
 export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
@@ -27,12 +30,18 @@ export const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
   disabled = false,
   gridClassName = "md:grid-cols-5", // デフォルト値
   className = "",
-  note,
+  helpModalId,
+  helpModalTitle,
+  helpModalContent,
 }) => {
   return (
     <div className={`form-control ${className}`}>
       <label className="text-secondary">{label}</label>
-      {note && <div className="text-sm text-secondary/90">{note}</div>}
+      {helpModalId && helpModalTitle && helpModalContent && (
+        <HelpModal id={helpModalId} title={helpModalTitle}>
+          {helpModalContent}
+        </HelpModal>
+      )}
       <div className={`mt-2 grid grid-cols-2 gap-3 ${gridClassName}`}>
         {options.map((option) => (
           <label
