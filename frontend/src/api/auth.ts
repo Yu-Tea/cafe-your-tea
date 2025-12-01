@@ -5,9 +5,8 @@ import type {
   PasswordResetResponse,
 } from "../types/auth";
 
-// バックエンドのレスポンス構造に合わせた型定義
 interface LogoutResponse {
-  message: string; // "ログアウトしました"
+  message: string;
 }
 
 // 認証関連のAPI呼び出し

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { IoIosSend } from "react-icons/io";
-import { createComment } from "../../../api/commentApi";
-import { CreateCommentRequest, Comment } from "../../../types/comment";
-import { useAuth } from "../../../shared/contexts/AuthContext";
-import { TextAreaField } from "../../../shared/components/TextAreaField";
-import { Button } from "../../../shared/components/Button";
+import { createComment } from "@/api/commentApi";
+import { CreateCommentRequest, Comment } from "@/types/comment";
+import { useAuth } from "@/shared/contexts/AuthContext";
+import { TextAreaField } from "@/shared/components/TextAreaField";
+import { Button } from "@/shared/components/Button";
 
 interface CommentsFormProps {
   teaArtId: number;

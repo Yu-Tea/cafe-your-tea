@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteTeaArt } from "../../../api/teaArtApi";
+import { deleteTeaArt } from "@/api/teaArtApi";
 import { FaTrashAlt } from "react-icons/fa";
 
 interface TeaDeleteButtonProps {

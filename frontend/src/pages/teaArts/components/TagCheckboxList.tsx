@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Tag, getTags } from "../../../api/tagApi";
-import StatusDisplay from "../../../shared/components/StatusDisplay";
+import { Tag, getTags } from "@/api/tagApi";
+import StatusDisplay from "@/shared/components/StatusDisplay";
 
 interface TagCheckboxListProps {
   selectedTagNames: string[];
@@ -64,9 +64,7 @@ const TagCheckboxList = ({
 
   // エラー状態
   if (error) {
-    return (
-      <StatusDisplay type="error" message={error} />
-    );
+    return <StatusDisplay type="error" message={error} />;
   }
 
   return (
@@ -76,11 +74,10 @@ const TagCheckboxList = ({
         <span className="text-sm">
           （{selectedTagNames.length}/{maxTags} 個選択中）
         </span>
-        {note && <div className="text-sm text-secondary/90">{note}</div>}
+        {note && <div className="text-secondary/90 text-sm">{note}</div>}
       </div>
-      
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-x-3 gap-y-2">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-2 sm:grid-cols-4 lg:grid-cols-5">
         {tags.map((tag) => (
           <label
             key={tag.id}

@@ -1,9 +1,9 @@
 import { use } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import { AuthContext,useAuth } from "../contexts/AuthContext";
-import { apiClient } from "../../utils/axios";
-import type { GoogleLoginResponse } from "../../types/auth";
+import { AuthContext, useAuth } from "../contexts/AuthContext";
+import { apiClient } from "@/utils/axios";
+import type { GoogleLoginResponse } from "@/types/auth";
 import { Button } from "./Button";
 import { toast } from "sonner";
 
@@ -50,7 +50,7 @@ const GoogleLoginButton = () => {
   return (
     <Button
       variant="google-btn"
-      className="text-primary flex mt-5"
+      className="text-primary mt-5 flex"
       onClick={() => login()}
     >
       <img

@@ -35,7 +35,6 @@ const PasswordResetRequest = () => {
       console.error("Password reset error:", error);
 
       // セキュリティ対策：エラーが発生しても同じメッセージを表示
-      // これによりメールアドレスの存在を推測されることを防ぐ
       toast.success("パスワードリセット手順を送信しました", {
         duration: 4000,
         description: "メールをご確認ください",

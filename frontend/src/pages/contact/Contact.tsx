@@ -40,7 +40,7 @@ const Contact = () => {
         {
           method: "POST",
           body: formDataToSend,
-          mode: "no-cors", // CORSエラーを回避
+          mode: "no-cors",
         }
       );
 
