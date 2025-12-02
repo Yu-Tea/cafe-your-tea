@@ -30,7 +30,7 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
       whileHover={{ y: -3 }}
       whileTap={{ y: 2 }}
       transition={{ duration: 0.2 }}
-      className="bg-base-100 border-base-300 flex translate-y-1.5 cursor-pointer flex-col border-1 p-4 shadow-stone-400/20 transition-shadow hover:shadow-lg sm:max-w-[308px]"
+      className="bg-base-100 border-base-300 flex w-full translate-y-1.5 cursor-pointer flex-col border-1 p-4 shadow-stone-400/20 transition-shadow hover:shadow-lg sm:max-w-[308px]"
       onClick={handleCardClick}
     >
       {/* 画像 */}

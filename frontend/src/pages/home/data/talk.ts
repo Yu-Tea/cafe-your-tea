@@ -5,7 +5,7 @@ export const TALKS: TalkData[] = [
   // 未ログイン時の初期セリフ
   {
     id: "welcome",
-    text: "いらっしゃいませ〜！Cafe Your Teaへようこそ！\nボクは、このカフェの店員のケロチャだよ。\nここではお客様が描いたティーを取り扱っているんだ。\n ほっと一息、ティータイムを楽しんでケロ〜！",
+    text: "いらっしゃいませ〜！Cafe Your Teaへようこそ！\nボクは、このカフェの店員のケロチャだよ。\n ほっと一息、ティータイムを楽しんでケロ〜！",
     expression: EXPRESSIONS.default,
     timeRange: "all",
     duration: 0, // 初期セリフは時間制限なし
