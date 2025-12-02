@@ -250,7 +250,7 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
   }, [backgroundColor, getArtAsBase64, onArtComplete]);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-7 sm:flex-row">
+    <div className="flex flex-col items-center justify-center gap-7 lg:flex-row">
       {/* 描画エリア */}
       <div
         className="cup-bg border-neutral relative flex aspect-square cursor-crosshair items-center justify-center border bg-[url(../images/cup_img_big.png)] bg-center"
@@ -305,111 +305,112 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
       </div>
 
       {/* コントロールパネル */}
-      <div className="flex flex-col gap-6 text-left">
-        {/* ペンカラー選択 */}
-        <div>
-          <div className="text-secondary mb-1 space-x-2">
-            <span className="josefin-sans text-3xl">Pen Color</span>
-            <span>ーペンの色ー</span>
-          </div>
-
-          <div className="grid w-full grid-cols-2 gap-1">
-            {penColors.map((pen) => (
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                key={pen.color}
-                className="hover:bg-primary/10 flex cursor-pointer items-center gap-1 p-2 transition-colors"
-                onClick={() => setSelectedPenColor(pen.color)}
-              >
-                {/* カラー円ボタン */}
-                <button
-                  className={`size-10 cursor-pointer rounded-full border-2 transition-all ${
-                    selectedPenColor === pen.color
-                      ? "border-secondary"
-                      : "border-base-200"
-                  }`}
-                  style={{
-                    backgroundColor: pen.color,
-                  }}
-                />
-
-                {/* ペン名テキスト */}
-                <span
-                  className={`text-secondary text-sm transition-colors ${
-                    selectedPenColor === pen.color ? "font-bold" : ""
-                  }`}
-                >
-                  {pen.name}ペン
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* ペンサイズ調整 */}
-        <div className="pen-size">
-          <div className="text-secondary mb-2 space-x-2">
-            <span className="josefin-sans text-3xl">Pen Size</span>
-            <span>ーペンの太さー</span>
-          </div>
-
-          <input
-            type="range"
-            min={1}
-            max="20"
-            value={penSize}
-            onChange={(e) => setPenSize(Number(e.target.value))}
-            className="range range-primary range-sm"
-          />
-          <span className="text-secondary text-sm">サイズ: {penSize}px</span>
-        </div>
-
-        {/* お茶の色選択 */}
-        <div className="relative">
-          <div className="text-secondary mb-2 space-x-2">
-            <span className="josefin-sans text-3xl">Tea Color</span>
-            <span>ーお茶の色ー</span>
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            onClick={() => setShowColorPicker(!showColorPicker)}
-            className="border-base-200 ml-2 size-11 cursor-pointer rounded-full border-2"
-            style={{
-              backgroundColor: backgroundColor,
-            }}
-          />
-          {/* カラーピッカー */}
-          {showColorPicker && (
-            <div className="absolute z-50 text-center">
-              <div
-                className="fixed inset-0"
-                onClick={() => setShowColorPicker(false)}
-              />
-              <div className="relative z-10">
-                <SketchPicker
-                  color={backgroundColor}
-                  onChange={(color) => setBackgroundColor(color.hex)}
-                  disableAlpha={true}
-                  presetColors={[
-                    "#D4563B",
-                    "#E28F33",
-                    "#D8CD10",
-                    "#6EB264",
-                    "#6FA8A5",
-                    "#6573A0",
-                    "#805F8B",
-                    "#9B4A63",
-                  ]}
-                />
-              </div>
+      <div className="flex flex-col-reverse lg:flex-col gap-6 text-left">
+        <div className="space-y-6">
+          {/* ペンカラー選択 */}
+          <div>
+            <div className="text-secondary mb-1 space-x-2">
+              <span className="josefin-sans text-3xl">Pen Color</span>
+              <span>ーペンの色ー</span>
             </div>
-          )}
-        </div>
 
+            <div className="grid w-full grid-cols-2 gap-1">
+              {penColors.map((pen) => (
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  key={pen.color}
+                  className="hover:bg-primary/10 flex cursor-pointer items-center gap-1 p-2 transition-colors"
+                  onClick={() => setSelectedPenColor(pen.color)}
+                >
+                  {/* カラー円ボタン */}
+                  <button
+                    className={`size-10 cursor-pointer rounded-full border-2 transition-all ${
+                      selectedPenColor === pen.color
+                        ? "border-secondary"
+                        : "border-base-200"
+                    }`}
+                    style={{
+                      backgroundColor: pen.color,
+                    }}
+                  />
+
+                  {/* ペン名テキスト */}
+                  <span
+                    className={`text-secondary text-sm transition-colors ${
+                      selectedPenColor === pen.color ? "font-bold" : ""
+                    }`}
+                  >
+                    {pen.name}ペン
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* ペンサイズ調整 */}
+          <div className="pen-size">
+            <div className="text-secondary mb-2 space-x-2">
+              <span className="josefin-sans text-3xl">Pen Size</span>
+              <span>ーペンの太さー</span>
+            </div>
+
+            <input
+              type="range"
+              min={1}
+              max="20"
+              value={penSize}
+              onChange={(e) => setPenSize(Number(e.target.value))}
+              className="range range-primary range-sm"
+            />
+            <span className="text-secondary text-sm">サイズ: {penSize}px</span>
+          </div>
+
+          {/* お茶の色選択 */}
+          <div className="relative">
+            <div className="text-secondary mb-2 space-x-2">
+              <span className="josefin-sans text-3xl">Tea Color</span>
+              <span>ーお茶の色ー</span>
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              onClick={() => setShowColorPicker(!showColorPicker)}
+              className="border-base-200 ml-2 size-11 cursor-pointer rounded-full border-2"
+              style={{
+                backgroundColor: backgroundColor,
+              }}
+            />
+            {/* カラーピッカー */}
+            {showColorPicker && (
+              <div className="absolute z-50 text-center">
+                <div
+                  className="fixed inset-0"
+                  onClick={() => setShowColorPicker(false)}
+                />
+                <div className="relative z-10">
+                  <SketchPicker
+                    color={backgroundColor}
+                    onChange={(color) => setBackgroundColor(color.hex)}
+                    disableAlpha={true}
+                    presetColors={[
+                      "#D4563B",
+                      "#E28F33",
+                      "#D8CD10",
+                      "#6EB264",
+                      "#6FA8A5",
+                      "#6573A0",
+                      "#805F8B",
+                      "#9B4A63",
+                    ]}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
         {/* 操作ボタン */}
         <div className="flex gap-x-2">
           <Button
