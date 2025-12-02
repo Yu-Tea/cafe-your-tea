@@ -104,14 +104,16 @@
 
 
 
-## 使用する技術スタック
+## 使用技術
 
-- フロントエンド：React、Tailwind CSS、daisyUI
-- バックエンド：Ruby on Rails API
-- データベース：PostgreSQL
-- デプロイ先：フロントは Vercel、バックは Render、DB は Neon
-- 使用予定の Gem：Devise、omniauth-google-oauth2、MiniMagick
-- 使用予定の ライブラリやサービス：Canvas API、Motion、Cloudinary
+|カテゴリ|技術|
+|:---:|:---:|
+|フロントエンド|React 19.1.1/Vite 7.1.7/TypeScript 5.8.3|
+|フロントエンド|Ruby 3.3.2/Rails 7.1.5 (APIモード)|
+|データベース|PostgreSQL|
+|インフラ・デプロイ| Docker/Vercel/Render/Neon|
+|外部サービス|Cloudinary/Resent|
+
 
 ## 画面遷移図
 
