@@ -22,7 +22,6 @@ const GoogleLoginButton = () => {
     redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URL,
     onSuccess: async (codeResponse) => {
       const authCode = codeResponse.code;
-      console.log("認可コード取得成功:", authCode);
 
       try {
         const response = await apiClient.post<GoogleLoginResponse>(
