@@ -21,26 +21,24 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
   });
 
   // 単色背景のY座標の変化
-  const bgY = useTransform(scrollYProgress, [0, 0.5, 1], [20, 45, 20]);
+  const bgY = useSpring(
+    useTransform(scrollYProgress, [0, 0.5, 1], [20, 45, 20]),
+    {
+      stiffness: 40,
+      damping: 5,
+      restDelta: 0.001,
+    }
+  );
 
   // 写真背景のY座標の変化
-  const photoY = useTransform(scrollYProgress, [0, 0.5, 1], [-10, 10, -10]);
-
-  // 単色背景のアニメーション
-  const bgAnimeSpring = useSpring(bgY, {
-    type: "spring",
-    stiffness: 40,
-    damping: 5,
-    restDelta: 0.001,
-  });
-
-  // 写真背景のアニメーション
-  const photoAnimeSpring = useSpring(photoY, {
-    type: "spring",
-    stiffness: 80,
-    damping: 40,
-    restDelta: 0.001,
-  });
+  const photoY = useSpring(
+    useTransform(scrollYProgress, [0, 0.5, 1], [-10, 10, -10]),
+    {
+      stiffness: 80,
+      damping: 40,
+      restDelta: 0.001,
+    }
+  );
 
   return (
     <section
@@ -69,7 +67,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
               <motion.div
                 ref={ref}
                 style={{
-                  y: bgAnimeSpring,
+                  y: bgY,
                 }}
               >
                 <motion.div
@@ -90,7 +88,7 @@ const PickUpSection = ({ data, layout }: PickUpSectionProps) => {
               <motion.div
                 ref={ref}
                 style={{
-                  y: photoAnimeSpring,
+                  y: photoY,
                 }}
               >
                 <motion.div
