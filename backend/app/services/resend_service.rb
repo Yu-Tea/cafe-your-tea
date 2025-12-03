@@ -14,14 +14,14 @@ class ResendService
     raise 'RESEND_FROM_EMAIL environment variable is required' if from_email.blank?
 
     response = self.class.post('/emails', {
-      headers: @headers,
-      body: {
-        from: from_email,
-        to: [to],
-        subject: subject,
-        html: html
-      }.to_json
-    })
+                                 headers: @headers,
+                                 body: {
+                                   from: from_email,
+                                   to: [to],
+                                   subject: subject,
+                                   html: html
+                                 }.to_json
+                               })
 
     # レスポンスの確認
     if response.success?

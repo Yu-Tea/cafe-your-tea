@@ -1,5 +1,4 @@
 class Api::V1::AuthenticationController < ApplicationController
-
   # メールアドレス＋パスワードのログイン
   def login
     user = User.authenticate_by(email: params[:email], password: params[:password])
@@ -22,7 +21,7 @@ class Api::V1::AuthenticationController < ApplicationController
   # Googleログイン
   def google_login
     auth_code = params[:code]
-    return render json: { error: "認証コードが見つかりません" }, status: :bad_request if auth_code.blank?
+    return render json: { error: '認証コードが見つかりません' }, status: :bad_request if auth_code.blank?
 
     begin
       response = GoogleAuthService.new(auth_code).authenticate!
@@ -33,13 +32,13 @@ class Api::V1::AuthenticationController < ApplicationController
         cookies[:jwt] = jwt_cookie_options(token)
 
         render json: {
-          name: user.name, 
-          email: user.email, 
+          name: user.name,
+          email: user.email
         }, status: :ok
       else
         render json: { error: response[:error] }, status: response[:status] || :unprocessable_entity
       end
-    rescue => e
+    rescue StandardError => e
       render json: { error: e.message }, status: :unprocessable_entity
     end
   end
@@ -47,10 +46,9 @@ class Api::V1::AuthenticationController < ApplicationController
   def logout
     delete_options = jwt_cookie_options_for_delete
     cookies.delete(:jwt, delete_options)
-    
-    render json: { message: "ログアウトしました" }, status: :ok
-  end
 
+    render json: { message: 'ログアウトしました' }, status: :ok
+  end
 
   def me
     if @current_user

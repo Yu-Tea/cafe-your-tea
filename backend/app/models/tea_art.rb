@@ -54,15 +54,15 @@ class TeaArt < ApplicationRecord
   def self.pickup_by_seasons
     seasons = %w[spring summer autumn winter all_seasons]
     result = {}
-    
+
     seasons.each do |season_name|
       result[season_name] = joins(:user)
-                              .where(season: season_name)
-                              .select('tea_arts.*, users.name as user_name')
-                              .order('RANDOM()')
-                              .first
+                            .where(season: season_name)
+                            .select('tea_arts.*, users.name as user_name')
+                            .order('RANDOM()')
+                            .first
     end
-    
+
     result
   end
 

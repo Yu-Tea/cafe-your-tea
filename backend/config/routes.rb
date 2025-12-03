@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
-  if Rails.env.development?
-    mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  end
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   # ティー詳細ページ動的OGP用
   get '/ogp/tea_arts/:id', to: 'ogp#tea_art', as: :ogp_tea_art
@@ -12,24 +10,24 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'login', to: 'authentication#login'
       post 'logout', to: 'authentication#logout'
-      post "google_login", to: "authentication#google_login"
+      post 'google_login', to: 'authentication#google_login'
       get 'me', to: 'authentication#me'
 
       resources :users, only: %i[create show] do
         member do
-          get :tea_arts  # ユーザーページのティーギャラリー用
+          get :tea_arts # ユーザーページのティーギャラリー用
         end
       end
       resource :user, only: [:update]
 
       resources :tea_arts, only: %i[index show create update destroy] do
         collection do
-          get :pickup  # TOPページ用季節別ピックアップ
+          get :pickup # TOPページ用季節別ピックアップ
         end
 
         resources :comments, only: %i[index create]
       end
-      resources :tags, only: [:index, :show]
+      resources :tags, only: %i[index show]
 
       # 個別コメント操作（編集・削除・詳細）
       resources :comments, only: %i[update destroy]

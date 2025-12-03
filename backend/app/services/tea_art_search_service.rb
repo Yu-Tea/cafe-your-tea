@@ -9,34 +9,34 @@ class TeaArtSearchService
 
   def execute
     scope = TeaArt.all
-    
+
     # 季節フィルタ
     scope = scope.where(season: @season) if @season.present?
-    
+
     # タグフィルタ
     if @tag_id.present?
       scope = scope.where(
-        "EXISTS (SELECT 1 FROM tea_art_tags WHERE tea_art_tags.tea_art_id = tea_arts.id AND tea_art_tags.tag_id = ?)",
+        'EXISTS (SELECT 1 FROM tea_art_tags WHERE tea_art_tags.tea_art_id = tea_arts.id AND tea_art_tags.tag_id = ?)',
         @tag_id
       )
     end
-    
+
     # テキスト検索（メニュー名 or ユーザー名）
     if @search_text.present?
       scope = scope.left_joins(:user)
                    .where(
-                     "tea_arts.title ILIKE ? OR users.name ILIKE ?",
+                     'tea_arts.title ILIKE ? OR users.name ILIKE ?',
                      "%#{@search_text}%", "%#{@search_text}%"
                    )
     end
-    
+
     # ページネーション
     total_count = scope.count
     tea_arts = scope.includes(:user, :tags)
                     .order(created_at: :desc)
                     .page(@page)
                     .per(@per_page)
-    
+
     {
       tea_arts: tea_arts.map { |tea_art| tea_art_list_json(tea_art) },
       pagination: build_pagination(tea_arts, total_count)

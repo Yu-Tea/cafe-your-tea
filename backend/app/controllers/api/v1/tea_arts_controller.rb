@@ -3,10 +3,9 @@ class Api::V1::TeaArtsController < ApplicationController
   before_action :set_tea_art, only: %i[update destroy]
   before_action :check_owner, only: %i[update destroy]
 
-  # GET /api/v1/tea_arts
   def index
     @search_result = TeaArtSearchService.new(search_params).execute
-    
+
     render json: {
       tea_arts: @search_result[:tea_arts],
       pagination: @search_result[:pagination],
@@ -14,15 +13,13 @@ class Api::V1::TeaArtsController < ApplicationController
     }
   end
 
-  # GET /api/v1/tea_arts/:id
   def show
     @tea_art = TeaArt.find(params[:id])
     render json: {
-      tea_art: tea_art_detail_json(@tea_art),
+      tea_art: tea_art_detail_json(@tea_art)
     }
   end
 
-  # POST /api/v1/tea_arts
   def create
     # 画像処理サービスを実行
     if tea_art_params[:image_data].present?
@@ -61,7 +58,6 @@ class Api::V1::TeaArtsController < ApplicationController
     }, status: :unprocessable_entity
   end
 
-  # PATCH/PUT /api/v1/tea_arts/:id
   def update
     # 更新前のタイトルとOGP画像のURLを取得
     old_title = @tea_art.title
@@ -99,7 +95,6 @@ class Api::V1::TeaArtsController < ApplicationController
     end
   end
 
-  # DELETE /api/v1/tea_arts/:id
   def destroy
     @tea_art.destroy!
     render json: { message: 'ティーアートが削除されました' }
@@ -107,29 +102,26 @@ class Api::V1::TeaArtsController < ApplicationController
 
   # TOPページのピックアップ用
   def pickup
-    begin
-      season_results = TeaArt.pickup_by_seasons
-      
-      render json: {
-        status: 'success',
-        data: {
-          all: serialize_season_data(season_results['all_seasons'], 'all_seasons'),
-          spring: serialize_season_data(season_results['spring'], 'spring'),
-          summer: serialize_season_data(season_results['summer'], 'summer'),
-          autumn: serialize_season_data(season_results['autumn'], 'autumn'),
-          winter: serialize_season_data(season_results['winter'], 'winter'),
-        },
-      }, status: :ok
-      
-    rescue => e
-      Rails.logger.error "PickUp TeaArts API Error: #{e.message}"
-      
-      render json: {
-        status: 'error',
-        message: 'Failed to fetch pickup tea arts',
-        data: generate_empty_seasons_data
-      }, status: :internal_server_error
-    end
+    season_results = TeaArt.pickup_by_seasons
+
+    render json: {
+      status: 'success',
+      data: {
+        all: serialize_season_data(season_results['all_seasons'], 'all_seasons'),
+        spring: serialize_season_data(season_results['spring'], 'spring'),
+        summer: serialize_season_data(season_results['summer'], 'summer'),
+        autumn: serialize_season_data(season_results['autumn'], 'autumn'),
+        winter: serialize_season_data(season_results['winter'], 'winter')
+      }
+    }, status: :ok
+  rescue StandardError => e
+    Rails.logger.error "PickUp TeaArts API Error: #{e.message}"
+
+    render json: {
+      status: 'error',
+      message: 'Failed to fetch pickup tea arts',
+      data: generate_empty_seasons_data
+    }, status: :internal_server_error
   end
 
   private
@@ -155,7 +147,7 @@ class Api::V1::TeaArtsController < ApplicationController
     # 既存のprocessメソッドと同じように引数を渡す
     processor = TeaArtImageProcessor.new(nil, tea_art.title) # base64は不要なのでnil
     processor.process_ogp_update(tea_art)
-  rescue StandardError => e
+  rescue StandardError
   end
 
   # コントローラー専用の削除処理
@@ -215,7 +207,7 @@ class Api::V1::TeaArtsController < ApplicationController
     }
   end
 
-  #Pick Up用
+  # Pick Up用
   def serialize_season_data(tea_art, season_key)
     if tea_art.present?
       {
@@ -227,7 +219,7 @@ class Api::V1::TeaArtsController < ApplicationController
           image_url: tea_art.image_url,
           user: {
             name: tea_art.user_name
-          },
+          }
         }
       }
     else

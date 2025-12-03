@@ -9,7 +9,7 @@ class Api::V1::TagsController < ApplicationController
       tags: tags.map do |tag|
         {
           id: tag.id,
-          name: tag.name,
+          name: tag.name
         }
       end
     }
@@ -25,7 +25,7 @@ class Api::V1::TagsController < ApplicationController
 
     render json: {
       tea_arts: tea_arts.map { |tea_art| tea_art_list_json(tea_art) },
-      tag_name:tag.name,
+      tag_name: tag.name,
       pagination: pagination_json(tea_arts)
     }
   end
