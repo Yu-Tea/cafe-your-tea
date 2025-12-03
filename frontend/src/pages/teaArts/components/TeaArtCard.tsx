@@ -41,7 +41,7 @@ const TeaArtCard = ({ teaArt }: TeaArtCardProps) => {
           className="absolute h-full w-full object-cover"
         />
         <img
-          src="/images/bg_table_small.png"
+          src="/images/bg_table_small.webp"
           alt="テーブル"
           className="h-full w-full object-cover"
         />
