@@ -1,7 +1,7 @@
 class Api::V1::PasswordResetsController < ApplicationController
   def create
     user = User.find_by(email: params[:email])
-  
+
     # 登録済みユーザーには何らかのメールを送信
     if user&.email.present?
       begin
@@ -13,48 +13,48 @@ class Api::V1::PasswordResetsController < ApplicationController
         # 両方のケースで同じメールメソッドを使用
         UserMailer.reset_password_email(user).deliver_now
         Rails.logger.info "Password reset email sent to #{user.email}"
-      rescue => e
+      rescue StandardError => e
         Rails.logger.error "Failed to send password reset email: #{e.message}"
       end
     end
 
     # 存在しないメールアドレスでも同じレスポンスを返す（セキュリティ対策）
-    render json: { 
-      message: 'パスワードリセット手順をメールで送信しました' 
+    render json: {
+      message: 'パスワードリセット手順をメールで送信しました'
     }, status: :ok
   end
 
   # トークン検証用
   def show
     user = User.find_by(reset_password_token: params[:token])
-    
+
     if user && user.reset_password_sent_at > 2.hours.ago
-      render json: { 
-        valid: true, 
+      render json: {
+        valid: true,
         email: user.email,
-        message: 'トークンは有効です' 
+        message: 'トークンは有効です'
       }
     else
-      render json: { 
-        valid: false, 
-        message: 'トークンが無効または期限切れです' 
+      render json: {
+        valid: false,
+        message: 'トークンが無効または期限切れです'
       }, status: :unprocessable_entity
     end
   end
 
   def update
     user = User.find_by(reset_password_token: params[:token])
-    
+
     if user.blank?
       render json: { error: 'トークンが無効です' }, status: :unprocessable_entity
       return
     end
-    
+
     unless user.password_reset_token_valid?
       render json: { error: 'トークンの有効期限が切れています' }, status: :unprocessable_entity
       return
     end
-    
+
     if user.reset_password!(password_params[:password], password_params[:password_confirmation])
       render json: { message: 'パスワードが正常に更新されました' }, status: :ok
     else

@@ -23,7 +23,7 @@ class User < ApplicationRecord
   end
 
   # ================== パスワードリセット機能 ==================
-  
+
   # パスワードリセット用のトークン生成
   def generate_password_reset_token!
     self.reset_password_token = SecureRandom.urlsafe_base64(32)
@@ -52,22 +52,22 @@ class User < ApplicationRecord
   def reset_password!(new_password, new_password_confirmation)
     # Google認証ユーザーはパスワードリセット不可
     return false if google_user?
-    
+
     # パスワードの更新
     self.password = new_password
     self.password_confirmation = new_password_confirmation
-    
+
     # バリデーション（パスワードリセット時は強制的にチェック）
     if new_password.blank?
       errors.add(:password, 'を入力してください')
       return false
     end
-    
+
     if new_password != new_password_confirmation
       errors.add(:password_confirmation, 'とパスワードが一致しません')
       return false
     end
-    
+
     # 保存してトークンクリア
     if save
       clear_password_reset_token!

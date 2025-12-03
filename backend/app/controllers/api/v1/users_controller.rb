@@ -1,7 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :authenticate_user!, only: %i[update]
-  
-  # ユーザー新規作成
+
   def create
     user = User.new(user_params)
 
@@ -22,7 +21,7 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  # ユーザー個別ページ
+  # ユーザー個別orマイページ
   def show
     @user = User.find(params[:id])
     render json: {
@@ -65,7 +64,7 @@ class Api::V1::UsersController < ApplicationController
 
     render json: {
       tea_arts: tea_arts.map { |tea_art| tea_art_list_json(tea_art) },
-      pagination: pagination_json(tea_arts),
+      pagination: pagination_json(tea_arts)
     }
   end
 
