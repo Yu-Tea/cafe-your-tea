@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { Stage, Layer, Line, Circle } from "react-konva";
 import { SketchPicker } from "react-color";
 import { FaUndo, FaRedo, FaTrashAlt } from "react-icons/fa";
+import { CgArrowsExchange } from "react-icons/cg";
 import Konva from "konva";
 import { motion } from "motion/react";
 import { Button } from "@/shared/components/Button";
@@ -305,7 +306,7 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
       </div>
 
       {/* コントロールパネル */}
-      <div className="flex flex-col-reverse lg:flex-col gap-6 text-left">
+      <div className="flex flex-col-reverse gap-6 text-left lg:flex-col">
         <div className="space-y-6">
           {/* ペンカラー選択 */}
           <div>
@@ -321,7 +322,12 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
                   whileTap={{ scale: 0.97 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
                   key={pen.color}
-                  className="hover:bg-primary/10 flex cursor-pointer items-center gap-1 p-2 transition-colors"
+                  className={`hover:bg-primary/10 flex cursor-pointer items-center gap-1 rounded-full p-1.5 transition-colors
+                    ${
+                      selectedPenColor === pen.color
+                        ? "border-1 border-primary/20"
+                        : "border-1 border-base-200"
+                    }`}
                   onClick={() => setSelectedPenColor(pen.color)}
                 >
                   {/* カラー円ボタン */}
@@ -373,16 +379,28 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
               <span className="josefin-sans text-3xl">Tea Color</span>
               <span>ーお茶の色ー</span>
             </div>
-            <motion.button
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              onClick={() => setShowColorPicker(!showColorPicker)}
-              className="border-base-200 ml-2 size-11 cursor-pointer rounded-full border-2"
-              style={{
-                backgroundColor: backgroundColor,
-              }}
-            />
+
+            <div className="flex items-center">
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                onClick={() => setShowColorPicker(!showColorPicker)}
+                className="hover:bg-primary/10 flex cursor-pointer items-center rounded-full p-1.5 transition-colors border-1 border-primary/20"
+              >
+                <div
+                  className="border-base-200 size-11 cursor-pointer rounded-full border-2"
+                  style={{
+                    backgroundColor: backgroundColor,
+                  }}
+                ></div>
+                <CgArrowsExchange size={22} />
+                <span className="text-secondary transition-color mr-2 text-sm">
+                  色の変更はこちらから
+                </span>
+              </motion.button>
+            </div>
+
             {/* カラーピッカー */}
             {showColorPicker && (
               <div className="absolute z-50 text-center">
