@@ -306,13 +306,13 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
       </div>
 
       {/* コントロールパネル */}
-      <div className="flex flex-col-reverse gap-6 text-left lg:flex-col">
-        <div className="space-y-6">
+      <div className="flex flex-col-reverse gap-3 text-left lg:flex-col">
+        <div className="border-secondary/30 space-y-2.5 border-dashed sm:border-b-2 sm:pb-3">
           {/* ペンカラー選択 */}
           <div>
-            <div className="text-secondary mb-1 space-x-2">
-              <span className="josefin-sans text-3xl">Pen Color</span>
-              <span>ーペンの色ー</span>
+            <div className="text-secondary bg-secondary/10 mb-3 flex items-center justify-center space-x-2 px-2 py-1">
+              <span className="josefin-sans pt-1 text-3xl">Pen Color</span>
+              <span className="text-sm">＜ペンの色＞</span>
             </div>
 
             <div className="grid w-full grid-cols-2 gap-1">
@@ -322,12 +322,11 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
                   whileTap={{ scale: 0.97 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
                   key={pen.color}
-                  className={`hover:bg-primary/10 flex cursor-pointer items-center gap-1 rounded-full p-1.5 transition-colors
-                    ${
-                      selectedPenColor === pen.color
-                        ? "border-1 border-primary/20"
-                        : "border-1 border-base-200"
-                    }`}
+                  className={`hover:bg-primary/10 flex cursor-pointer items-center gap-1 rounded-full p-1.5 transition-colors ${
+                    selectedPenColor === pen.color
+                      ? "border-primary/30 border-1"
+                      : "border-base-200 border-1"
+                  }`}
                   onClick={() => setSelectedPenColor(pen.color)}
                 >
                   {/* カラー円ボタン */}
@@ -356,10 +355,10 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
           </div>
 
           {/* ペンサイズ調整 */}
-          <div className="pen-size">
-            <div className="text-secondary mb-2 space-x-2">
-              <span className="josefin-sans text-3xl">Pen Size</span>
-              <span>ーペンの太さー</span>
+          <div>
+            <div className="text-secondary bg-secondary/10 mb-2 flex items-center justify-center space-x-2 px-2 py-1">
+              <span className="josefin-sans pt-1 text-3xl">Pen Size</span>
+              <span className="text-sm">＜ペンの太さ＞</span>
             </div>
 
             <input
@@ -375,9 +374,9 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
 
           {/* お茶の色選択 */}
           <div className="relative">
-            <div className="text-secondary mb-2 space-x-2">
-              <span className="josefin-sans text-3xl">Tea Color</span>
-              <span>ーお茶の色ー</span>
+            <div className="text-secondary bg-secondary/10 mb-3 flex items-center justify-center space-x-2 px-2 py-1">
+              <span className="josefin-sans pt-1 text-3xl">Tea Color</span>
+              <span className="text-sm">＜お茶の色＞</span>
             </div>
 
             <div className="flex items-center">
@@ -386,7 +385,7 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
                 onClick={() => setShowColorPicker(!showColorPicker)}
-                className="hover:bg-primary/10 flex cursor-pointer items-center rounded-full p-1.5 transition-colors border-1 border-primary/20"
+                className="hover:bg-primary/10 border-primary/30 text-secondary flex cursor-pointer items-center rounded-full border-1 p-1.5 transition-colors"
               >
                 <div
                   className="border-base-200 size-11 cursor-pointer rounded-full border-2"
@@ -394,10 +393,9 @@ const TeaArtDraw = ({ onArtComplete, onArtChange }: TeaArtDrawProps) => {
                     backgroundColor: backgroundColor,
                   }}
                 ></div>
+                {/* <IoColorPalette size={22} /> */}
                 <CgArrowsExchange size={22} />
-                <span className="text-secondary transition-color mr-2 text-sm">
-                  色の変更はこちらから
-                </span>
+                <span className="transition-color mr-3 text-sm">色の変更</span>
               </motion.button>
             </div>
 

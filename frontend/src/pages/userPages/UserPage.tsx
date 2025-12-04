@@ -146,9 +146,10 @@ const UserPage = () => {
           teaArts={teaArts}
           emptyMessage={
             isOwnProfile
-              ? "まだティーを投稿していません。"
+              ? "あなたはまだティーを投稿していません。"
               : `${userDetail.name}さんが作成したティーはまだありません。`
           }
+          showCreateLink={isOwnProfile} 
         />
 
         {/* ページネーション */}
