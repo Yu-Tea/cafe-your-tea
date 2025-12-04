@@ -1,20 +1,30 @@
-import TeaArtCard from "./TeaArtCard";
+import { Link } from "react-router-dom";
 import type { TeaArt } from "@/types/teaArt";
+import TeaArtCard from "./TeaArtCard";
 
 interface TeaArtGridProps {
   teaArts: TeaArt[];
   emptyMessage?: string;
+  showCreateLink?: boolean | null;
 }
 
 const TeaArtGrid = ({
   teaArts,
   emptyMessage = "ティーが存在していません。",
+  showCreateLink = false,
 }: TeaArtGridProps) => {
-
   if (teaArts.length === 0) {
     return (
-      <div className="py-4 text-center">
+      <div className="text-secondary text-center">
         <p>{emptyMessage}</p>
+        {showCreateLink && (
+          <>
+            <Link to="/tea-arts/create" className="link link-accent">
+              Tea Art
+            </Link>
+            ページから作成してみよう！
+          </>
+        )}
       </div>
     );
   }
