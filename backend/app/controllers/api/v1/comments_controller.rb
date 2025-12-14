@@ -5,9 +5,8 @@ class Api::V1::CommentsController < ApplicationController
   before_action :check_comment_owner, only: %i[update destroy]
 
   def index
-    # ページネーション設定
     params[:page]&.to_i || 1
-    [params[:limit]&.to_i || 10, 50].min # 最大50件制限
+    [params[:limit]&.to_i || 10, 50].min
 
     @comments = @tea_art.comments
                         .includes(:user)
