@@ -193,9 +193,9 @@ class Api::V1::TeaArtsController < ApplicationController
     {
       id: tea_art.id,
       title: tea_art.title,
-      description: tea_art.description, # 完全データでのみ取得
+      description: tea_art.description,
       season: tea_art.season_display,
-      temperature: tea_art.temperature, # 完全データでのみ取得
+      temperature: tea_art.temperature,
       image_url: tea_art.image_url,
       tags: tea_art.tags.map { |tag| tag_json(tag) },
       tag_names: tea_art.tag_names,

@@ -129,19 +129,4 @@ class ApplicationController < ActionController::API
       }
     }, status: :internal_server_error
   end
-
-  # def extract_domain_from_url(url)
-  #   return nil unless url
-
-  #   URI.parse(url).host
-  # rescue URI::InvalidURIError
-  #   nil
-  # end
-
-  # def database_status
-  #   ActiveRecord::Base.connection.execute('SELECT 1')
-  #   'connected'
-  # rescue StandardError
-  #   'disconnected'
-  # end
 end
