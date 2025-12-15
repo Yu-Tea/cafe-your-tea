@@ -89,7 +89,7 @@
 
 ## 🍵 主な機能
 
-### TOP ページ
+### TOP ページのお出迎え
 
 <table  style="text-align: center;">
   <tr>
@@ -145,30 +145,30 @@
   </tr>
 </table>
 
-### ティーの詳細ページ
+### ティー詳細ページで楽しもう
 
 <table  style="text-align: center;">
   <tr>
+    <th align="center" width="50%">ティーの詳細を見る</th>
     <th align="center" width="50%">ティーを注文する</th>
-    <th align="center" width="50%">Xに投稿する</th>
   </tr>
   <tr>
   <!-- HTML使用時のテーブル背景色位置ズレの調整用 -->
   </tr>
   <tr>
     <td>
-      <img src="https://github.com/user-attachments/assets/1a2be810-c6be-4cab-9666-9e54b0f397c6">
+      <img src="https://github.com/user-attachments/assets/aa2e5b50-2208-4405-a185-73a0e58da51e">
     </td>
     <td>
-      <img src="https://github.com/user-attachments/assets/92c0eea5-6ea9-4bb9-b1d0-7bffe3633040">
+      <img src="https://github.com/user-attachments/assets/1a2be810-c6be-4cab-9666-9e54b0f397c6">
     </td>
   </tr>
   <tr>
     <td>
-      「注文する」を選ぶと、ケロチャがティーを出してくれます。ティーを飲んだ後は、Xへの共有ボタンやコメント投稿フォームが表示されます。
+      ティーの詳細ページを表示すると、より詳しい情報を確認できます。自作ティーの場合は宣伝用の「Xで共有」ボタンが表示されます。
     </td>
     <td>
-      「Xで共有」ボタンからXに投稿すると、ティーのタイトルとイラストが反映された専用のOGP画像つきで表示されます。
+      「注文する」を選ぶと、ケロチャがティーを出してくれます。ティーを飲んだ後は、「Xで共有」ボタンやコメント投稿フォームが表示されます。
     </td>
   </tr>
 </table>
@@ -199,9 +199,10 @@
   </tr>
 </table>
 
-<table  style="text-align: center;" width="50%">
+<table  style="text-align: center;">
   <tr>
-    <th align="center">コメント欄</th>
+    <th align="center" width="50%">コメント欄</th>
+    <th align="center" width="50%">Xに投稿する</th>
   </tr>
   <tr>
   <!-- HTML使用時のテーブル背景色位置ズレの調整用 -->
@@ -210,15 +211,21 @@
     <td>
       <img src="https://github.com/user-attachments/assets/f6dc4369-a412-40f2-8a43-d86e60ec0e91">
     </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/92c0eea5-6ea9-4bb9-b1d0-7bffe3633040">
+    </td>
   </tr>
   <tr>
     <td>
       ティーを注文したユーザーからのコメントが表示されます。コメントは無限スクロールで読み込まれます。
     </td>
+    <td>
+      「Xで共有」ボタンからXに投稿すると、ティーのタイトルとイラストが反映された専用のOGP画像つきで表示されます。
+    </td>
   </tr>
 </table>
 
-### マイページ
+### マイページもあるよ
 
 <table  style="text-align: center;">
   <tr>
