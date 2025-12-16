@@ -280,7 +280,7 @@
 
 - **JWT** + **BCrypt** ： 認証・セキュリティ
 - **Googleauth** ： Google OAuth 認証
-- - **MiniMagick** ： 画像合成・加工
+- **MiniMagick** ： 画像合成・加工
 - **CarrierWave** + **Cloudinary** ： 画像アップロード・管理
 - **Kaminari** ： ページネーション
 - **Rack CORS** ： フロントエンドとの通信
