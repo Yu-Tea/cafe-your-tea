@@ -267,7 +267,6 @@
 
 - **React Konva** (19.0.10) ： イラスト描画
 - **React Router DOM** (7.9.3) ： ページ遷移
-- **React Hook Form** (7.63.0) ： フォーム管理
 - **Axios** (1.12.2) - API 通信
 - **@react-oauth/google** (0.12.2) ： Google 認証
 - **Motion** (12.23.24) ： スムーズなアニメーション
@@ -281,6 +280,7 @@
 
 - **JWT** + **BCrypt** ： 認証・セキュリティ
 - **Googleauth** ： Google OAuth 認証
+- - **MiniMagick** ： 画像合成・加工
 - **CarrierWave** + **Cloudinary** ： 画像アップロード・管理
 - **Kaminari** ： ページネーション
 - **Rack CORS** ： フロントエンドとの通信
